@@ -1,0 +1,116 @@
+{"level":"error","message":"Cannot destructure property 'name' of 'req.body' as it is undefined.","stack":"TypeError: Cannot destructure property 'name' of 'req.body' as it is undefined.\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:22:10)\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:39)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)","timestamp":"2025-12-23T05:10:33.961Z"}
+{"level":"error","message":"next is not defined","stack":"ReferenceError: next is not defined\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:31:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:21)","timestamp":"2025-12-23T05:11:55.532Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:12:14.721Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:12:26.647Z"}
+{"level":"error","message":"next is not a function","stack":"TypeError: next is not a function\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:31:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:21)","timestamp":"2025-12-23T05:12:29.967Z"}
+{"level":"error","message":"next is not a function","stack":"TypeError: next is not a function\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:31:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:21)","timestamp":"2025-12-23T05:12:34.805Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:17:04.323Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:17:13.178Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:17:15.709Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:19:56.407Z"}
+{"level":"error","message":"next is not a function","stack":"TypeError: next is not a function\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:31:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:21)","timestamp":"2025-12-23T05:20:13.019Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:24:14.462Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:27:53.160Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:28:36.491Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T06:26:49.400Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T06:27:03.403Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T06:28:40.996Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:09:34.144Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:38:19.843Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:40:34.596Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:42:12.846Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:43:08.738Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:43:18.039Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:46:45.683Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:47:41.737Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:50:21.536Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:51:58.041Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:52:31.313Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:52:43.977Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:34.129Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:36.613Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:40.097Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:45.100Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:50.986Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:55.143Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:07.754Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:15.623Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:24.209Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:34.617Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:40.410Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:52:02.102Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:52:28.053Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:52:34.280Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:52:47.113Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:53:00.822Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:53:13.086Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:53:34.204Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:53:41.993Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:04:29.572Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:04:42.458Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:07:35.150Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:07:46.934Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:08:29.423Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:08:37.793Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:10:52.841Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:11:06.099Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:12:24.006Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:12:49.238Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:09.915Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:15.175Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:22.414Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:26.995Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:32.717Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:36.211Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:39.834Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:14:15.611Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:16:12.803Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:16:41.328Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:16:50.742Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:16:58.975Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:17:29.408Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:19:32.253Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:20:02.274Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:20:48.341Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:20:50.425Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:21:01.039Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:22:24.776Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:22:49.214Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:22:54.719Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:22:57.134Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:11.063Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:23.065Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:25.695Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:39.853Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:48.807Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:53.554Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:02.954Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:20.955Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:27.196Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:29.707Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:33.202Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:41.044Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:44.761Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:15.021Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:25.346Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:30.776Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:37.831Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:44.576Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:57.225Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:26:27.561Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:26:31.022Z"}
+{"level":"error","message":"Password must contain uppercase, lowercase, number and special character, Confirm password is required","stack":"Error: Password must contain uppercase, lowercase, number and special character, Confirm password is required\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/middlewares/common/validate.middleware.js:15:18\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2025-12-23T11:27:16.410Z"}
+{"level":"error","message":"Confirm password is required","stack":"Error: Confirm password is required\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/middlewares/common/validate.middleware.js:15:18\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2025-12-23T11:27:36.388Z"}
+{"level":"error","message":"next is not defined","stack":"ReferenceError: next is not defined\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:28:33.162Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:34:12.915Z"}
+{"level":"error","message":"next is not defined","stack":"ReferenceError: next is not defined\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:34:17.805Z"}
+{"level":"error","message":"Expected double-quoted property name in JSON at position 86 (line 5 column 1)","stack":"SyntaxError: Expected double-quoted property name in JSON at position 86 (line 5 column 1)\n    at JSON.parse (<anonymous>)\n    at parse (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\body-parser\\lib\\types\\json.js:74:19)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\body-parser\\lib\\read.js:163:18\n    at AsyncResource.runInAsyncScope (node:async_hooks:214:14)\n    at invokeCallback (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\raw-body\\index.js:238:16)\n    at done (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\raw-body\\index.js:227:7)\n    at IncomingMessage.onEnd (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\raw-body\\index.js:287:7)\n    at IncomingMessage.emit (node:events:518:28)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)","timestamp":"2025-12-23T11:34:29.009Z"}
+{"level":"error","message":"next is not defined","stack":"ReferenceError: next is not defined\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:34:34.459Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:36:15.260Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:36:24.408Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:36:30.420Z"}
+{"level":"error","message":"User already exists.","stack":"Error: User already exists.\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:36:38.078Z"}
+{"level":"error","message":"User already exists.","stack":"Error: User already exists.\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:36:52.659Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T13:03:52.908Z"}
+{"level":"error","message":"User already exists.","stack":"Error: User already exists.\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T13:04:33.087Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T13:04:51.187Z"}

@@ -1,38 +1,29 @@
 import express from 'express'
-import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import cors from "cors"
-
-
-mongoose.connect("mongodb+srv://aswathiaswaa3_db_user:gEzAWU5YcMzUWxVN2025@cluster0.xmtjk27.mongodb.net/"
-).then(()=>console.log("MongoDB connected")).catch((err)=>console.log(err))
+import userRouter from './routes/user/userRoutes.js'
+import { env } from './config/env.js'
+import { connectDB } from './config/db.js'
+import { errorHandler } from './middlewares/common/error.middleware.js'
 
 
 const app = express();
-const PORT = process.env.PORT || 5000
 
 app.use(
     cors({
-        origin :  'http://localhost:5173/',
-        methods : ["GET" , "POST" , "DELETE" , "PUT"],
-        allowedHeaders :[
-            'Content-Type',
-            'Authorization',
-            'Cache-Control',
-            'Expires',
-            'Pragma'
-        ],
-        credentials : true
+        origin: env.CLIENT_ORIGIN,
+        methods: ["GET", "POST", "PATCH", "DELETE"],
+        credentials: true
     })
 );
 
 app.use(cookieParser());
 app.use(express.json());
 
+app.use("/api/v1/",userRouter)
 
 
+app.use(errorHandler)
+await connectDB()
 
-
-
-
-app.listen(PORT,()=>console.log(`Server is now running on port ${PORT}`))
+app.listen(env.PORT,()=>console.log(`Server is now running on port ${env.PORT}`))
