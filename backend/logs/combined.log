@@ -114,3 +114,5 @@
 {"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T13:03:52.908Z"}
 {"level":"error","message":"User already exists.","stack":"Error: User already exists.\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T13:04:33.087Z"}
 {"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T13:04:51.187Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-29T05:56:29.358Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-29T08:20:55.443Z"}
