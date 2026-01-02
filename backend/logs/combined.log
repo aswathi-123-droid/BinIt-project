@@ -1,118 +1,801 @@
-{"level":"error","message":"Cannot destructure property 'name' of 'req.body' as it is undefined.","stack":"TypeError: Cannot destructure property 'name' of 'req.body' as it is undefined.\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:22:10)\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:39)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)","timestamp":"2025-12-23T05:10:33.961Z"}
-{"level":"error","message":"next is not defined","stack":"ReferenceError: next is not defined\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:31:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:21)","timestamp":"2025-12-23T05:11:55.532Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:12:14.721Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:12:26.647Z"}
-{"level":"error","message":"next is not a function","stack":"TypeError: next is not a function\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:31:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:21)","timestamp":"2025-12-23T05:12:29.967Z"}
-{"level":"error","message":"next is not a function","stack":"TypeError: next is not a function\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:31:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:21)","timestamp":"2025-12-23T05:12:34.805Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:17:04.323Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:17:13.178Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:17:15.709Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:19:56.407Z"}
-{"level":"error","message":"next is not a function","stack":"TypeError: next is not a function\n    at Module.register (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:31:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:13:21)","timestamp":"2025-12-23T05:20:13.019Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:24:14.462Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:27:53.160Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T05:28:36.491Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T06:26:49.400Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T06:27:03.403Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T06:28:40.996Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:09:34.144Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:38:19.843Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:40:34.596Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:42:12.846Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:43:08.738Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:43:18.039Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:46:45.683Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:47:41.737Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:50:21.536Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:51:58.041Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:52:31.313Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:52:43.977Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:34.129Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:36.613Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:40.097Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:45.100Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:50.986Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:56:55.143Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:07.754Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:15.623Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:24.209Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:34.617Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T07:57:40.410Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:52:02.102Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:52:28.053Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:52:34.280Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:52:47.113Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:53:00.822Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:53:13.086Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:53:34.204Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T10:53:41.993Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:04:29.572Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:04:42.458Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:07:35.150Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:07:46.934Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:08:29.423Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:08:37.793Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:10:52.841Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:11:06.099Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:12:24.006Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:12:49.238Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:09.915Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:15.175Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:22.414Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:26.995Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:32.717Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:36.211Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:13:39.834Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:14:15.611Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:16:12.803Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:16:41.328Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:16:50.742Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:16:58.975Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:17:29.408Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:19:32.253Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:20:02.274Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:20:48.341Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:20:50.425Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:21:01.039Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:22:24.776Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:22:49.214Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:22:54.719Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:22:57.134Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:11.063Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:23.065Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:25.695Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:39.853Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:48.807Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:23:53.554Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:02.954Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:20.955Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:27.196Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:29.707Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:33.202Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:41.044Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:24:44.761Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:15.021Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:25.346Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:30.776Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:37.831Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:44.576Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:25:57.225Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:26:27.561Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:26:31.022Z"}
-{"level":"error","message":"Password must contain uppercase, lowercase, number and special character, Confirm password is required","stack":"Error: Password must contain uppercase, lowercase, number and special character, Confirm password is required\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/middlewares/common/validate.middleware.js:15:18\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2025-12-23T11:27:16.410Z"}
-{"level":"error","message":"Confirm password is required","stack":"Error: Confirm password is required\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/middlewares/common/validate.middleware.js:15:18\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2025-12-23T11:27:36.388Z"}
-{"level":"error","message":"next is not defined","stack":"ReferenceError: next is not defined\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:28:33.162Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:34:12.915Z"}
-{"level":"error","message":"next is not defined","stack":"ReferenceError: next is not defined\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:34:17.805Z"}
-{"level":"error","message":"Expected double-quoted property name in JSON at position 86 (line 5 column 1)","stack":"SyntaxError: Expected double-quoted property name in JSON at position 86 (line 5 column 1)\n    at JSON.parse (<anonymous>)\n    at parse (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\body-parser\\lib\\types\\json.js:74:19)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\body-parser\\lib\\read.js:163:18\n    at AsyncResource.runInAsyncScope (node:async_hooks:214:14)\n    at invokeCallback (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\raw-body\\index.js:238:16)\n    at done (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\raw-body\\index.js:227:7)\n    at IncomingMessage.onEnd (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\raw-body\\index.js:287:7)\n    at IncomingMessage.emit (node:events:518:28)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)","timestamp":"2025-12-23T11:34:29.009Z"}
-{"level":"error","message":"next is not defined","stack":"ReferenceError: next is not defined\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:34:34.459Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:36:15.260Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:36:24.408Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T11:36:30.420Z"}
-{"level":"error","message":"User already exists.","stack":"Error: User already exists.\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:36:38.078Z"}
-{"level":"error","message":"User already exists.","stack":"Error: User already exists.\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T11:36:52.659Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T13:03:52.908Z"}
-{"level":"error","message":"User already exists.","stack":"Error: User already exists.\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/services/user/authService.js:13:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/controllers/user/authController.js:7:17)","timestamp":"2025-12-23T13:04:33.087Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-23T13:04:51.187Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-29T05:56:29.358Z"}
-{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-29T08:20:55.443Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:38:24.974Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:38:24.982Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:38:39.360Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:38:39.367Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:39:11.517Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:39:11.526Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:39:18.347Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:39:18.358Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:39:25.834Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:39:25.846Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:39:37.591Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:39:37.599Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:39:41.585Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:39:41.592Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:39:47.181Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:39:47.191Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:39:54.035Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:39:54.043Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:40:01.172Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:40:01.182Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:40:09.406Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:40:09.415Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:42:47.256Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:42:47.264Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:42:49.437Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:42:49.445Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:43:02.365Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:43:02.374Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:43:04.542Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:43:04.550Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:43:38.990Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:43:38.999Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:43:44.919Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:43:44.927Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:44:45.773Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:44:45.781Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:44:48.589Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:44:48.598Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:45:48.029Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:45:48.037Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:47:19.008Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:47:19.017Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:48:38.812Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:48:38.821Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:48:48.666Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:48:48.674Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:48:58.781Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:48:58.790Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:49:11.982Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:49:11.991Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:49:22.589Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:49:22.598Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:49:29.134Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:49:29.143Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:49:55.506Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:49:55.513Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:49:59.745Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:49:59.753Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:50:06.693Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:50:06.701Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:50:08.674Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:50:08.682Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:50:11.661Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:50:11.668Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:50:57.119Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:50:57.128Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:50:59.768Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:50:59.779Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:51:02.777Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:51:02.785Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:51:05.952Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:51:05.961Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:51:14.931Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:51:14.939Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:51:20.763Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:51:20.771Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:51:45.898Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:51:45.906Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:53:03.164Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:53:03.174Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:53:20.179Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:53:20.189Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:54:01.041Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:54:01.050Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:55:39.204Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:55:39.217Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:56:23.030Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:56:23.040Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:56:26.604Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:56:26.613Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:56:31.398Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:56:31.439Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:56:45.267Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:56:45.277Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:56:52.389Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:56:52.398Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:56:59.177Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:56:59.186Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:57:03.967Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:57:03.976Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:57:06.759Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:57:06.769Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:57:10.848Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:57:10.858Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:57:23.213Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:57:23.224Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:57:47.125Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:57:47.135Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:57:57.892Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:57:57.905Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:58:00.884Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:58:00.893Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:58:04.500Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:58:04.509Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:58:07.530Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:58:07.539Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:58:19.605Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:58:19.615Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:58:25.156Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:58:25.165Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:58:30.829Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:58:30.838Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:58:35.679Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:58:35.689Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:59:15.316Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:59:15.326Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:59:27.014Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:59:27.023Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:59:34.461Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:59:34.472Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T07:59:54.580Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T07:59:54.589Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:00:04.278Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:00:04.289Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:00:20.198Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:00:20.207Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:00:24.262Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:00:24.271Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:00:27.898Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:00:27.907Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:00:42.854Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:00:42.863Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:00:58.387Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:00:58.398Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:01.735Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:01.748Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:05.519Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:05.528Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:08.310Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:08.319Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:28.436Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:28.446Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:36.015Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:36.025Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:38.199Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:38.208Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:43.088Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:43.097Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:47.664Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:47.673Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:54.873Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:54.882Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:01:59.899Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:01:59.908Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T08:21:19.295Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T08:21:19.304Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:24:55.455Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:24:55.483Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:24:57.807Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:24:57.816Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:25:01.300Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:25:01.311Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:25:06.390Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:25:06.401Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:25:14.519Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:25:14.529Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:25:58.395Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:25:58.405Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:26:30.819Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:26:30.830Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:27:39.044Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:27:39.054Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:28:30.067Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:28:30.076Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:28:39.242Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:28:39.254Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:28:55.190Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:28:55.199Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:28:57.769Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:28:57.783Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:29:04.264Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:29:04.277Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:29:08.968Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:29:08.980Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:29:15.954Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:29:15.965Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:29:20.312Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:29:20.322Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:29:28.284Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:29:28.295Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:29:59.326Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:29:59.337Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:30:34.888Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:30:34.931Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:30:37.324Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:30:37.334Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:30:40.322Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:30:40.335Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:30:43.383Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:30:43.396Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:30:48.128Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:30:48.138Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:30:51.560Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:30:51.571Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:31:19.002Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:31:19.011Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:31:22.896Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:31:22.905Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:31:30.078Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:31:30.089Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T09:37:02.258Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T09:37:02.269Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:18:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:51:4)","timestamp":"2025-12-31T11:37:31.760Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:18:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:51:4)","timestamp":"2025-12-31T11:37:57.133Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:18:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:51:4)","timestamp":"2025-12-31T11:37:59.143Z"}
+{"level":"error","message":"User already exists.","stack":"Error: User already exists.\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/authService.js:18:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:10:44)","timestamp":"2025-12-31T11:43:30.961Z"}
+{"level":"error","message":"Expected double-quoted property name in JSON at position 36 (line 3 column 1)","stack":"SyntaxError: Expected double-quoted property name in JSON at position 36 (line 3 column 1)\n    at JSON.parse (<anonymous>)\n    at parse (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\body-parser\\lib\\types\\json.js:74:19)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\body-parser\\lib\\read.js:163:18\n    at AsyncResource.runInAsyncScope (node:async_hooks:214:14)\n    at invokeCallback (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\raw-body\\index.js:238:16)\n    at done (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\raw-body\\index.js:227:7)\n    at IncomingMessage.onEnd (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\raw-body\\index.js:287:7)\n    at IncomingMessage.emit (node:events:518:28)\n    at endReadableNT (node:internal/streams/readable:1698:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)","timestamp":"2025-12-31T11:45:12.570Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:18:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:51:4)","timestamp":"2025-12-31T11:45:21.156Z"}
+{"level":"error","message":"User already exists.","stack":"Error: User already exists.\n    at registerUser (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/authService.js:18:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async registerUserController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:10:44)","timestamp":"2025-12-31T11:47:32.511Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:18:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:51:4)","timestamp":"2025-12-31T11:49:11.081Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:18:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:51:4)","timestamp":"2025-12-31T11:49:20.982Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:05:55.137Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:05:55.174Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:06:03.479Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:06:03.492Z"}
+{"level":"error","message":"User is not defined","stack":"ReferenceError: User is not defined\n    at sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:43:38)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2025-12-31T12:06:07.240Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:07:47.377Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:07:47.388Z"}
+{"level":"error","message":"User is not defined","stack":"ReferenceError: User is not defined\n    at sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:43:38)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2025-12-31T12:07:57.879Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:08:15.585Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:08:15.603Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:08:18.465Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:08:18.477Z"}
+{"level":"error","message":"User is not defined","stack":"ReferenceError: User is not defined\n    at sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:43:38)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2025-12-31T12:08:20.299Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:08:28.978Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:08:28.988Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:12:37.151Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:12:37.161Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:13:03.362Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:13:03.371Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:13:13.447Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:13:13.458Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:14:24.960Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:14:24.972Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:14:29.855Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:14:29.865Z"}
+{"level":"error","message":"userId is not defined","stack":"ReferenceError: userId is not defined\n    at sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:54:30)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","timestamp":"2025-12-31T12:14:32.674Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:15:00.461Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:15:00.477Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:15:11.411Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:15:11.422Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:15:40.946Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:15:40.957Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:15:53.960Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:15:53.969Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:15:58.583Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:15:58.597Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:18:09.590Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:18:09.603Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:18:56.547Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:18:56.557Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:19:16.922Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:19:16.931Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:19:53.330Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:19:53.342Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:20:09.747Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:20:09.756Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:20:13.781Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:20:13.802Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:20:27.721Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:20:27.734Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:20:30.656Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:20:30.673Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:21:03.692Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:21:03.701Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:21:15.736Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:21:15.747Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:21:23.303Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:21:23.314Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:20:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:54:4)","timestamp":"2025-12-31T12:22:09.217Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:20:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:54:4)","timestamp":"2025-12-31T12:22:12.143Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:20:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:54:4)","timestamp":"2025-12-31T12:23:13.892Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:24:03.293Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:24:03.302Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:24:10.069Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:24:10.079Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:24:13.118Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:24:13.130Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:24:39.094Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:24:39.103Z"}
+{"level":"error","message":"User is not defined","stack":"ReferenceError: User is not defined\n    at sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:44:38)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2025-12-31T12:24:47.673Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:25:06.376Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:25:06.387Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:20:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:54:4)","timestamp":"2025-12-31T12:25:08.851Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:28:55.146Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:28:55.159Z"}
+{"level":"error","message":"OTP validation failed: type: Path `type` is required., hashedOtp: Path `hashedOtp` is required., email: Path `email` is required.","stack":"ValidationError: OTP validation failed: type: Path `type` is required., hashedOtp: Path `hashedOtp` is required., email: Path `email` is required.\n    at Document.invalidate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3377:32)\n    at validatePath (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3152:13)\n    at async Promise.all (index 0)\n    at async model.$__validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3093:3)\n    at async model.validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:2670:5)\n    at async model.validateBeforeSave (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\plugins\\validateBeforeSave.js:34:7)\n    at async Kareem.execPre (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\kareem\\index.js:65:24)\n    at async model.$__save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:369:5)\n    at async model.save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:609:5)\n    at async C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:2722:9","timestamp":"2025-12-31T12:28:56.663Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:31:36.228Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:31:36.240Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:32:00.869Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:32:00.879Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:33:20.026Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:33:20.037Z"}
+{"level":"error","message":"OTP validation failed: email: Path `email` is required.","stack":"ValidationError: OTP validation failed: email: Path `email` is required.\n    at Document.invalidate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3377:32)\n    at validatePath (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3152:13)\n    at async Promise.all (index 0)\n    at async model.$__validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3093:3)\n    at async model.validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:2670:5)\n    at async model.validateBeforeSave (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\plugins\\validateBeforeSave.js:34:7)\n    at async Kareem.execPre (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\kareem\\index.js:65:24)\n    at async model.$__save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:369:5)\n    at async model.save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:609:5)\n    at async C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:2722:9","timestamp":"2025-12-31T12:33:29.765Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:34:49.727Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:34:49.737Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:35:23.920Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:35:23.930Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:38:24.740Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:38:24.752Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:38:41.630Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:38:41.641Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:39:43.011Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:39:43.023Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2025-12-31T12:40:04.894Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2025-12-31T12:40:04.904Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:19:54.185Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:19:54.223Z"}
+{"level":"error","message":"OTP is required","stack":"Error: OTP is required\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:15:18\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2026-01-01T13:20:30.225Z"}
+{"level":"error","message":"User ID or OTP missing","stack":"Error: User ID or OTP missing\n    at verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:63:13)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15","timestamp":"2026-01-01T13:21:11.712Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:24:08.534Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:24:08.563Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:24:15.315Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:24:15.326Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:24:29.383Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:24:29.394Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:24:35.078Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:24:35.089Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:24:59.961Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:24:59.970Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:25:05.531Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:25:05.541Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:25:24.439Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:25:24.450Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:25:29.793Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:25:29.803Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:25:47.432Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:25:47.441Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:26:55.410Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:26:55.423Z"}
+{"level":"error","message":"userId is not defined","stack":"ReferenceError: userId is not defined\n    at verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:62:4)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15","timestamp":"2026-01-01T13:27:00.381Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:30:48.708Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:30:48.729Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:31:23.585Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:31:23.602Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:31:41.155Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:31:41.184Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:31:48.647Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:31:48.672Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:32:07.536Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:32:07.564Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:32:19.141Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:32:19.152Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:32:37.925Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:32:37.946Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:32:44.900Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:32:44.922Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:32:49.413Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:32:49.424Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:33:28.776Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:33:28.787Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:33:58.674Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:33:58.683Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:34:45.245Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:34:45.255Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:34:48.465Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:34:48.475Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:34:51.498Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:34:51.508Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:35:33.335Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:35:33.344Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:35:39.247Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:35:39.257Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:35:43.662Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:35:43.674Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:36:41.018Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:36:41.027Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:36:58.922Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:36:58.931Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:37:08.197Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:37:08.206Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:37:16.524Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:37:16.533Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:37:44.731Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:37:44.744Z"}
+{"level":"error","message":"userId is not defined","stack":"ReferenceError: userId is not defined\n    at verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:62:4)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15","timestamp":"2026-01-01T13:37:50.392Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:38:22.412Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:38:22.423Z"}
+{"level":"error","message":"User ID or OTP missing","stack":"Error: User ID or OTP missing\n    at verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:63:13)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15","timestamp":"2026-01-01T13:38:22.772Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:39:07.756Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:39:07.765Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:39:15.796Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:39:15.805Z"}
+{"level":"error","message":"User ID or OTP missing","stack":"Error: User ID or OTP missing\n    at verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:63:13)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15","timestamp":"2026-01-01T13:39:19.048Z"}
+{"level":"error","message":"User ID or OTP missing","stack":"Error: User ID or OTP missing\n    at verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:63:13)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15","timestamp":"2026-01-01T13:41:20.115Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:41:42.006Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:41:42.015Z"}
+{"level":"error","message":"Email or OTP missing","stack":"Error: Email or OTP missing\n    at verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:63:13)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15","timestamp":"2026-01-01T13:41:56.287Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:44:12.717Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:44:12.730Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:44:17.636Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:44:17.646Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:44:28.275Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:44:28.286Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:44:34.035Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:44:34.045Z"}
+{"level":"error","message":"Illegal arguments: string, undefined","stack":"Error: Illegal arguments: string, undefined\n    at _async (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:252:11)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:280:7\n    at new Promise (<anonymous>)\n    at Object.compare (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:279:12)\n    at verifyEmailOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:98:34)\n    at verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:70:10)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)","timestamp":"2026-01-01T13:44:36.921Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:45:22.209Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:45:22.220Z"}
+{"level":"error","message":"Illegal arguments: string, undefined","stack":"Error: Illegal arguments: string, undefined\n    at _async (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:252:11)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:280:7\n    at new Promise (<anonymous>)\n    at Object.compare (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:279:12)\n    at verifyEmailOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:98:34)\n    at verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:70:10)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)","timestamp":"2026-01-01T13:45:32.125Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:53:24.815Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:53:24.826Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:53:35.063Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:53:35.073Z"}
+{"level":"error","message":"Illegal arguments: string, undefined","stack":"Error: Illegal arguments: string, undefined\n    at _async (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:252:11)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:280:7\n    at new Promise (<anonymous>)\n    at Object.compare (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:279:12)\n    at verifyEmailOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:98:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:70:4)","timestamp":"2026-01-01T13:53:40.763Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:55:29.154Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:55:29.162Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:55:35.576Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:55:35.590Z"}
+{"level":"error","message":"Illegal arguments: string, undefined","stack":"Error: Illegal arguments: string, undefined\n    at _async (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:252:11)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:280:7\n    at new Promise (<anonymous>)\n    at Object.compare (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:279:12)\n    at verifyEmailOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:98:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:70:4)","timestamp":"2026-01-01T13:55:36.801Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:58:06.615Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:58:06.625Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T13:58:58.838Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T13:58:58.847Z"}
+{"level":"error","message":"Illegal arguments: string, undefined","stack":"Error: Illegal arguments: string, undefined\n    at _async (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:252:11)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:280:7\n    at new Promise (<anonymous>)\n    at Object.compare (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:279:12)\n    at verifyEmailOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:98:34)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:70:4)","timestamp":"2026-01-01T13:59:19.251Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:00:18.002Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:00:18.011Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:04:01.341Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:04:01.351Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:04:08.812Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:04:08.825Z"}
+{"level":"error","message":"Invalid OTP code","stack":"Error: Invalid OTP code\n    at verifyEmailOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:101:15)\n    at async verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:70:4)","timestamp":"2026-01-01T14:04:18.324Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:05:41.651Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:05:41.661Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:06:01.219Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:06:01.228Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:06:05.076Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:06:05.088Z"}
+{"level":"error","message":"Invalid OTP code","stack":"Error: Invalid OTP code\n    at verifyEmailOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:103:15)\n    at async verifyOTPContoller (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:70:4)","timestamp":"2026-01-01T14:06:13.081Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:07:01.776Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:07:01.787Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:09:42.181Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:09:42.194Z"}
+{"level":"error","message":"otp is not defined","stack":"ReferenceError: otp is not defined\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:58:30)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:54:4)","timestamp":"2026-01-01T14:09:48.444Z"}
+{"level":"error","message":"otp is not defined","stack":"ReferenceError: otp is not defined\n    at sendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/emailVerificationService.js:58:30)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async sendOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:54:4)","timestamp":"2026-01-01T14:10:22.109Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:11:03.980Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:11:03.990Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:18:40.112Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:18:40.144Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:18:44.067Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:18:44.082Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:20:15.416Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:20:15.425Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:20:28.652Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:20:28.661Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:20:49.544Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:20:49.553Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:21:31.674Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:21:31.683Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:21:56.610Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:21:56.618Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:22:11.875Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:22:11.885Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:22:16.236Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:22:16.245Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:22:18.932Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:22:18.941Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:22:37.397Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:22:37.408Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:22:39.973Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:22:39.984Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:22:58.194Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:22:58.202Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:23:08.551Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:23:08.560Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:23:18.073Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:23:18.084Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:25:22.470Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:25:22.480Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:25:25.750Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:25:25.779Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:28:26.753Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:28:26.762Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:28:32.883Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:28:32.894Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:28:40.009Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:28:40.018Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:28:43.716Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:28:43.725Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:28:46.213Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:28:46.221Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:28:55.251Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:28:55.261Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:30:41.251Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:30:41.262Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:30:44.526Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:30:44.544Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:31:05.198Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:31:05.208Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:31:11.107Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:31:11.115Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:31:22.359Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:31:22.369Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:31:32.450Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:31:32.461Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:32:02.137Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:32:02.146Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:32:06.146Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:32:06.156Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:32:28.685Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:32:28.694Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:32:34.658Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:32:34.667Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:32:38.599Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:32:38.608Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:32:48.862Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:32:48.871Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:32:53.540Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:32:53.549Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:32:56.523Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:32:56.537Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:33:19.628Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:33:19.637Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:33:22.775Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:33:22.785Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:33:33.117Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:33:33.126Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:33:37.092Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:33:37.102Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:33:43.449Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:33:43.459Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:34:00.495Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:34:00.510Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:34:04.722Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:34:04.731Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:34:13.767Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:34:13.777Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:35:41.075Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:35:41.087Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:36:27.268Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:36:27.278Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:36:31.762Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:36:31.772Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:36:38.322Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:36:38.333Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:36:41.124Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:36:41.135Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:36:43.956Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:36:43.966Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:36:48.558Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:36:48.567Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:36:54.998Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:36:55.007Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:37:04.172Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:37:04.181Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:37:14.326Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:37:14.335Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:37:20.575Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:37:20.592Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:37:23.090Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:37:23.100Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:37:26.340Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:37:26.349Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:37:29.705Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:37:29.723Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:38:23.721Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:38:23.730Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:39:01.681Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:39:01.690Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:39:08.584Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:39:08.593Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:39:16.893Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:39:16.902Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:45:22.764Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:45:22.776Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:45:43.005Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:45:43.014Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:45:59.132Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:45:59.141Z"}
+{"level":"error","message":"normalizedEmail is not defined","stack":"ReferenceError: normalizedEmail is not defined\n    at forgotPassword (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/auth/passwordService.js:28:16)\n    at async forgotPasswordController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:79:19)","timestamp":"2026-01-01T14:46:10.965Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:46:37.728Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:46:37.738Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:46:48.020Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:46:48.030Z"}
+{"level":"error","message":"OTP validation failed: userId: Path `userId` is required.","stack":"ValidationError: OTP validation failed: userId: Path `userId` is required.\n    at Document.invalidate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3377:32)\n    at validatePath (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3152:13)\n    at async Promise.all (index 0)\n    at async model.$__validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3093:3)\n    at async model.validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:2670:5)\n    at async model.validateBeforeSave (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\plugins\\validateBeforeSave.js:34:7)\n    at async Kareem.execPre (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\kareem\\index.js:65:24)\n    at async model.$__save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:369:5)\n    at async model.save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:609:5)\n    at async C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:2722:9","timestamp":"2026-01-01T14:46:51.936Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:47:53.132Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:47:53.141Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:47:56.464Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:47:56.474Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:48:05.626Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:48:05.640Z"}
+{"level":"error","message":"OTP validation failed: userId: Path `userId` is required.","stack":"ValidationError: OTP validation failed: userId: Path `userId` is required.\n    at Document.invalidate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3377:32)\n    at validatePath (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3152:13)\n    at async Promise.all (index 0)\n    at async model.$__validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3093:3)\n    at async model.validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:2670:5)\n    at async model.validateBeforeSave (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\plugins\\validateBeforeSave.js:34:7)\n    at async Kareem.execPre (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\kareem\\index.js:65:24)\n    at async model.$__save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:369:5)\n    at async model.save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:609:5)\n    at async C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:2722:9","timestamp":"2026-01-01T14:48:10.778Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:48:56.958Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:48:56.968Z"}
+{"level":"error","message":"OTP validation failed: userId: Path `userId` is required.","stack":"ValidationError: OTP validation failed: userId: Path `userId` is required.\n    at Document.invalidate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3377:32)\n    at validatePath (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3152:13)\n    at async Promise.all (index 0)\n    at async model.$__validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3093:3)\n    at async model.validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:2670:5)\n    at async model.validateBeforeSave (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\plugins\\validateBeforeSave.js:34:7)\n    at async Kareem.execPre (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\kareem\\index.js:65:24)\n    at async model.$__save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:369:5)\n    at async model.save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:609:5)\n    at async C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:2722:9","timestamp":"2026-01-01T14:48:58.855Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:49:42.728Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:49:42.742Z"}
+{"level":"error","message":"OTP validation failed: userId: Path `userId` is required.","stack":"ValidationError: OTP validation failed: userId: Path `userId` is required.\n    at Document.invalidate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3377:32)\n    at validatePath (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3152:13)\n    at async Promise.all (index 0)\n    at async model.$__validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:3093:3)\n    at async model.validate (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\document.js:2670:5)\n    at async model.validateBeforeSave (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\plugins\\validateBeforeSave.js:34:7)\n    at async Kareem.execPre (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\kareem\\index.js:65:24)\n    at async model.$__save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:369:5)\n    at async model.save (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:609:5)\n    at async C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\mongoose\\lib\\model.js:2722:9","timestamp":"2026-01-01T14:49:43.657Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:51:48.011Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:51:48.021Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:53:45.361Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:53:45.371Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:56:04.242Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:56:04.252Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:56:37.260Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:56:37.269Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:56:41.499Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:56:41.511Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:56:44.268Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:56:44.277Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:57:23.777Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:57:23.786Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:57:26.604Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:57:26.613Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:57:30.797Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:57:30.807Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:57:37.057Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:57:37.067Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:57:58.337Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:57:58.346Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:58:12.600Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:58:12.610Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:58:20.300Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:58:20.310Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:58:25.565Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:58:25.576Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:58:31.158Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:58:31.168Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:58:35.363Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:58:35.373Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:58:58.413Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:58:58.423Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:59:01.089Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:59:01.099Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:59:08.789Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:59:08.799Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T14:59:11.218Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T14:59:11.228Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:00:13.453Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:00:13.462Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:01:28.675Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:01:28.684Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:01:32.762Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:01:32.771Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:01:44.235Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:01:44.246Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:02:08.204Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:02:08.213Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:02:16.596Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:02:16.606Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:02:31.708Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:02:31.717Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:03:33.551Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:03:33.560Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:03:45.105Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:03:45.114Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:03:48.757Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:03:48.767Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:03:56.819Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:03:56.832Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:04:01.176Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:04:01.185Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:04:09.705Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:04:09.714Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:04:22.155Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:04:22.168Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:04:33.665Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:04:33.674Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:05:02.145Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:05:02.154Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:05:05.151Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:05:05.161Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:05:14.034Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:05:14.044Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:05:31.546Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:05:31.556Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:05:38.344Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:05:38.354Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:05:51.877Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:05:51.886Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:06:00.129Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:06:00.141Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:06:08.587Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:06:08.597Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:06:39.905Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:06:39.917Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:07:07.776Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:07:07.785Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:07:18.237Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:07:18.247Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:08:54.306Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:08:54.315Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:09:29.008Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:09:29.027Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:09:46.824Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:09:46.835Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:09:51.498Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:09:51.508Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:09:59.257Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:09:59.265Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:10:01.932Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:10:01.941Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:10:05.079Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:10:05.090Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:10:10.577Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:10:10.592Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:10:20.950Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:10:20.959Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:11:21.275Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:11:21.289Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:11:29.026Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:11:29.036Z"}
+{"level":"error","message":"\"otp\" must be a string, \"newPassword\" with value \"aswmvv@944\" fails to match the required pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])/","stack":"Error: \"otp\" must be a string, \"newPassword\" with value \"aswmvv@944\" fails to match the required pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])/\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:15:18\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2026-01-01T15:25:12.339Z"}
+{"level":"error","message":"\"otp\" must be a string","stack":"Error: \"otp\" must be a string\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:15:18\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2026-01-01T15:25:32.005Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:26:21.925Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:26:21.934Z"}
+{"level":"error","message":"\"otp\" must be a string","stack":"Error: \"otp\" must be a string\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:15:18\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2026-01-01T15:26:26.316Z"}
+{"level":"error","message":"\"otp\" length must be 6 characters long","stack":"Error: \"otp\" length must be 6 characters long\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:15:18\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15\n    at processParams (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:582:12)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:291:5)\n    at Function.handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:186:3)","timestamp":"2026-01-01T15:28:29.885Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:34:08.166Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:34:08.176Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:34:19.704Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:34:19.714Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:34:23.323Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:34:23.335Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:34:29.010Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:34:29.020Z"}
+{"level":"error","message":"Invalid OTP code","stack":"Error: Invalid OTP code\n    at resetPassword (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/auth/passwordService.js:86:11)\n    at async resetPasswordController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:86:19)","timestamp":"2026-01-01T15:34:34.841Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:35:39.403Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:35:39.412Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:37:50.773Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:37:50.781Z"}
+{"level":"error","message":"Illegal arguments: string, undefined","stack":"Error: Illegal arguments: string, undefined\n    at _async (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:252:11)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:280:7\n    at new Promise (<anonymous>)\n    at Object.compare (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/node_modules/bcryptjs/index.js:279:12)\n    at resetPassword (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/auth/passwordService.js:93:37)\n    at async resetPasswordController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:86:19)","timestamp":"2026-01-01T15:37:57.971Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:41:00.423Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:41:00.433Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:41:38.013Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:41:38.024Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:41:55.659Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:41:55.678Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:42:04.921Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:42:04.933Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:42:15.204Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:42:15.214Z"}
+{"level":"error","message":"OTP expired or not found","stack":"Error: OTP expired or not found\n    at resetPassword (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/auth/passwordService.js:67:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async resetPasswordController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:86:19)","timestamp":"2026-01-01T15:42:17.984Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-01T15:43:18.145Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-01T15:43:18.155Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:16:04.396Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:16:04.410Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:16:40.734Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:16:40.743Z"}
+{"level":"error","message":"User already verified","stack":"Error: User already verified\n    at resendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/auth/emailVerificationService.js:132:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async resendVerificationOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:86:4)","timestamp":"2026-01-02T04:16:46.791Z"}
+{"level":"error","message":"User not found","stack":"Error: User not found\n    at resendVerificationOTP (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/services/user/auth/emailVerificationService.js:125:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async resendVerificationOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:86:4)","timestamp":"2026-01-02T04:16:58.223Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:19:24.884Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:19:24.892Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:21:26.176Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:21:26.186Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:21:30.875Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:21:30.885Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:22:51.534Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:22:51.545Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:23:00.402Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:23:00.413Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:23:04.180Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:23:04.189Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:23:09.518Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:23:09.527Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:23:44.547Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:23:44.557Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:23:55.994Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:23:56.003Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:24:00.339Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:24:00.350Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:24:03.556Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:24:03.565Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:24:06.747Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:24:06.759Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:24:28.346Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:24:28.360Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:28:15.716Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:28:15.726Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:29:23.419Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:29:23.433Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:32:44.457Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:32:44.467Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:33:07.547Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:33:07.556Z"}
+{"level":"error","message":"resendResetOTP is not defined","stack":"ReferenceError: resendResetOTP is not defined\n    at resendResetOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:107:3)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15","timestamp":"2026-01-02T04:33:10.737Z"}
+{"level":"error","message":"resendResetOTP is not defined","stack":"ReferenceError: resendResetOTP is not defined\n    at resendResetOTPController (file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/controllers/user/authController.js:107:3)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at file:///C:/Users/aswat/OneDrive/Documents/BinIt%20Project/binit-project/backend/src/middlewares/common/validate.middleware.js:19:5\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at next (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:157:13)\n    at Route.dispatch (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\route.js:117:3)\n    at handle (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:435:11)\n    at Layer.handleRequest (C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\lib\\layer.js:152:17)\n    at C:\\Users\\aswat\\OneDrive\\Documents\\BinIt Project\\binit-project\\backend\\node_modules\\router\\index.js:295:15","timestamp":"2026-01-02T04:33:35.625Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:35:42.870Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:35:42.880Z"}
+{"level":"info","message":"MongoDB connected successfully","timestamp":"2026-01-02T04:35:47.269Z"}
+{"level":"info","message":"Server is now running on port 5000","timestamp":"2026-01-02T04:35:47.279Z"}

@@ -15,6 +15,7 @@ export class AppError extends Error {
 
 export const sendResponse = (res, data, statusCode =STATUS_CODES.OK) => {
   res.status(statusCode).json({
-    data,
+    success: true,
+    ...data
   });
 };
