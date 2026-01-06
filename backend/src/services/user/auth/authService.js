@@ -7,6 +7,7 @@ import {
   generateRefreshToken,
   verifyRefreshToken
 } from "../../../utils/jwt.js"
+import { sendVerificationOTP } from "./emailVerificationService.js";
 
 
 const registerUser = async (userData) =>{
@@ -26,15 +27,19 @@ const registerUser = async (userData) =>{
   })
  
   await newUser.save()
-  const user = await User.findById(newUser._id)
-    .select("_id name email imageId")
-    .lean()
+  // const user = await User.findById(newUser._id)
+  //   .select("_id name email imageId")
+  //   .lean()
   
-  const accessToken = generateAccessToken(user._id)
-  const refreshToken = generateRefreshToken(user._id)
-  newUser.refreshToken = refreshToken;
-  await newUser.save();
-  return {user,accessToken,refreshToken};
+  // const accessToken = generateAccessToken(user._id)
+  // const refreshToken = generateRefreshToken(user._id)
+  // newUser.refreshToken = refreshToken;
+  // await newUser.save();
+
+  let result = await sendVerificationOTP(email)
+
+  return result
+  
 }
 
 const loginUser = async(userData)=>{
@@ -45,7 +50,7 @@ const loginUser = async(userData)=>{
     throw new AppError(STATUS_CODES.UNAUTHORIZED,"INVALID_CREDENTIALS","Invalid email or password")
   }
 
-  const isPasswordValid = bcrypt.compare(password,user.password)
+  const isPasswordValid = await bcrypt.compare(password,user.password)
 
   if(!isPasswordValid){
     throw new AppError(STATUS_CODES.UNAUTHORIZED,"INVALID_CREDENTIALS","Invalid email or password")

@@ -1,0 +1,26 @@
+{
+  "name": "binit-project",
+  "version": "1.0.0",
+  "description": "��#\u0000 \u0000B\u0000i\u0000n\u0000I\u0000t\u0000-\u0000p\u0000r\u0000o\u0000j\u0000e\u0000c\u0000t\u0000\r\u0000 \u0000",
+  "main": "index.js",
+ "scripts": {
+  "start": "npm run dev",
+  "server": "cd backend && npm run dev",
+  "frontend": "cd frontend && npm run dev",
+  "dev": "concurrently \"npm run server\" \"npm run frontend\""
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aswathi-123-droid/BinIt-project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aswathi-123-droid/BinIt-project/issues"
+  },
+  "homepage": "https://github.com/aswathi-123-droid/BinIt-project#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

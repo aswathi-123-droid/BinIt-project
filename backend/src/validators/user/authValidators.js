@@ -37,13 +37,13 @@ export const registerSchema = Joi.object({
       "any.required": "Password is required",
     }),
 
-  // confirmPassword: Joi.string()
-  //   .valid(Joi.ref("password"))
-  //   .required()
-  //   .messages({
-  //     "any.only": "Passwords do not match",
-  //     "any.required": "Confirm password is required",
-  //   }),
+  confirmPassword: Joi.string()
+    .valid(Joi.ref("password"))
+    .required()
+    .messages({
+      "any.only": "Passwords do not match",
+      "any.required": "Confirm password is required",
+    }),
 });
 
 export const loginSchema = Joi.object({

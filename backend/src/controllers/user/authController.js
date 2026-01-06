@@ -9,10 +9,10 @@ import { forgotPassword, resendResetOTP, resetPassword } from "../../services/us
 
 
 export const registerUserController = async(req,res)=>{
-   const {user,accessToken,refreshToken} = await registerUser(req.body)
+   const result = await registerUser(req.body)
 
-   setRefreshToken(res,refreshToken);
-   sendResponse(res,{user,token:accessToken},STATUS_CODES.CREATED)
+   // setRefreshToken(res,refreshToken);
+   sendResponse(res,result,STATUS_CODES.CREATED)
 }
 
 

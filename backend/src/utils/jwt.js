@@ -26,6 +26,14 @@ export const setRefreshToken =(res,token) =>{
     })
 }
 
+export const setAccessToken =(res,token) =>{
+    res.cookie("accessToken",token,{
+        httpOnly:true,
+        secure:env.NODE_ENV === "production",
+        sameSite:"Strict"
+    })
+}
+
 export const verifyAccessToken = (token)=>{
     return jwt.verify(token,env.JWT_ACCESS_SECRET)
 }
