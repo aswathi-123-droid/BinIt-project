@@ -3,7 +3,7 @@ import { resendVerificationOTP, sendVerificationOTP, verifyEmailOTP } from "../.
 import { refreshAccessToken } from "../../services/user/auth/tokenService.js"
 import { AppError, sendResponse } from "../../utils/appError.js"
 import { STATUS_CODES } from "../../utils/constants.js"
-import { setRefreshToken } from "../../utils/jwt.js"
+import { setAccessToken, setRefreshToken } from "../../utils/jwt.js"
 import User from "../../models/user.model.js"
 import { forgotPassword, resendResetOTP, resetPassword } from "../../services/user/auth/passwordService.js"
 
@@ -19,9 +19,9 @@ export const registerUserController = async(req,res)=>{
 
 export const loginUserController = async(req,res)=>{
    const {user,accessToken,refreshToken} = await loginUser(req.body)
-   
+   setAccessToken(res,accessToken)
    setRefreshToken(res,refreshToken)
-   sendResponse(res,{user,token:accessToken},STATUS_CODES.OK)
+   sendResponse(res,{user},STATUS_CODES.OK)
 }
 
 export const refreshAccessTokenController = async(req,res)=>{

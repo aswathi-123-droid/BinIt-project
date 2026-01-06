@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc'; // Google Icon
 import { FaLeaf } from 'react-icons/fa';   // Placeholder for BinIt Logo
-import { api } from '../../api/axiosInstance';
+import { useDispatch, useSelector } from 'react-redux';
+import { registerUser } from '../../features/user/account/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const {
@@ -11,23 +13,24 @@ const RegisterForm = () => {
     watch,
     formState: { errors },
   } = useForm();
-
+  
+  
+  const dispatch = useDispatch();
+  const {message,loading} = useSelector((state)=>state.auth)
+  const navigate = useNavigate()
   // Watch password to validate "Confirm Password" field
   const password = watch("password");
 
-  const onSubmit = async (data) => {
-    console.log("Form Submitted:", data);
-    try{
-      const response=await api.post("/auth/register",data);
-      const result=response.data;
-      console.log(result)
-    }
-    catch(error){
-      console.log(error.response.data)
-    }
+  const onSubmit =async(data) => {
+  try{
     
-    // Add your signup logic here (e.g., API call to Node/Express backend)
-  };
+    await dispatch(registerUser(data)).unwrap()
+    navigate("/auth/verify-email",{state:{email:data.email}})
+  }catch(err){
+    alert(err)
+  }
+};
+  
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans text-gray-800">
@@ -147,8 +150,9 @@ const RegisterForm = () => {
               type="submit"
               className="w-full bg-emerald-500 text-white font-semibold py-2.5 rounded-lg hover:bg-emerald-600 transition shadow-sm"
             >
-              Create Account
+              {loading?"loading...":"Create Account"}
             </button>
+            <p>{message}</p>
           </form>
 
           {/* Login Link */}

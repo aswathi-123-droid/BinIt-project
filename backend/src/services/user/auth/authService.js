@@ -16,6 +16,7 @@ const registerUser = async (userData) =>{
   const existingUser = await User.findOne({email})
 
   if(existingUser){
+    
     throw new AppError(STATUS_CODES.CONFLICT,"EMAIL_ALREADY_EXISTS","User already exists.")
   }
 
@@ -44,7 +45,8 @@ const registerUser = async (userData) =>{
 
 const loginUser = async(userData)=>{
   const {email,password} = userData
-  const user = await User.findOne({email}).select("_id name email password imageId")
+  const user = await User.findOne({email}).select("_id name email +password imageId")
+  
 
   if(!user){
     throw new AppError(STATUS_CODES.UNAUTHORIZED,"INVALID_CREDENTIALS","Invalid email or password")
@@ -64,7 +66,7 @@ const loginUser = async(userData)=>{
   const userObj = user.toObject()
   delete userObj.password
   delete userObj.refreshToken
-
+  
   return {user:userObj,accessToken,refreshToken}
 }
 
