@@ -1,7 +1,7 @@
 import Joi from "joi"
 
 export const registerSchema = Joi.object({
-  name: Joi.string()
+  fullName: Joi.string()
     .trim()
     .min(3)
     .max(50)

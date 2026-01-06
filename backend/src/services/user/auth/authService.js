@@ -11,7 +11,7 @@ import { sendVerificationOTP } from "./emailVerificationService.js";
 
 
 const registerUser = async (userData) =>{
-  const {name,email,password} = userData
+  const {fullName:name,email,password} = userData
 
   const existingUser = await User.findOne({email})
 

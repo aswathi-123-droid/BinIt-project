@@ -2,6 +2,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc'; // Google Icon
 import { FaLeaf } from 'react-icons/fa';   // Placeholder for BinIt Logo
+import { api } from '../../api/axiosInstance';
 
 const RegisterForm = () => {
   const {
@@ -14,8 +15,17 @@ const RegisterForm = () => {
   // Watch password to validate "Confirm Password" field
   const password = watch("password");
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Form Submitted:", data);
+    try{
+      const response=await api.post("/auth/register",data);
+      const result=response.data;
+      console.log(result)
+    }
+    catch(error){
+      console.log(error.response.data)
+    }
+    
     // Add your signup logic here (e.g., API call to Node/Express backend)
   };
 
@@ -31,7 +41,7 @@ const RegisterForm = () => {
       </header>
 
       {/* --- Main Content --- */}
-      <main className="flex-grow flex items-center justify-center p-4">
+      <main className="grow flex items-center justify-center p-4">
         <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg border border-gray-100">
           
           {/* Header */}
@@ -53,9 +63,9 @@ const RegisterForm = () => {
 
           {/* Divider */}
           <div className="relative flex py-2 items-center mb-6">
-            <div className="flex-grow border-t border-gray-200"></div>
-            <span className="flex-shrink-0 mx-4 text-gray-400 text-xs">Or sign up with email</span>
-            <div className="flex-grow border-t border-gray-200"></div>
+            <div className="grow border-t border-gray-200"></div>
+            <span className="shrink-0 mx-4 text-gray-400 text-xs">Or sign up with email</span>
+            <div className="grow border-t border-gray-200"></div>
           </div>
 
           {/* Form */}
@@ -149,7 +159,7 @@ const RegisterForm = () => {
       </main>
 
       {/* --- Footer (Simplified) --- */}
-      <footer className="bg-gray-50 py-10 px-6 border-t border-gray-200">
+      {/* <footer className="bg-gray-50 py-10 px-6 border-t border-gray-200">
         <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 text-sm">
           <div>
             <div className="flex items-center gap-2 font-bold text-gray-900 mb-4">
@@ -158,9 +168,8 @@ const RegisterForm = () => {
             </div>
             <p className="text-gray-500">Making waste management simple, professional, and sustainable for everyone.</p>
           </div>
-          {/* ... Placeholder for other footer columns ... */}
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };
