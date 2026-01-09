@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form'; // Optional here since we manage OTP state manually, but good for consistency
 import { FaLock, FaArrowLeft } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { verifyEmail } from '../../features/user/account/authSlice';
+import { verifyEmail } from '../authSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const VerifyEmail = () => {
@@ -13,6 +13,7 @@ const VerifyEmail = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+  // const {isForget} = useSelector(state => state.auth)
   const {email}=location.state
 
   // Handle input change (move to next box)
@@ -48,10 +49,10 @@ const VerifyEmail = () => {
     }
     if(finalOtp === "")
         return
-
+    // console.log(isForget)
     try{
      await dispatch(verifyEmail({email,otp:finalOtp})).unwrap()
-     navigate("/auth/verifysuccess")
+      navigate("/auth/verifysuccess",{state:{message:"email"}})
     }catch(err){
       alert(err)
     }

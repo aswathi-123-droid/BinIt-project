@@ -51,7 +51,7 @@ const loginUser = async(userData)=>{
   if(!user){
     throw new AppError(STATUS_CODES.UNAUTHORIZED,"INVALID_CREDENTIALS","Invalid email or password")
   }
-
+  
   const isPasswordValid = await bcrypt.compare(password,user.password)
 
   if(!isPasswordValid){
@@ -66,7 +66,7 @@ const loginUser = async(userData)=>{
   const userObj = user.toObject()
   delete userObj.password
   delete userObj.refreshToken
-  
+
   return {user:userObj,accessToken,refreshToken}
 }
 

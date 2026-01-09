@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc'; // Google Icon
 import { FaLeaf } from 'react-icons/fa';   // Placeholder for BinIt Logo
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../../features/user/account/authSlice';
+import { registerUser } from '../authSlice';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {

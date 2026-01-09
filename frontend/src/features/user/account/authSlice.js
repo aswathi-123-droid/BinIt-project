@@ -46,25 +46,36 @@ export const verifyEmail = createAsyncThunk(
 
 export const forgotPassword = createAsyncThunk(
   "auth/forgotPassword",
-  async (email, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const res = await api.post("/auth/forgot-password",email);
+      const res = await api.post("/auth/forgot-password",data);
       return res.data.message; // Return the email so we can store it
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Request failed");
     }
   }
 );
+export const getProfile = createAsyncThunk(
+  "auth/getProfile",
+  async(_,{ rejectWithValue })=>{
+    try{
+      const res = await api.get("/account/profile");
+      return res.data?.user
+    }catch(err) {
+      return rejectWithValue(err.response?.data?.message || "Request failed");
+    }
+  }
+)
 
 // ================= SLICE =================
 
 const initialState = {
   user: null, // No localStorage access
-  token: null, // No localStorage access
-  loading: false,
+  loading: true,
   error: null,
   success: false,
-  message:null // Useful for redirects (e.g., after register)
+  message:null, // Useful for redirects (e.g., after register)
+  isForget:false
 };
 
 const authSlice = createSlice({
@@ -84,6 +95,9 @@ const authSlice = createSlice({
     resetSuccess: (state) => {
       state.success = false;
     },
+    setForgetPassword: (state,action) => {
+      state.isForget = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -110,8 +124,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.user = action.payload;
         state.error = null;
         state.success = true;
       })
@@ -134,9 +147,26 @@ const authSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       })
+
+      .addCase(getProfile.pending, (state) =>{
+        state.loading = true;
+        state.error = null;
+        state.message = null;
+      })
+      .addCase(getProfile.fulfilled,(state,action)=>{
+        console.log(action.payload,"profile")
+        state.loading = false;
+        state.message = action.payload;
+        state.user = action.payload
+        state.success = true;
+      })
+      .addCase(getProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
   },
 });
 
-export const { logout, clearError, resetSuccess } = authSlice.actions;
+export const { logout, clearError, resetSuccess ,setForgetPassword } = authSlice.actions;
 
 export default authSlice.reducer;

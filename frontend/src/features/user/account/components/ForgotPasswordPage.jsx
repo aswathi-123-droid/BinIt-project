@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FiRefreshCcw, FiArrowLeft } from 'react-icons/fi'; // Icons
-import { forgotPassword } from '../../features/user/account/authSlice';
+import { forgotPassword } from '../authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,9 +17,9 @@ const ForgotPasswordPage = () => {
   const onSubmit = async(data) => {
     console.log("Password Reset Request for:", data.email);
     try{
-        await dispatch(forgotPassword(data.email)).unwrap();
+        await dispatch(forgotPassword(data)).unwrap();
         console.log("success")
-        navigate("/auth/verify-email",{state:{email:data.email}})
+        navigate("/auth/link-success",{state:{email:data.email}})
     }catch(err){
         alert(err)
     }

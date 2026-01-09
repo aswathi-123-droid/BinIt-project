@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc'; // Google Icon
 import { FiLogIn } from 'react-icons/fi';  // Login Icon placeholder
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../features/user/account/authSlice';
+import { loginUser } from '../authSlice';
+import { setForgetPassword } from '../authSlice';
 
 const LoginPage = () => {
   const {
@@ -14,12 +15,21 @@ const LoginPage = () => {
   } = useForm();
   
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const user = useSelector(state=>state.auth.user);
+  useEffect(()=>{
+
+    if(user)
+      navigate("/services")
+
+  },[user])
+
+  
   const onSubmit = async(data) => {
     // console.log("Login Data:", data);
     try{
-     await dispatch(loginUser(data)).unwrap
-     console.log("login successful")
+     await dispatch(loginUser(data)).unwrap()
+     navigate("/services");
     }catch(err){
      alert(err)
     }
@@ -104,9 +114,12 @@ const LoginPage = () => {
 
           {/* Forgot Password Link */}
           <div className="flex justify-end">
-            <a href="/auth/forgot-password" className="text-xs font-medium text-emerald-600 hover:text-emerald-700 hover:underline">
+            <button onClick={()=>{navigate("/auth/forgot-password")}}>
+              <p className="text-xs font-medium text-emerald-600 hover:text-emerald-700 hover:underline">
               Forgot Password?
-            </a>
+            </p>
+            </button>
+            
           </div>
 
           {/* Submit Button */}

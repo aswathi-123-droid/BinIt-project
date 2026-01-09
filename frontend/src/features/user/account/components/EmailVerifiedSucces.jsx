@@ -1,10 +1,11 @@
 import { FaCheck } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom'; // Uncomment if using React Router
 
 const EmailVerifiedSuccess = () => {
-  const navigate = useNavigate(); // Hook for navigation
-
+  const navigate = useNavigate();
+  const location = useLocation();
+  const {message} = location.state
   const handleLoginRedirect = () => {
     console.log("Redirecting to login...");
     navigate('/auth/login'); 
@@ -21,12 +22,12 @@ const EmailVerifiedSuccess = () => {
 
         {/* Heading */}
         <h1 className="text-2xl font-bold text-emerald-500 mb-3">
-          Email Verified <br /> Successfully!
+          {message} Verified <br /> Successfully!
         </h1>
 
         {/* Description */}
         <p className="text-sm text-gray-500 mb-8 leading-relaxed">
-          Your email address has been successfully verified. You can now log in to your account.
+          Your {message} has been successfully verified. You can now log in to your account.
         </p>
 
         {/* Button */}

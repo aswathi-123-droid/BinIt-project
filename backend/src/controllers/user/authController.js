@@ -95,9 +95,10 @@ export const forgotPasswordController = async(req,res)=>{
 }
 
 export const resetPasswordController = async(req,res)=>{
-   const {email, otp ,newPassword} = req.body;
+   console.log("here",req.body)
+   const {token,password} = req.body;
 
-   const result = await resetPassword(email, otp, newPassword);
+   const result = await resetPassword(token,password);
    sendResponse(res,result,STATUS_CODES.OK)
 }
 
