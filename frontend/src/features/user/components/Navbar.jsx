@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav className="w-full bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between sticky top-0 z-50">
       
-      {/* Left Side: Logo */}
+
       <div className="flex items-center gap-2 cursor-pointer">
         <div className="text-emerald-500">
           <Leaf size={28} fill="currentColor" fillOpacity={0.2} />
@@ -21,7 +21,7 @@ const Navbar = () => {
         <span className="text-xl font-bold text-slate-800 tracking-tight">BinIt</span>
       </div>
 
-      {/* Center: Navigation Links */}
+
       <ul className="hidden md:flex items-center gap-8">
         {navLinks.map((link) => (
           <li key={link.name}>
@@ -39,21 +39,20 @@ const Navbar = () => {
         ))}
       </ul>
 
-      {/* Right Side: Actions (Wallet, Cart, Profile) */}
+
       <div className="flex items-center gap-4">
         
-        {/* Wallet Balance */}
+
         <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100 cursor-pointer hover:bg-emerald-100 transition-colors">
           <Wallet size={18} className="text-emerald-600" />
           <span className="text-sm font-bold text-emerald-700">₹200</span>
         </div>
 
-        {/* Shopping Cart Icon */}
+
         <button className="p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100">
           <ShoppingBag size={20} />
         </button>
 
-        {/* User Profile Avatar */}
         <button onClick={()=>{console.log("Hiii");navigate("/profile/my-profile")}}>
           <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-200 cursor-pointer hover:opacity-90 transition-opacity">
           <img 

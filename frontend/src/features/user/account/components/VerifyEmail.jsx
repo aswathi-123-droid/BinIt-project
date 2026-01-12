@@ -13,24 +13,23 @@ const VerifyEmail = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
-  // const {isForget} = useSelector(state => state.auth)
   const {email}=location.state
 
-  // Handle input change (move to next box)
+ 
   const handleChange = (element, index) => {
-    if (isNaN(element.value)) return; // Only allow numbers
+    if (isNaN(element.value)) return; 
 
     const newOtp = [...otp];
     newOtp[index] = element.value;
     setOtp(newOtp);
 
-    // Focus next input if value is entered
+    
     if (element.value && index < 5) {
       inputRefs.current[index + 1].focus();
     }
   };
 
-  // Handle backspace (move to previous box)
+
   const handleKeyDown = (e, index) => {
     if (e.key === "Backspace") {
       if (!otp[index] && index > 0) {
@@ -49,7 +48,6 @@ const VerifyEmail = () => {
     }
     if(finalOtp === "")
         return
-    // console.log(isForget)
     try{
      await dispatch(verifyEmail({email,otp:finalOtp})).unwrap()
       navigate("/auth/verifysuccess",{state:{message:"email"}})
@@ -63,18 +61,18 @@ const VerifyEmail = () => {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans text-gray-800">
       <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg border border-gray-100 text-center">
         
-        {/* Icon */}
+       
         <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-500 text-lg">
           <FaLock />
         </div>
 
-        {/* Heading */}
+       
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Verify Your Email</h1>
         <p className="text-sm text-gray-500 mb-8">
           We've sent a 6-digit verification code to <span className="font-semibold text-gray-700">user@example.com</span>. Please enter the code below to verify your account.
         </p>
 
-        {/* OTP Inputs */}
+        
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex justify-center gap-2 sm:gap-3 mb-6">
             {otp.map((data, index) => (
@@ -91,7 +89,7 @@ const VerifyEmail = () => {
             ))}
           </div>
 
-          {/* Links: Change Email & Resend */}
+         
           <div className="flex justify-between text-xs text-gray-500 px-1 mb-8">
             <button type="button" className="hover:text-gray-700 hover:underline">
             </button>
@@ -100,7 +98,7 @@ const VerifyEmail = () => {
             </button>
           </div>
 
-          {/* Submit Button */}
+          
           <button
             type="submit"
             className="w-full bg-emerald-500 text-white font-semibold py-2.5 rounded-lg hover:bg-emerald-600 transition shadow-md mb-6"

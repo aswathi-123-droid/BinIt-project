@@ -53,9 +53,9 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false 
     },
-    refreshToken: {
+    refreshToken: [{
       type: String
-    },
+    }],
     referralCode: {
       type: String,
       unique: true,

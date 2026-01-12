@@ -7,7 +7,7 @@ import OtpVerifyModal from './VerifyOtpModal';
 import { api } from '../../../../api/axiosInstance';
 const MyProfile = () => {
   const dispatch = useDispatch();
-  const { user} = useSelector((state) => state.auth); // Pull data from Redux
+  const { user} = useSelector((state) => state.auth); 
   const [emailTrigger,setEmailTrigger] = useState(false);
   const [otpModal,setOtpModal] = useState(false)
   const [loading,setLoading] = useState(false)
@@ -42,7 +42,6 @@ const MyProfile = () => {
     setOtpModal(false)
   }
   const onSubmit = async(data) => {
-    // Only send 'name' because email updates usually require a separate OTP flow
     try{
       if(dirtyFields.email){
      setOtpModal(true)
@@ -67,16 +66,15 @@ const MyProfile = () => {
   };
 
   return (
-    <div className="  min-h-screen p-8 font-sans flex justify-center ">
+   <div className="flex-1 bg-white min-h-screen p-4 sm:p-8 font-sans flex justify-center">
       <div className=''>
       <div className="mb-8  ">
         <h1 className="text-2xl font-bold text-slate-900">My Profile</h1>
       </div>
-
+    
       <form onSubmit={handleSubmit(onSubmit)} className="max-w-3xl min-w-4xl bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="h-32 bg-emerald-50/60 w-full"></div>
 
-        {/* Profile Header */}
         <div className="relative px-8 pb-6 flex flex-col items-center -mt-16">
           <div className="w-32 h-32 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center text-3xl font-bold text-gray-400">
             {user.name?.split(' ').map(n => n[0]).join('')} {/* Dynamic Initials */}
@@ -86,7 +84,6 @@ const MyProfile = () => {
 
         <div className="px-8 py-6 border-t border-gray-50">
           <div className="space-y-6">
-            {/* Full Name */}
             <div>
               <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Full Name</label>
               <div className="relative">
@@ -100,7 +97,6 @@ const MyProfile = () => {
               </div>
             </div>
 
-            {/* Email (Read Only in this view) */}
             <div>
               <label className="block text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Email Address</label>
               <div className="flex gap-3">
@@ -115,7 +111,6 @@ const MyProfile = () => {
               </div>
             </div>
 
-            {/* Referral Section */}
             <div className="bg-emerald-50/50 rounded-xl p-5 flex items-center justify-between border border-emerald-100/50">
               <p className="text-xs font-bold">Your Referral Code: <span className="text-emerald-600 ml-2">{user.referralCode}</span></p>
               <button type="button" onClick={handleCopyReferral} className="text-gray-400 hover:text-emerald-500"><Copy size={18}/></button>

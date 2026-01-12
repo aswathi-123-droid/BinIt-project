@@ -40,7 +40,6 @@ const OtpVerifyModal = ({ isOpen, onClose, email}) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-200">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all scale-100">
         
-        {/* Header */}
         <div className="bg-linear-to-r from-emerald-50 to-white px-6 py-4 flex items-center justify-between border-b border-emerald-100">
           <div className="flex items-center gap-2 text-emerald-800">
             <div className="p-2 bg-emerald-100 rounded-full">
@@ -56,7 +55,6 @@ const OtpVerifyModal = ({ isOpen, onClose, email}) => {
           </button>
         </div>
 
-        {/* Body */}
         <div className="p-6 pt-8">
           <p className="text-center text-slate-600 mb-6">
             We've sent a verification code to <br/>

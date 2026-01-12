@@ -1,4 +1,4 @@
-import { confirmEmailChange, getAccountDetails, requestEmailChange, updatePersonalDetails } from "../../services/user/accountServices.js";
+import { confirmEmailChange, getAccountDetails, requestEmailChange, updatePassword, updatePersonalDetails } from "../../services/user/accountServices.js";
 import { sendResponse } from "../../utils/appError.js";
 import { STATUS_CODES } from "../../utils/constants.js";
 
@@ -36,5 +36,12 @@ export const verfyEmailOtpController = async(req,res) => {
     const userId =req.user._id;
     const {otp} = req.body;
     const result = await confirmEmailChange(userId,otp)
-    sendResponse(res,{message:result},STATUS_CODES.OK)
+    sendResponse(res,result,STATUS_CODES.OK)
+}
+
+export const updatePasswordController = async(req,res) => {
+   const userId = req.user._id;
+   const {currentPassword,newPassword} = req.body;
+   const result = await updatePassword(userId,currentPassword,newPassword);
+   sendResponse(res,result,STATUS_CODES.OK)
 }

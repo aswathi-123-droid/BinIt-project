@@ -11,7 +11,8 @@ import UserDashboardPage from "../features/user/userDashboardPage";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import UserProfile from "../features/user/profile/UserProfile";
 import MyProfile from "../features/user/profile/myProfile/MyProfile";
-// import Dashboard from "../pages/Dashboard";
+import ChangePassword from "../features/user/profile/ChangePassword/ChangePassword";
+import MyAddresses from "../features/user/profile/myAddresses/MyAddresses";
 import UserLayout from "../layouts/userLayout";
 
 export const router = createBrowserRouter([
@@ -61,6 +62,14 @@ export const router = createBrowserRouter([
               {
                 path:"my-profile",
                 element: <MyProfile/>
+              },
+              {
+                path:"change-password",
+                element:<ChangePassword/>
+              },
+              {
+                path:"my-address",
+                element:<MyAddresses/>
               }
             ]
           }
@@ -68,10 +77,4 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  //   {
-  //     element: <UserLayout />,
-  //     children: [
-  //       { path: "/dashboard", element: <Dashboard /> },
-  //     ],
-  //   },
 ]);

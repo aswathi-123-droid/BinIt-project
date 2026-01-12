@@ -17,7 +17,7 @@ export const  refreshAccessToken = async(token)=>{
     const user = await User.findById(decoded.userId);
     if(!user)throw new AppError(404,"USER_NOT_FOUND","User does not exist.")
 
-    if(user.refreshToken !== token)
+    if(!user.refreshToken.includes(token))
         throw new AppError(
          STATUS_CODES.FORBIDDEN,
          "INVALID_REFRESH_TOKEN",
@@ -27,7 +27,7 @@ export const  refreshAccessToken = async(token)=>{
     try{
         const accessToken = generateAccessToken(user._id)
         const refreshToken = generateRefreshToken(user._id)
-        user.refreshToken = refreshToken;
+        user.refreshToken.push(refreshToken);
         await user.save();
         return {accessToken,refreshToken}
     }catch(err){

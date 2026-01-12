@@ -42,23 +42,23 @@ const SetNewPasswordPage = () => {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans text-gray-800">
       <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 text-center">
         
-        {/* Header Icon */}
+        
         <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
           <FiRefreshCcw className="text-xl text-emerald-500" />
         </div>
 
-        {/* Title */}
+      
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Set New Password</h1>
         
-        {/* Description */}
+        
         <p className="text-sm text-gray-500 mb-8">
           Your identity has been verified. Please create a strong password to secure your account.
         </p>
 
-        {/* Form */}
+        
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-left">
           
-          {/* New Password Field */}
+          
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
             <div className="relative">
@@ -71,7 +71,6 @@ const SetNewPasswordPage = () => {
                 {...register("password", { 
                   required: "Password is required",
                   minLength: { value: 8, message: "Password must be at least 8 characters long" }
-                  // Add more complex validation patterns here if needed (e.g., for numbers, symbols)
                 })}
               />
               <button
@@ -85,7 +84,7 @@ const SetNewPasswordPage = () => {
             {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
           </div>
 
-          {/* Confirm New Password Field */}
+          
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
             <div className="relative">
@@ -111,7 +110,7 @@ const SetNewPasswordPage = () => {
             {errors.confirmPassword && <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>}
           </div>
 
-          {/* Submit Button */}
+          
           <button
             type="submit"
             className="w-full bg-emerald-500 text-white font-semibold py-2.5 rounded-lg hover:bg-emerald-600 transition shadow-md hover:shadow-lg mt-6"
@@ -120,7 +119,7 @@ const SetNewPasswordPage = () => {
           </button>
         </form>
 
-        {/* Back to Login Link */}
+        
         <a href="/login" className="flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition group mt-8">
           <FiArrowLeft className="text-xs group-hover:-translate-x-1 transition-transform" />
           <span>Back to Login</span>

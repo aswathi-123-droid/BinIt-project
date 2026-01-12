@@ -72,10 +72,10 @@ const LoginPage = () => {
           <div className="grow border-t border-gray-200"></div>
         </div>
 
-        {/* Form */}
+        
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           
-          {/* Email Field */}
+         
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Email address</label>
             <input
@@ -95,7 +95,7 @@ const LoginPage = () => {
             {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
           </div>
 
-          {/* Password Field */}
+        
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
             <input
@@ -112,7 +112,7 @@ const LoginPage = () => {
             {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}
           </div>
 
-          {/* Forgot Password Link */}
+          
           <div className="flex justify-end">
             <button onClick={()=>{navigate("/auth/forgot-password")}}>
               <p className="text-xs font-medium text-emerald-600 hover:text-emerald-700 hover:underline">
@@ -122,7 +122,7 @@ const LoginPage = () => {
             
           </div>
 
-          {/* Submit Button */}
+        
           <button
             type="submit"
             className="w-full bg-emerald-500 text-white font-semibold py-2.5 rounded-lg hover:bg-emerald-600 transition shadow-md hover:shadow-lg"
@@ -131,7 +131,7 @@ const LoginPage = () => {
           </button>
         </form>
 
-        {/* Footer Link */}
+        
         <p className="text-center text-xs text-gray-600 mt-6">
           Don't have an account? <a href="/signup" className="text-emerald-600 font-bold hover:underline">Sign up</a>
         </p>

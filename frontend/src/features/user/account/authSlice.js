@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { api } from "../../../api/axiosInstance"; // Adjust path if necessary
+import { api } from "../../../api/axiosInstance"; 
 
 
 
@@ -9,7 +9,7 @@ export const registerUser = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const res = await api.post("/auth/register", formData);
-      // Backend returns { success: true, message: "...", data: { ... } }
+      // { success: true, message: "...", data: { ... } }
       return res.data.message;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Signup failed");
@@ -23,7 +23,7 @@ export const loginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const res = await api.post("/auth/login", credentials);
-      // Backend returns { success: true, data: { user: {...}, token: "..." } }
+      // { success: true, data: { user: {...}, token: "..." } }
       console.log(res)
       return res.data.user;
     } catch (err) {
@@ -49,7 +49,7 @@ export const forgotPassword = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await api.post("/auth/forgot-password",data);
-      return res.data.message; // Return the email so we can store it
+      return res.data.message; 
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Request failed");
     }
@@ -67,14 +67,13 @@ export const getProfile = createAsyncThunk(
   }
 )
 
-// ================= SLICE =================
 
 const initialState = {
-  user: null, // No localStorage access
+  user: null,
   loading: true,
   error: null,
   success: false,
-  message:null, // Useful for redirects (e.g., after register)
+  message:null, 
   isForget:false
 };
 

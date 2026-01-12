@@ -1,4 +1,5 @@
 // import App from "../../../../frontend/src/App.jsx";
+import bcrypt from "bcryptjs";
 import redisClient from "../../config/redis-client.js";
 import User from "../../models/user.model.js"
 import { AppError } from "../../utils/appError.js";
@@ -130,5 +131,46 @@ export const confirmEmailChange = async (userId, otpInput) => {
   user.email = newEmail;
   await user.save()
 
-  return {message:"OTP verified successfully"}
+  await redisClient.del(`emailChange:${userId}`);
+
+  return {message:"Email updated successfully"}
 };
+
+export const updatePassword = async(userId,currentPassword,newPassword) => {
+  const user = await User.findOne({
+    _id : userId,
+    isBlocked : false
+  }).select("+password");
+
+  if(!user)
+    throw new AppError(
+      STATUS_CODES.NOT_FOUND,
+      "USER_NOT_FOUND",
+      "User not found"
+    );
+
+    const isMatch = await bcrypt.compare(currentPassword,user.password);
+
+    if(!isMatch)
+     throw new AppError(
+      STATUS_CODES.BAD_REQUEST,
+      "INCORRECT_PASSWORD",
+      "Current password is incorrect"
+    );
+
+    const isSamePassword = await bcrypt.compare(newPassword,user.password);
+
+    if(isSamePassword)
+     throw new AppError(
+        STATUS_CODES.BAD_REQUEST,
+        "SAME_PASSWORD",
+        "New password cannot be the same as old password"
+    );
+
+    const hashedPassword = await bcrypt.hash(newPassword,10);
+
+    user.password = hashedPassword;
+    await user.save();
+
+     return { message: "Password updated successfully" };
+}

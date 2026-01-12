@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { FiRefreshCcw, FiArrowLeft } from 'react-icons/fi'; // Icons
+import { FiRefreshCcw, FiArrowLeft } from 'react-icons/fi'; 
 import { forgotPassword } from '../authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -29,23 +29,23 @@ const ForgotPasswordPage = () => {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans text-gray-800">
       <div className="bg-white w-full max-w-md p-8 rounded-2xl shadow-lg border border-gray-100 text-center">
         
-        {/* Header Icon */}
+        
         <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
           <FiRefreshCcw className="text-xl text-emerald-500" />
         </div>
 
-        {/* Title */}
+       
         <h1 className="text-2xl font-bold text-gray-900 mb-2">Forgot Password?</h1>
         
-        {/* Description */}
+        
         <p className="text-sm text-gray-500 mb-6">
           Enter the email address associated with your account and we'll send you a link to reset your password.
         </p>
 
-        {/* Form */}
+      
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-left">
           
-          {/* Email Field */}
+          
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
             <input
@@ -65,7 +65,7 @@ const ForgotPasswordPage = () => {
             {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
           </div>
 
-          {/* Submit Button */}
+        
           <button
             type="submit"
             className="w-full bg-emerald-500 text-white font-semibold py-2.5 rounded-lg hover:bg-emerald-600 transition shadow-md hover:shadow-lg"
@@ -74,7 +74,7 @@ const ForgotPasswordPage = () => {
           </button>
         </form>
 
-        {/* Back to Login Link */}
+        
         <a href="/auth/login" className="flex items-center justify-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition group mt-6">
           <FiArrowLeft className="text-xs group-hover:-translate-x-1 transition-transform" />
           <span>Back to Login</span>

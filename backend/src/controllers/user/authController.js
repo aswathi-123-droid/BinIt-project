@@ -35,6 +35,7 @@ export const refreshAccessTokenController = async(req,res)=>{
     const {accessToken,refreshToken} = await refreshAccessToken(token)
 
     setRefreshToken(res,refreshToken)
+    setAccessToken(res,accessToken)
     res.status(STATUS_CODES.OK).json({token:accessToken})
 }
 

@@ -14,16 +14,9 @@ export const authenticateUser = async(req,res,next) => {
         }
     
          let decoded = verifyAccessToken(token);
-         if(!decoded)
-            throw new AppError(
-              STATUS_CODES.UNAUTHORIZED,
-              "UNAUTHORIZED",
-              "Not authorized, token expired or invalid"
-            ); 
 
         const user = await User.findById(decoded.userId)
-        if(!user)throw new AppError(STATUS_CODES.NOT_FOUND,"USER_NOT_FOUND","User does not exist.")
-        if(user.isBlocked)throw new AppError(STATUS_CODES.UNAUTHORIZED,"USER_NOT_FOUND","User does not exist or Not authorized")
+        if(!user || user.isBlocked)throw new AppError(STATUS_CODES.UNAUTHORIZED,"USER_NOT_FOUND","User does not exist.")
         req.user = user;
         next()
 }
