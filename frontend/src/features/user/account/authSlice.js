@@ -70,7 +70,7 @@ export const getProfile = createAsyncThunk(
 
 const initialState = {
   user: null,
-  loading: true,
+  loading: false,
   error: null,
   success: false,
   message:null, 
@@ -83,7 +83,7 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
-      state.token = null;
+      state.message = null;
       state.error = null;
       state.success = false;
      

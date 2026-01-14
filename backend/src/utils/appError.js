@@ -19,3 +19,38 @@ export const sendResponse = (res, data, statusCode =STATUS_CODES.OK) => {
     ...data
   });
 };
+
+export const buildUserQuery = ({status,search}) => {
+  const query = {};
+
+  if(status){
+    if(status === "blocked") {
+      query.isBlocked = true;
+    }else if (status === "active") {
+      query.isBlocked = false
+    }
+  }
+
+  if(search && search.trim() !== ""){
+    const searchRegex = { $regex: search.trim() , $options: "i"}
+
+    query.$or = [
+      { name: searchRegex },
+      { email: searchRegex }
+    ]
+  }
+
+  return query
+}
+
+export const getPagination = (page= 1, limit= 10, maxLimit= 25) => {
+  const pageNumber= parseInt(page);
+  const pageSize= Math.min(parseInt(limit),maxLimit);
+  const skip = (pageNumber-1) * pageSize;
+
+  return (pageNumber,pageSize,skip);
+}
+
+export const getSortOption = (sortBy = "createdAt", sortOrder = "desc") => ({
+  [sortBy]: sortOrder === "asc" ? 1 : -1,
+});

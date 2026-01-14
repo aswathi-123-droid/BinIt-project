@@ -9,6 +9,7 @@ export const addAddressController = async(req,res) => {
 
     const createdAddress = await addAddress(userId,addressData);
 
+    console.log(createdAddress)
     sendResponse(
         res,
         {message:"Address added successfully", data:createdAddress},

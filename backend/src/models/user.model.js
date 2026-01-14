@@ -26,13 +26,17 @@ const userSchema = new mongoose.Schema(
       minlength: 6,
       select: false,
     },
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
+    },
     googleId: {
       type: String,
     },
     phone: {
       type: String,
       default: null,
-      unique: true,
     },
     avatar: { 
       type: String, 
@@ -56,39 +60,41 @@ const userSchema = new mongoose.Schema(
     refreshToken: [{
       type: String
     }],
-    referralCode: {
-      type: String,
-      unique: true,
-      index: true,
-    },
-    referrerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-    referredUsers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    referralBonus: {
-      type: Number,
-      default: 0,
-    },
-    referralBonus: {
-      type: Number,
-      default: 0,
-    },
-    referralRewards: {
-      count: { type: Number, default: 0 },
-      amount: { type: Number, default: 0 },
-    },
+    // referralCode: {
+    //   type: String,
+    //   unique: true,
+    //   index: true,
+    // },
+    // referrerId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User",
+    // },
+    // referredUsers: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "User",
+    //   },
+    // ],
+    // referralBonus: {
+    //   type: Number,
+    //   default: 0,
+    // },
+    // referralBonus: {
+    //   type: Number,
+    //   default: 0,
+    // },
+    // referralRewards: {
+    //   count: { type: Number, default: 0 },
+    //   amount: { type: Number, default: 0 },
+    // },
 
     resetPasswordToken: { type: String },
     resetPasswordExpire: { type: Date },
   },
   { timestamps: true }
 );
+
+userSchema.index({ phone: 1 }, { unique: true, partialFilterExpression: { phone: { $ne: null } } });
 
 //asw
 // userSchema.pre('save', async function() {

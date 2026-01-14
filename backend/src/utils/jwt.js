@@ -26,11 +26,28 @@ export const setRefreshToken =(res,token) =>{
     })
 }
 
+export const setAdminRefreshToken =(res,token) =>{
+    res.cookie("adminRefreshToken",token,{
+        httpOnly:true,
+        secure:env.NODE_ENV === "production",
+        sameSite:"Strict"
+    })
+}
+
 export const setAccessToken =(res,token) =>{
     res.cookie("accessToken",token,{
         httpOnly:true,
         secure:env.NODE_ENV === "production",
         sameSite:"Strict"
+    })
+}
+
+export const setAdminAccessToken =(res,token) =>{
+    res.cookie("adminAccessToken",token,{
+        httpOnly:true,
+        secure:env.NODE_ENV === "production",
+        sameSite:"Strict",
+        maxAge: 15 * 60 * 1000
     })
 }
 

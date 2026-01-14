@@ -6,14 +6,27 @@ import LoginPage from "../features/user/account/components/LoginPage";
 import ForgotPasswordPage from "../features/user/account/components/ForgotPasswordPage";
 import SetNewPasswordPage from "../features/user/account/components/SetNewPasswordPage";
 import PasswordResetSent from "../features/user/account/components/passwordLinkSuccess";
-import ServiceListing from "../features/user/services/ServiceListing";
-import UserDashboardPage from "../features/user/userDashboardPage";
+// import ServiceListing from "../features/user/services/ServiceListing";
+// import UserDashboardPage from "../features/user/userDashboardPage";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import UserProfile from "../features/user/profile/UserProfile";
-import MyProfile from "../features/user/profile/myProfile/MyProfile";
+// import MyProfile from "../features/user/profile/myProfile/MyProfile";
 import ChangePassword from "../features/user/profile/ChangePassword/ChangePassword";
-import MyAddresses from "../features/user/profile/myAddresses/MyAddresses";
-import UserLayout from "../layouts/userLayout";
+// import MyAddresses from "../features/user/profile/myAddresses/MyAddresses";
+import * as Pages from "./LazyPages"
+import { Suspense } from "react";
+
+const PageLoader = () => (
+  <div className="flex justify-center items-center h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+  </div>
+);
+
+const withSuspense = (Component) => (
+  <Suspense fallback={<PageLoader />}>
+    <Component />
+  </Suspense>
+);
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +46,10 @@ export const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
+    path: "admin/login",
+    element:withSuspense(Pages.AdminLoginPage)
+  },
+  {
     path: "/auth/forgot-password",
     element: <ForgotPasswordPage />,
   },
@@ -49,11 +66,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <UserDashboardPage />,
+        element: withSuspense(Pages.UserDashboardPage),
         children: [
           {
             path: "/services",
-            element: <ServiceListing/>
+            element: withSuspense(Pages.ServiceListing )
           },
           {
             path: "/profile",
@@ -61,7 +78,7 @@ export const router = createBrowserRouter([
             children :[
               {
                 path:"my-profile",
-                element: <MyProfile/>
+                element: withSuspense(Pages.MyProfile)
               },
               {
                 path:"change-password",
@@ -69,7 +86,7 @@ export const router = createBrowserRouter([
               },
               {
                 path:"my-address",
-                element:<MyAddresses/>
+                element:withSuspense(Pages.MyAddresses)
               }
             ]
           }

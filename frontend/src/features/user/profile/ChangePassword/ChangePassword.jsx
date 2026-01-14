@@ -48,8 +48,8 @@ const ChangePassword = () => {
   return (
     <div className="flex-1 bg-white min-h-screen p-8 font-sans">
       
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-slate-900">Security Settings</h1>
+      <div className="mb-8 max-w-3xl mx-auto  ">
+        <h1 className=" text-2xl font-bold text-slate-900">Security Settings</h1>
         <p className="text-sm text-gray-500 mt-1">
           Update your password to keep your account secure.
         </p>
@@ -57,7 +57,7 @@ const ChangePassword = () => {
 
       <form 
         onSubmit={handleSubmit(onSubmit)} 
-        className="max-w-3xl mx-auto bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
+        className="max-w-3xl  mx-auto bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
       >
         
         <div className="h-32 bg-emerald-50/60 w-full flex items-end p-6">

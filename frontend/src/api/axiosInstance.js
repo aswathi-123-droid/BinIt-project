@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:5000/api/v1",
+  baseURL:import.meta.env.VITE_API_URL || "http://localhost:5000/api/v1",
   withCredentials: true
 })
 
@@ -12,12 +12,16 @@ api.interceptors.response.use(
 
     
     if (error.response?.status === 401 && !originalRequest._retry &&
-      !originalRequest.url.includes("/auth/refresh-token")) {
-
+      !originalRequest.url.includes("/auth/refresh-token"))
+       {
+        console.log(originalRequest.url)
         if(originalRequest.url.includes("/auth/login")||
           originalRequest.url.includes("/auth/register")||
           originalRequest.url.includes("/auth/verify-otp"))
-          return Promise.reject(error);
+          {
+               return Promise.reject(error);
+          }
+         
 
 
 
@@ -37,9 +41,6 @@ api.interceptors.response.use(
         return api(originalRequest);
       } catch (refreshError) {
         
-        if (!window.location.pathname.includes("/auth/login")) {
-            window.location.href = "/auth/login";
-        }
         return Promise.reject(refreshError);
       }
     }

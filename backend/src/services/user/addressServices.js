@@ -12,6 +12,7 @@ export const addAddress = async(userId,addressData) => {
         userId,
         ...addressData,
     })
+    
     return newAddress;
 };
 
