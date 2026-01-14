@@ -1,0 +1,26 @@
+import { lazy } from "react";
+
+
+export const AdminLoginPage = lazy(() => 
+  import("../features/admin/auth/adminLoginPage")
+)
+
+export const UserDashboardPage = lazy(() =>
+  import("../features/user/userDashboardPage")
+)
+
+export const ServiceListing = lazy(()=>
+  import("../features/user/services/ServiceListing")
+)
+
+export const MyProfile = lazy(()=> 
+  import("../features/user/profile/myProfile/MyProfile")
+)
+
+export const MyAddresses = lazy(()=> 
+  import("../features/user/profile/myAddresses/MyAddresses")
+)
+
+
+
+
