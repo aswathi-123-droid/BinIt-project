@@ -3,12 +3,15 @@ import { useForm } from 'react-hook-form';
 import { Leaf, Eye, EyeOff } from 'lucide-react';
 import { api } from '../../../api/axiosInstance';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser } from '../../user/account/authSlice';
+import { loginAdmin } from './adminSlice';
 
 const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate()
-  const user = useSelector((state)=>state.auth.user)
+  const admin = useSelector((state)=>state.adminAuth.admin)
+  const dispatch = useDispatch()
   // Initialize useForm
   const {
     register,
@@ -21,19 +24,23 @@ const AdminLogin = () => {
     }
   });
 
+
   const onSubmit = async(data) => {
    console.log("Admin Login Data:", data);
     try{
-       const res = await api.post("/admin/auth/login",data);
+       await dispatch(loginAdmin(data)).unwrap()
        alert("admin login successful")
+       navigate("/admin/dashboard")
     }catch(err){
       alert(err)
     }
   };
 
     useEffect(() => {
-    if (user?.role=="admin") navigate("/admin/dashboard");
-  });
+    if (admin?.role=="admin") 
+      navigate("/admin/dashboard");
+      
+  },[admin]);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-4 font-sans text-gray-800">

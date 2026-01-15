@@ -7,7 +7,7 @@ export const loginAdmin = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       // Endpoint matches the admin route structure discussed earlier
-      const res = await api.post("/admin/login", credentials);
+      const res = await api.post("/admin/auth/login", credentials);
       // Expected response structure: { data: { admin: { ... } } }
       return res.data.admin;
     } catch (err) {
@@ -29,11 +29,24 @@ export const logoutAdmin = createAsyncThunk(
   }
 );
 
+export const getAdminProfile = createAsyncThunk(
+  "auth/getAdminProfile",
+  async(_,{ rejectWithValue })=>{
+    try{
+      const res = await api.get("/admin/users/profile");
+      return res.data?.admin
+    }catch(err) {
+      return rejectWithValue(err.response?.data?.message || "Request failed");
+    }
+  }
+)
+
 const initialState = {
   admin: null,
-  loading: false,
+  loading: true,
   error: null,
   success: false,
+  message:""
 };
 
 const adminAuthSlice = createSlice({
@@ -78,7 +91,23 @@ const adminAuthSlice = createSlice({
         state.admin = null;
         state.success = false;
         state.error = null;
-      });
+      })
+        .addCase(getAdminProfile.pending, (state) =>{
+              state.loading = true;
+              state.error = null;
+              state.message = null;
+            })
+            .addCase(getAdminProfile.fulfilled,(state,action)=>{
+            
+              state.loading = false;
+              state.message = action.payload;
+              state.admin = action.payload
+              state.success = true;
+            })
+            .addCase(getAdminProfile.rejected, (state, action) => {
+              state.loading = false;
+              state.error = action.payload;
+            })
   },
 });
 

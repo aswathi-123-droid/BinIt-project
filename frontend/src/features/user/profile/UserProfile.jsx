@@ -4,13 +4,16 @@ import ProfileSidebar from "./components/ProfileSideBar";
 import React from 'react'
 
 function UserProfile() {
+
+
+
   return (
    
-    <div className=" w-full"> 
-       <div className="flex justify-center ">
-      <ProfileSidebar></ProfileSidebar>
-      <Outlet></Outlet>
-        </div>
+    <div className="flex w-full">
+      <ProfileSidebar />
+      <main className="grow p-6">
+        <Outlet />
+      </main>
     </div>
   
   )

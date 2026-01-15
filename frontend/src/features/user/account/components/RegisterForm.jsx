@@ -100,7 +100,20 @@ const RegisterForm = () => {
               {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
             </div>
 
-           
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+              <input
+                type="tel"
+                placeholder="e.g., +1 (555) 123-4567"
+                className={`w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+                {...register("phone", { 
+                  required: "Phone Number is required",
+                  pattern: {value: /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/,message: "Invalid phone number format"}
+                })}
+              />
+              {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
+            </div>
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
               <input

@@ -11,7 +11,7 @@ export const getAccountDetails = async(userId) =>{
     const user = await User.findOne({
         _id:userId,
         isBlocked:false
-    }).select("_id name email phone");
+    }).select("_id name email phone role");
 
     if(!user)
       throw new AppError(

@@ -13,11 +13,12 @@ export const ProtectedRoutes=()=>{
        return <h1>Loading....</h1>
     }
     
-    if(!user){
+    if(user && user.role ==="user"){
         console.log("Login")
-        return <Navigate to = "/auth/login" replace></Navigate>
+         return <Outlet></Outlet>
     }else{
         console.log("Inside")
-       return <Outlet></Outlet>
+          return <Navigate to = "/auth/login" replace></Navigate>
+    
     }
 }

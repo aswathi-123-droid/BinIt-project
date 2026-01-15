@@ -9,17 +9,22 @@ import PasswordResetSent from "../features/user/account/components/passwordLinkS
 // import ServiceListing from "../features/user/services/ServiceListing";
 // import UserDashboardPage from "../features/user/userDashboardPage";
 import { ProtectedRoutes } from "./ProtectedRoutes";
-import UserProfile from "../features/user/profile/UserProfile";
+// import UserProfile from "../features/user/profile/UserProfile";
 // import MyProfile from "../features/user/profile/myProfile/MyProfile";
 import ChangePassword from "../features/user/profile/ChangePassword/ChangePassword";
 // import MyAddresses from "../features/user/profile/myAddresses/MyAddresses";
 import * as Pages from "./LazyPages"
 import { Suspense } from "react";
+import AdminProtectedRoute from "./AdminProtectedRoutes";
+import AdminLayout from "../layouts/AdminLayout";
+import Dashboard from "../features/admin/dashboard/AdminDashboard";
+import AdminLogin from "../features/admin/auth/adminLoginPage"
+import UserManagement from "../features/admin/customerManagement/UserManagement"
 
 const PageLoader = () => (
-  <div className="flex justify-center items-center h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-  </div>
+    <div className="flex justify-center items-center h-screen">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+    </div>
 );
 
 const withSuspense = (Component) => (
@@ -46,10 +51,6 @@ export const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: "admin/login",
-    element:withSuspense(Pages.AdminLoginPage)
-  },
-  {
     path: "/auth/forgot-password",
     element: <ForgotPasswordPage />,
   },
@@ -74,7 +75,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "/profile",
-            element: <UserProfile/>,
+            element: withSuspense(Pages.UserProfile),
             children :[
               {
                 path:"my-profile",
@@ -93,5 +94,28 @@ export const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    element: <AdminProtectedRoute/>,
+    children: [
+      {
+        path: "/admin",
+        element: <AdminLayout />,
+        children: [
+          {
+            path:  "dashboard",
+            element: <Dashboard/>
+          },
+          {
+            path: "users",
+            element: <UserManagement/>
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: "admin/login",
+    element:<AdminLogin/>
   },
 ]);

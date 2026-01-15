@@ -11,6 +11,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+
 const ProfileSidebar = () => {
   const [activeItem, setActiveItem] = useState('My Profile');
   const navigate = useNavigate()
@@ -26,7 +27,7 @@ const ProfileSidebar = () => {
   ];
 
   return (
-    <aside className="w-72 min-h-screen bg-gray-50/30 p-6 flex flex-col gap-6 font-sans">
+    <aside className="w-72 min-h-screen bg-gray-50/30 p-6 flex flex-col gap-6 font-sans relative">
       
       
       <div className="flex items-center gap-4 px-2 mb-4">

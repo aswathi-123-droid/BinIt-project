@@ -3,17 +3,21 @@ import { Navigate, Outlet } from "react-router-dom";
 
 
 const AdminProtectedRoute = ()=>{
-   const { user, loading} = useSelector(state => state.auth);
+   const { admin, loading} = useSelector(state => state.adminAuth);
+   console.log(admin)
 
+   console.log(loading)
    if (loading) {
     return <div>Loading Admin Session...</div>;
    }
 
 
-   if (user && user.role === "admin") {
+   if (admin && admin.role === "admin") {
+      console.log("inside  dsh")
     return <Outlet />
    }else{
-    <Navigate to="/auth/login" replace></Navigate>
+      console.log("inside login")
+    return <Navigate to="/admin/login" replace></Navigate>
    }
 
 }

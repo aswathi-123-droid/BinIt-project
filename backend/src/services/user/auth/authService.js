@@ -11,7 +11,7 @@ import { sendVerificationOTP } from "./emailVerificationService.js";
 
 
 const registerUser = async (userData) =>{
-  const {fullName:name,email,password} = userData
+  const {fullName:name,email,phone,password} = userData
 
   const existingUser = await User.findOne({email})
 
@@ -24,6 +24,7 @@ const registerUser = async (userData) =>{
   const newUser = new User({
     name,
     email,
+    phone,
     password:hashedPassword,
   })
  
@@ -45,7 +46,7 @@ const registerUser = async (userData) =>{
 
 const loginUser = async(userData)=>{
   const {email,password} = userData
-  const user = await User.findOne({email}).select("_id name email +password imageId")
+  const user = await User.findOne({email}).select("_id name email +password imageId role phone")
   
 
   if(!user){

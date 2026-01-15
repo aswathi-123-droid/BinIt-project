@@ -22,7 +22,7 @@ export const sendResponse = (res, data, statusCode =STATUS_CODES.OK) => {
 
 export const buildUserQuery = ({status,search}) => {
   const query = {};
-
+  
   if(status){
     if(status === "blocked") {
       query.isBlocked = true;
@@ -45,10 +45,12 @@ export const buildUserQuery = ({status,search}) => {
 
 export const getPagination = (page= 1, limit= 10, maxLimit= 25) => {
   const pageNumber= parseInt(page);
+  
   const pageSize= Math.min(parseInt(limit),maxLimit);
+
   const skip = (pageNumber-1) * pageSize;
 
-  return (pageNumber,pageSize,skip);
+  return {pageNumber,pageSize,skip};
 }
 
 export const getSortOption = (sortBy = "createdAt", sortOrder = "desc") => ({

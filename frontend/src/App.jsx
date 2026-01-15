@@ -3,6 +3,7 @@ import { router } from "./routes/UserRoutes"
 import { getProfile } from "./features/user/account/authSlice"
 import { useDispatch } from "react-redux"
 import { useEffect } from "react";
+import { getAdminProfile } from "./features/admin/auth/adminSlice";
 import './App.css'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   
   useEffect(() => {
     dispatch(getProfile())
+    dispatch(getAdminProfile())
   }, [dispatch])
 
   return (

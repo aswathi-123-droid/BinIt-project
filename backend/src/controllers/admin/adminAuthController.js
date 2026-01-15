@@ -13,3 +13,4 @@ export const adminLoginController = async(req,res) => {
 
     sendResponse(res, { admin }, STATUS_CODES.OK);
 }
+

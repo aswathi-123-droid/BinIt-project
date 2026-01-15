@@ -43,12 +43,12 @@ const userSchema = new mongoose.Schema(
       default: "uploads/default-avatar.png" 
     },
 
-    addresses: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Address",
-      },
-    ],
+    // addresses: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Address",  
+    //   },
+    // ],
     isVerified: { 
       type: Boolean, 
       default: false 
