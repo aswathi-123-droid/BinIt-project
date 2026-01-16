@@ -9,6 +9,7 @@ const MyProfile = () => {
   const dispatch = useDispatch();
   const { user} = useSelector((state) => state.auth); 
   const [emailTrigger,setEmailTrigger] = useState(false);
+  const [newEmail,setNewEmail] = useState("")
   const [otpModal,setOtpModal] = useState(false)
   const [loading,setLoading] = useState(false)
   const {
@@ -45,6 +46,7 @@ const MyProfile = () => {
     try{
       if(dirtyFields.email){
      setOtpModal(true)
+     setNewEmail(data.email)
      const res = await api.patch("/account/update-details",data)
     }
     else{
@@ -54,7 +56,7 @@ const MyProfile = () => {
         setLoading(false)
          dispatch(getProfile()).unwrap()
     }
-   
+    
     }catch(err){
       alert(err)
     }
@@ -133,7 +135,7 @@ const MyProfile = () => {
       </form>
       </div>
 
-      <OtpVerifyModal isOpen={otpModal} onClose={onClose}></OtpVerifyModal>
+      <OtpVerifyModal isOpen={otpModal} onClose={onClose} email={newEmail}></OtpVerifyModal>
     </div>
   );
 };

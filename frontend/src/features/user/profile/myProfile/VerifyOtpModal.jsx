@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, ShieldCheck, ArrowRight } from 'lucide-react';
 import { api } from '../../../../api/axiosInstance';
 import { useDispatch } from 'react-redux';
@@ -8,11 +8,41 @@ const OtpVerifyModal = ({ isOpen, onClose, email}) => {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [timer,setTimer] = useState(60);
+  const [canResend,setCanResend] = useState(false)
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    let interval;
+    if(timer>0){
+      interval = setInterval(()=>{
+        setTimer((prev)=>prev-1);
+      },1000)
+    }else{
+      setCanResend(true);
+      clearInterval(interval)
+    }
+    return ()=> clearInterval(interval)
+  },[timer])
 
   if (!isOpen) return null;
 
- 
+  
+  const handleResendOtp = async()=>{
+     try {
+       // Dispatch your resend OTP thunk
+       const res = await api.post("/account/request-email-otp",{email})
+       // Reset state on success
+       setOtp(""); // Clear previous OTP inputs
+       setTimer(60); // Restart countdown
+       setCanResend(false);
+       alert("Verification code resent successfully!");
+       return res.data
+     } catch (err) {
+       alert(err || "Failed to resend OTP");
+     }
+  }
+
   const handleVerify = async (e) => {
    
     e.preventDefault();
@@ -62,7 +92,7 @@ const OtpVerifyModal = ({ isOpen, onClose, email}) => {
           </p>
 
           <form onSubmit={handleVerify}>
-            <div className="mb-8">
+            <div className="mb-3">
               <label className="sr-only">One-Time Password</label>
               <input
                 type="text"
@@ -77,7 +107,22 @@ const OtpVerifyModal = ({ isOpen, onClose, email}) => {
               />
               {error && <p className="mt-2 text-center text-sm text-red-500 font-medium animate-pulse">{error}</p>}
             </div>
-
+            <div className="flex flex-col items-end min-h-10">
+            {/* 5. Conditional rendering for timer vs button */}
+            {!canResend ? (
+              <p className="text-gray-500">
+                Resend code in <span className="font-bold text-emerald-600">{timer}s</span>
+              </p>
+            ) : (
+              <button 
+                type="button" 
+                onClick={handleResendOtp}
+                className="text-emerald-600 font-bold hover:text-emerald-700 hover:underline "
+              >
+                Resend OTP
+              </button>
+            )}
+          </div>
             <div className="flex flex-col gap-3">
               <button
                 type="submit"

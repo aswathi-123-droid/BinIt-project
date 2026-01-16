@@ -13,6 +13,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
 import Pagination from "../../../components/admin/Pagination";
+import AdminNavbar from "../components/AdminNavbar";
 
 const UserManagement = () => {
   // Stat data from provided UI 
@@ -221,7 +222,7 @@ const UserManagement = () => {
                       className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold ${
                         !user.isBlocked
                           ? "bg-emerald-50 text-emerald-600 w-20"
-                          : "bg-red-50 text-red-500"
+                          : "bg-red-50 text-red-500 w-20"
                       }`}
                     >
                       

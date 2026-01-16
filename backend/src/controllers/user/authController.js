@@ -1,4 +1,4 @@
-import {registerUser , loginUser} from "../../services/user/auth/authService.js"
+import {registerUser , loginUser, logoutUser} from "../../services/user/auth/authService.js"
 import { resendVerificationOTP, sendVerificationOTP, verifyEmailOTP } from "../../services/user/auth/emailVerificationService.js"
 import { refreshAccessToken } from "../../services/user/auth/tokenService.js"
 import { AppError, sendResponse } from "../../utils/appError.js"
@@ -110,3 +110,33 @@ export const resendResetOTPController = async (req, res) => {
 
   sendResponse(res,{ message: "Password reset OTP resent successfully" }, STATUS_CODES.OK);
 };
+
+export const logoutController = async (req,res) => {
+   const userId = req.user._id;
+
+   if (!userId) {
+    throw new AppError(
+      STATUS_CODES.UNAUTHORIZED,
+      "UNAUTHORIZED",
+      "User not authenticated."
+    );
+  }
+   const refreshToken = req.cookies?.refreshToken;
+
+   const result = await logoutUser(userId,refreshToken);
+
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "Strict",
+  });
+
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "Strict",
+  });
+
+  sendResponse(res,result,STATUS_CODES.OK)
+
+}

@@ -4,7 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaLeaf } from 'react-icons/fa';  
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../authSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const {
@@ -16,7 +16,7 @@ const RegisterForm = () => {
   
   
   const dispatch = useDispatch();
-  const {message,loading} = useSelector((state)=>state.auth)
+  const {loading} = useSelector((state)=>state.auth)
   const navigate = useNavigate()
   const password = watch("password");
 
@@ -164,12 +164,11 @@ const RegisterForm = () => {
             >
               {loading?"loading...":"Create Account"}
             </button>
-            <p>{message}</p>
           </form>
 
           
           <p className="text-center text-sm text-gray-600 mt-6">
-            Already have an account? <a href="/login" className="text-emerald-600 font-medium hover:underline">Log in</a>
+            Already have an account? <Link to="/auth/login" className="text-emerald-600 font-medium hover:underline">Log in</Link>
           </p>
         </div>
       </main>

@@ -203,7 +203,7 @@ export const resendResetOTP = async (email) => {
 
   await Otp.deleteMany({
     userId: user._id,
-    type: "password-reset",
+    type: "verification",
   });
 
   const otpCode = Math.floor(100000 + Math.random() * 900000).toString();

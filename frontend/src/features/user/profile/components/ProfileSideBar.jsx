@@ -9,12 +9,15 @@ import {
   LogOut 
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { api } from '../../../../api/axiosInstance';
+import { logout } from '../../account/authSlice';
 
 
 const ProfileSidebar = () => {
   const [activeItem, setActiveItem] = useState('My Profile');
   const navigate = useNavigate()
+  const dispatch = useDispatch();
   const { user} = useSelector((state) => state.auth);
 
   const menuItems = [
@@ -25,6 +28,16 @@ const ProfileSidebar = () => {
     { name: 'My Coupon', icon: Tag },
     { name: 'Change Password', icon: Lock },
   ];
+  
+
+  const handleLogout = async()=>{
+    try{
+      const res = await api.post("/auth/logout");
+      dispatch(logout());
+    }catch(err){
+      alert("error occurred")
+    }
+  }
 
   return (
     <aside className="w-72 min-h-screen bg-gray-50/30 p-6 flex flex-col gap-6 font-sans relative">
@@ -70,7 +83,7 @@ const ProfileSidebar = () => {
         <div className="my-4 border-t border-gray-100"></div>
 
         
-        <button className="flex items-center gap-4 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-colors group">
+        <button onClick={handleLogout} className="flex items-center gap-4 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 transition-colors group">
           <LogOut size={20} className="group-hover:translate-x-1 transition-transform" />
           <span className="text-sm font-bold">Log Out</span>
         </button>

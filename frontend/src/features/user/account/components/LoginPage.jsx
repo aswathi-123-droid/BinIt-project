@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc'; // Google Icon
 import { FiLogIn } from 'react-icons/fi';  // Login Icon placeholder
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../authSlice';
 import { setForgetPassword } from '../authSlice';
 
@@ -16,13 +16,13 @@ const LoginPage = () => {
   
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(state=>state.auth.user);
+  const {user, loading} = useSelector(state=>state.auth);
   useEffect(()=>{
 
-    if(user)
+    if(!loading && user)
       navigate("/services")
 
-  },[user])
+  },[user,loading,navigate])
 
   
   const onSubmit = async(data) => {
@@ -133,7 +133,7 @@ const LoginPage = () => {
 
         
         <p className="text-center text-xs text-gray-600 mt-6">
-          Don't have an account? <a href="/signup" className="text-emerald-600 font-bold hover:underline">Sign up</a>
+          Don't have an account? <Link to="/auth/register" className="text-emerald-600 font-bold hover:underline">Sign up</Link>
         </p>
 
       </div>

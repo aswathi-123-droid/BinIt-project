@@ -19,17 +19,17 @@ export const updatePersonalDetailsController = async(req,res) =>{
     },STATUS_CODES.OK)
 }
 
-// export const requestEmailOtpController = async(req,res) => {
-//     const userId = req.user._id;
-//     const {newEmail} = req.body;
+export const requestEmailOtpController = async(req,res) => {
+    const userId = req.user._id;
+    const {email} = req.body;
+    console.log(email,"jimbooo")
+    const result = await requestEmailChange(userId,email);
 
-//     const result = await requestEmailChange(userId,newEmail);
-
-//     sendResponse(res, {
-//       message: "OTP sent successfully",
-//       data: result,
-//     });
-// }
+    sendResponse(res, {
+      message: "OTP sent successfully",
+      data: result,
+    });
+}
 
 export const verfyEmailOtpController = async(req,res) => {
     

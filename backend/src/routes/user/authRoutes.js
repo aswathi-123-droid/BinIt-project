@@ -6,9 +6,11 @@ import { registerUserController,
         forgotPasswordController,
         resetPasswordController,
         resendVerificationOTPController,
-        resendResetOTPController} from "../../controllers/user/authController.js"
+        resendResetOTPController,
+        logoutController} from "../../controllers/user/authController.js"
 import { validate } from "../../middlewares/common/validate.middleware.js"
 import { registerSchema , loginSchema, verifyOTPSchema, forgotPasswordSchema, resetPasswordSchema, resendOtpSchema} from "../../validators/user/authValidators.js"
+import { authenticateUser } from "../../middlewares/user/authenticate-user.js"
 
 const router = express.Router()
 
@@ -21,5 +23,6 @@ router.post("/forgot-password",validate(forgotPasswordSchema),forgotPasswordCont
 router.post("/reset-password",validate(resetPasswordSchema),resetPasswordController)
 router.post("/resend-verification-otp",validate(resendOtpSchema),resendVerificationOTPController)
 router.post("/resend-reset-otp",validate(resendOtpSchema),resendResetOTPController)
+router.post("/logout",authenticateUser,logoutController)
 
 export default router

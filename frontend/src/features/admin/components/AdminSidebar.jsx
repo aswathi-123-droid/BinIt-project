@@ -10,12 +10,25 @@ import {
   Leaf
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../../api/axiosInstance';
+import { useDispatch } from 'react-redux';
+import { clearAdminState } from '../auth/adminSlice';
 
 const AdminSidebar = () => {
   // Set 'Users' as the default active item based on the design
   const [activeItem, setActiveItem] = useState('Users');
+  const dispatch = useDispatch()
   const navigate=useNavigate();
-
+  
+  const handleAdminLogout = async()=>{
+    try{
+      const res = await api.post("/admin/auth/admin-logout")
+      dispatch(clearAdminState());
+      
+    }catch(err){
+      alert(err)
+    }
+  }
 
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard },
@@ -67,7 +80,7 @@ const AdminSidebar = () => {
 
       {/* Logout Button (Bottom Aligned) */}
       <div className="p-4 border-t border-slate-800">
-        <button className="w-full flex items-center gap-4 px-4 py-4 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-colors group">
+        <button onClick={handleAdminLogout} className="w-full flex items-center gap-4 px-4 py-4 rounded-xl text-slate-400 hover:bg-red-500/10 hover:text-red-400 transition-colors group">
           <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
           <span className="text-sm font-medium">Logout</span>
         </button>

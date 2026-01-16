@@ -11,7 +11,8 @@ function App() {
   
   useEffect(() => {
     dispatch(getProfile())
-    dispatch(getAdminProfile())
+    console.log("Cachee")
+    // dispatch(getAdminProfile())
   }, [dispatch])
 
   return (

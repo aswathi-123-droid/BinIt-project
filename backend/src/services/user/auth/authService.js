@@ -71,8 +71,31 @@ const loginUser = async(userData)=>{
   return {user:userObj,accessToken,refreshToken}
 }
 
+const logoutUser = async (userId, refreshToken) => {
+  if (!refreshToken) return;
+
+  const user = await User.findOne({
+    _id: userId,
+    refreshToken,
+  });
+
+  if (!user) {
+    throw new AppError(
+      STATUS_CODES.NOT_FOUND,
+      "USER_NOT_FOUND",
+      "User does not exist."
+    );
+  }
+
+  user.refreshToken = null;
+  await user.save();
+
+  return { message: "User successfully logged out." };
+};
+
 export { 
         registerUser ,
-        loginUser
+        loginUser ,
+        logoutUser
        }
 
