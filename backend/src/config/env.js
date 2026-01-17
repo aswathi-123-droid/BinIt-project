@@ -37,6 +37,8 @@ const envSchema = z.object({
   SMTP_FROM: z.string().min(1),
   REDIS_HOST: z.string().min(1, "REDIS_HOST is required"),
   REDIS_PORT: z.string().min(1, "REDIS_PORT is required"),
+  VITE_GOOGLE_CLIENT_ID: z.string().min(1, "Google Client ID is required"),
+  GOOGLE_CLIENT_SECRET: z.string().min(1, "Google Client Secret is required"),
 });
 
 export const env = envSchema.parse(process.env);

@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     dispatch(getProfile())
     console.log("Cachee")
-    // dispatch(getAdminProfile())
+    dispatch(getAdminProfile())
   }, [dispatch])
 
   return (

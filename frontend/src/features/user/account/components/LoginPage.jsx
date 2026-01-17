@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { FcGoogle } from 'react-icons/fc'; // Google Icon
-import { FiLogIn } from 'react-icons/fi';  // Login Icon placeholder
+import { FiLogIn } from 'react-icons/fi';  
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../authSlice';
-import { setForgetPassword } from '../authSlice';
+import { GoogleLogin } from '@react-oauth/google';
+import { googleLogin } from '../authSlice';
+
 
 const LoginPage = () => {
   const {
@@ -26,29 +27,24 @@ const LoginPage = () => {
 
   
   const onSubmit = async(data) => {
-    // console.log("Login Data:", data);
     try{
      await dispatch(loginUser(data)).unwrap()
-     navigate("/services");
+     navigate("/services",{replace:true});
     }catch(err){
      alert(err)
     }
-  };
-
-  const handleGoogleLogin = () => {
-    console.log("Trigger Google Login...");
   };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 font-sans text-gray-800">
       <div className="bg-white w-full max-w-100 p-8 rounded-2xl shadow-lg border border-gray-100">
         
-        {/* Header Icon */}
+
         <div className="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4">
           <FiLogIn className="text-xl text-emerald-500" />
         </div>
 
-        {/* Title */}
+ 
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
           <p className="text-sm text-gray-500 mt-1">
@@ -56,14 +52,19 @@ const LoginPage = () => {
           </p>
         </div>
 
-        {/* Google Login Button */}
-        <button
-          onClick={handleGoogleLogin}
-          className="w-full flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2.5 hover:bg-gray-50 transition mb-6"
-        >
-          <FcGoogle className="text-xl" />
-          <span className="text-sm font-medium text-gray-700">Continue with Google</span>
-        </button>
+
+        <GoogleLogin
+          onSuccess={(credentialResponse) => {
+          dispatch(googleLogin(credentialResponse.credential));
+          navigate("/services"); 
+          }}
+          onError={() => {
+            alert("Google Login Failed");
+          }}
+          width="320px" 
+          theme="outline"
+          shape="rectangular"
+        />
 
         {/* Divider */}
         <div className="relative flex py-2 items-center mb-6">

@@ -104,7 +104,6 @@ const UserManagement = () => {
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen font-sans">
-      {/* Stats Grid (Static for now) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, index) => (
           <div
@@ -127,7 +126,6 @@ const UserManagement = () => {
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        {/* Filter Controls */}
         <div className="p-6 border-b border-gray-50 space-y-4">
           <div className="flex flex-wrap items-center gap-4">
             <button
@@ -180,7 +178,7 @@ const UserManagement = () => {
               />
               {search && (
                 <button
-                  onClick={() => setSearch("")} // Requirement ii: Clear/Cancel Button
+                  onClick={() => setSearch("")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600"
                 >
                   <X size={14} />
@@ -190,7 +188,7 @@ const UserManagement = () => {
           </div>
         </div>
 
-        {/* Table */}
+       
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
@@ -232,7 +230,6 @@ const UserManagement = () => {
                         }`}
                       ></span>
 
-                      {/* Status Text */}
                       {!user.isBlocked ? "Active" : "Blocked"}
                     </span>
                   </td>

@@ -13,14 +13,11 @@ const AdminLayout = () => {
   const currentTitle = titleMap[location.pathname] || 'Dashboard';
     return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
-      {/* Shared Admin Sidebar */}
       <AdminSidebar />
       
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Shared Admin Navbar */}
         <AdminNavbar pageTitle={currentTitle}/>
         
-        {/* Dynamic Admin Content */}
         <main className="p-8">
           <Outlet />
         </main>

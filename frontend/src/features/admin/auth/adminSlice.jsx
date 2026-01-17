@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { api } from "../../../api/axiosInstance";
 
-// Admin Login Thunk
+
 export const loginAdmin = createAsyncThunk(
   "adminAuth/loginAdmin",
   async (credentials, { rejectWithValue }) => {
     try {
-      // Endpoint matches the admin route structure discussed earlier
       const res = await api.post("/admin/auth/login", credentials);
-      // Expected response structure: { data: { admin: { ... } } }
       return res.data.admin;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Admin login failed");
@@ -16,7 +14,7 @@ export const loginAdmin = createAsyncThunk(
   }
 );
 
-// Admin Logout Thunk (Optional: if you need to clear server-side cookies)
+
 export const logoutAdmin = createAsyncThunk(
   "adminAuth/logoutAdmin",
   async (_, { rejectWithValue }) => {
@@ -53,7 +51,6 @@ const adminAuthSlice = createSlice({
   name: "adminAuth",
   initialState,
   reducers: {
-    // Local clear for the admin session
     clearAdminState: (state) => {
       state.admin = null;
       state.loading = false;

@@ -2,9 +2,9 @@ import { lazy } from "react";
 
 
 
-// export const AdminLoginPage = lazy(() => 
-//   import("../features/admin/auth/adminLoginPage")
-// )
+export const AdminLoginPage = lazy(() => 
+  import("../features/admin/auth/adminLoginPage")
+)
 
 export const UserDashboardPage = lazy(() =>
   import("../features/user/userDashboardPage")
@@ -26,9 +26,9 @@ export const MyAddresses = lazy(()=>
   import("../features/user/profile/myAddresses/MyAddresses")
 )
 
-// export const UserManagement = lazy(()=> 
-//   import("../features/admin/customerManagement/UserManagement")
-// )
+export const UserManagement = lazy(()=> 
+  import("../features/admin/customerManagement/UserManagement")
+)
 
 
 

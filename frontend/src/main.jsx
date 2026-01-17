@@ -7,16 +7,19 @@ import { store } from './app/store.js'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import {GoogleOAuthProvider} from '@react-oauth/google'
 
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
   <Provider  store={store}>
-    <QueryClientProvider client={queryClient}>
-      <App />
-      <ReactQueryDevtools initialIsOpen={false} />
-    </QueryClientProvider>
+    <GoogleOAuthProvider clientId='144401818790-umrl6fg4ggf2j8dbe96jfus54od216de.apps.googleusercontent.com'>
+      <QueryClientProvider client={queryClient}>
+        <App />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
   </Provider>
   // </StrictMode>,
 )

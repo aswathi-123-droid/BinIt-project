@@ -6,20 +6,14 @@ import LoginPage from "../features/user/account/components/LoginPage";
 import ForgotPasswordPage from "../features/user/account/components/ForgotPasswordPage";
 import SetNewPasswordPage from "../features/user/account/components/SetNewPasswordPage";
 import PasswordResetSent from "../features/user/account/components/passwordLinkSuccess";
-// import ServiceListing from "../features/user/services/ServiceListing";
-// import UserDashboardPage from "../features/user/userDashboardPage";
 import { ProtectedRoutes } from "./ProtectedRoutes";
-// import UserProfile from "../features/user/profile/UserProfile";
-// import MyProfile from "../features/user/profile/myProfile/MyProfile";
 import ChangePassword from "../features/user/profile/ChangePassword/ChangePassword";
-// import MyAddresses from "../features/user/profile/myAddresses/MyAddresses";
 import * as Pages from "./LazyPages"
 import { Suspense } from "react";
 import AdminProtectedRoute from "./AdminProtectedRoutes";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../features/admin/dashboard/AdminDashboard";
-import AdminLogin from "../features/admin/auth/adminLoginPage"
-import UserManagement from "../features/admin/customerManagement/UserManagement"
+
 
 const PageLoader = () => (
     <div className="flex justify-center items-center h-screen">
@@ -108,7 +102,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "users",
-            element: <UserManagement/>
+            element: withSuspense(Pages.UserManagement)
           }
         ]
       }
@@ -116,6 +110,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "admin/login",
-    element:<AdminLogin/>
+    element:withSuspense(Pages.AdminLoginPage)
   },
 ]);

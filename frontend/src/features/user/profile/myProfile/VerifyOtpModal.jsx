@@ -30,11 +30,9 @@ const OtpVerifyModal = ({ isOpen, onClose, email}) => {
   
   const handleResendOtp = async()=>{
      try {
-       // Dispatch your resend OTP thunk
        const res = await api.post("/account/request-email-otp",{email})
-       // Reset state on success
-       setOtp(""); // Clear previous OTP inputs
-       setTimer(60); // Restart countdown
+       setOtp(""); 
+       setTimer(60);
        setCanResend(false);
        alert("Verification code resent successfully!");
        return res.data
@@ -44,16 +42,7 @@ const OtpVerifyModal = ({ isOpen, onClose, email}) => {
   }
 
   const handleVerify = async (e) => {
-   
     e.preventDefault();
-    // if (!otp || otp.length < 4) {
-    //   setError('Please enter a valid OTP/Code');
-    //   return;
-    // }
-    
-    // setError('');
-    // setLoading(true);
-       
     try {
       console.log(otp)
      const data = await api.post("/account/verify-email-otp",{otp})
@@ -108,7 +97,6 @@ const OtpVerifyModal = ({ isOpen, onClose, email}) => {
               {error && <p className="mt-2 text-center text-sm text-red-500 font-medium animate-pulse">{error}</p>}
             </div>
             <div className="flex flex-col items-end min-h-10">
-            {/* 5. Conditional rendering for timer vs button */}
             {!canResend ? (
               <p className="text-gray-500">
                 Resend code in <span className="font-bold text-emerald-600">{timer}s</span>

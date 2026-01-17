@@ -2,15 +2,15 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaLock } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
-import { verifyEmail } from '../authSlice'; // Ensure resendOtp thunk exists
+import { verifyEmail } from '../authSlice'; 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../../../../api/axiosInstance';
 
 const VerifyEmail = () => {
   const { handleSubmit } = useForm();
   const [otp, setOtp] = useState(new Array(6).fill(""));
-  const [timer, setTimer] = useState(60); // 1. Timer state (60 seconds)
-  const [canResend, setCanResend] = useState(false); // 2. Resend toggle
+  const [timer, setTimer] = useState(60); 
+  const [canResend, setCanResend] = useState(false); 
   const inputRefs = useRef([]);
   
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const VerifyEmail = () => {
   const location = useLocation();
   const email = location.state?.email;
 
-  // 3. Timer logic using useEffect
+ 
   useEffect(() => {
     let interval;
     if (timer > 0) {
@@ -26,20 +26,18 @@ const VerifyEmail = () => {
         setTimer((prev) => prev - 1);
       }, 1000);
     } else {
-      setCanResend(true); // Enable button when timer reaches 0
+      setCanResend(true); 
       clearInterval(interval);
     }
-    return () => clearInterval(interval); // Cleanup interval on unmount
+    return () => clearInterval(interval); 
   }, [timer]);
 
-  // 4. Resend OTP Handler
+  
   const handleResendOtp = async () => {
     try {
-      // Dispatch your resend OTP thunk
       const res = await api.post("/auth/resend-verification-otp",{email})
-      // Reset state on success
-      setOtp(new Array(6).fill("")); // Clear previous OTP inputs
-      setTimer(60); // Restart countdown
+      setOtp(new Array(6).fill("")); 
+      setTimer(60); 
       setCanResend(false);
       inputRefs.current[0].focus();
       alert("Verification code resent successfully!");
@@ -110,7 +108,6 @@ const VerifyEmail = () => {
           </div>
 
           <div className="flex justify-center text-xs px-1 mb-8">
-            {/* 5. Conditional rendering for timer vs button */}
             {!canResend ? (
               <p className="text-gray-500">
                 Resend code in <span className="font-bold text-emerald-600">{timer}s</span>

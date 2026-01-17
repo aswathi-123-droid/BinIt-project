@@ -5,6 +5,8 @@ import { FaLeaf } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../authSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import { googleLogin } from '../authSlice';
 
 const RegisterForm = () => {
   const {
@@ -58,10 +60,20 @@ const RegisterForm = () => {
           </div>
 
          
-          <button className="w-full flex items-center justify-center gap-2 border border-gray-300 rounded-lg py-2.5 hover:bg-gray-50 transition mb-6">
-            <FcGoogle className="text-xl" />
-            <span className="text-sm font-medium text-gray-700">Continue with Google</span>
-          </button>
+          <div className="w-full flex justify-center mb-6">
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                dispatch(googleLogin(credentialResponse.credential));
+                navigate("/services"); 
+              }}
+              onError={() => {
+                alert("Google Login Failed");
+              }}
+              width="320px" 
+              theme="outline"
+              shape="rectangular"
+            />
+          </div>  
 
          
           <div className="relative flex py-2 items-center mb-6">

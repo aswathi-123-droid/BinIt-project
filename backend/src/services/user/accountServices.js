@@ -51,14 +51,6 @@ export const updatePersonalDetails = async(userId,name,email=undefined) =>{
    
    
    if(email){
-    // const existingEmail = User.findOne({email})
-    // if(updatedUser.email === email || existingEmail)
-    //   throw new AppError(
-    //     STATUS_CODES.BAD_REQUEST,
-    //     "EMAIL_EXISTS",
-    //     "Email is already in use"
-    //  )
-
      await requestEmailChange(userId,email)
      return {message : "Email otp sent successfully"}
    }else{
@@ -97,17 +89,14 @@ export const requestEmailChange = async(userId,newEmail) =>{
     subject:"Verify Your New Email",
     html:`
       <p>Dear User,</p>
-      <p>We received a request to update the email address associated with your <strong>11Jersey.com</strong> account.</p>
+      <p>We received a request to update the email address associated with your <strong>BinIt.com</strong> account.</p>
       <p>Please use the One-Time Password (OTP) below to verify this change:</p>
       <h2 style="letter-spacing: 4px; font-size: 28px; margin: 12px 0;">${otp}</h2>
       <p>This OTP is valid for the next <strong>10 minutes</strong>.</p>
       <p>If you did not initiate this request, please ignore this message or contact our support team immediately.</p>
       <br/>
-      <p>Warm regards,<br/><strong>11Jersey.com Support Team</strong></p>`,
+      <p>Warm regards,<br/><strong>BinIt.com Support Team</strong></p>`,
     })
-
-    
-  //  return {message : "OTP sent to new Email"}
 }
 
 
@@ -115,12 +104,12 @@ export const confirmEmailChange = async (userId, otpInput) => {
   
   const data = await redisClient.get(`emailChange:${userId}`);
 
-  // Step 2: Check if the data exists (if not, it likely expired)
+  //  Check if the data exists (if not, it likely expired)
   if (!data) {
     throw new AppError(STATUS_CODES.BAD_REQUEST, "OTP_EXPIRED", "OTP expired");
   }
 
-  // Step 3: Parse the JSON string back into a JavaScript object
+  // Parse the JSON string back into a JavaScript object
   const { otp, newEmail } = JSON.parse(data);
   
   console.log(data,"here confrim")

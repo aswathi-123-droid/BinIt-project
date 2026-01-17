@@ -67,6 +67,17 @@ export const getProfile = createAsyncThunk(
   }
 )
 
+export const googleLogin = createAsyncThunk(
+  "auth/googleLogin",
+  async (idToken, { rejectWithValue }) => {
+    try {
+      const res = await api.post("/auth/google", { idToken });
+      return res.data.user; // backend returns { data: { user } }
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || "Google login failed");
+    }
+  }
+);
 
 const initialState = {
   user: null,
@@ -155,7 +166,6 @@ const authSlice = createSlice({
         state.message = null;
       })
       .addCase(getProfile.fulfilled,(state,action)=>{
-        console.log(action.payload,"profile")
         state.loading = false;
         state.message = action.payload;
         state.user = action.payload
@@ -164,6 +174,13 @@ const authSlice = createSlice({
       .addCase(getProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      .addCase(googleLogin.pending, (state) => { state.loading = true; })
+      .addCase(googleLogin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.success = true;
       })
   },
 });

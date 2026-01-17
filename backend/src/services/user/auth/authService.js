@@ -73,7 +73,7 @@ const loginUser = async(userData)=>{
 
 const logoutUser = async (userId, refreshToken) => {
   if (!refreshToken) return;
-
+  console.log(userId,refreshToken,"wowwwwww")
   const user = await User.findOne({
     _id: userId,
     refreshToken,

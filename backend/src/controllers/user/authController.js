@@ -3,9 +3,12 @@ import { resendVerificationOTP, sendVerificationOTP, verifyEmailOTP } from "../.
 import { refreshAccessToken } from "../../services/user/auth/tokenService.js"
 import { AppError, sendResponse } from "../../utils/appError.js"
 import { STATUS_CODES } from "../../utils/constants.js"
-import { setAccessToken, setRefreshToken } from "../../utils/jwt.js"
+import { generateAccessToken, generateRefreshToken, setAccessToken, setRefreshToken } from "../../utils/jwt.js"
 import User from "../../models/user.model.js"
 import { forgotPassword, resendResetOTP, resetPassword } from "../../services/user/auth/passwordService.js"
+import { env } from "../../config/env.js"
+import { OAuth2Client } from 'google-auth-library';
+const client = new OAuth2Client(env.VITE_GOOGLE_CLIENT_ID);
 
 
 export const registerUserController = async(req,res)=>{
@@ -140,3 +143,34 @@ export const logoutController = async (req,res) => {
   sendResponse(res,result,STATUS_CODES.OK)
 
 }
+
+export const googleAuthController = async (req, res) => {
+  const { idToken } = req.body;
+
+  //  Verify Google Token
+  const ticket = await client.verifyIdToken({
+    idToken,
+    audience: env.VITE_GOOGLE_CLIENT_ID,
+  });
+  const { email, name, sub:googleId } = ticket.getPayload();
+
+  let user = await User.findOne({ email });
+  if (!user) {
+    user = await User.create({
+      name,
+      email,
+      googleId,
+      isVerified: true,
+      role: "user"
+    });
+  }
+
+  const accessToken = generateAccessToken(user._id);
+  const refreshToken = generateRefreshToken(user._id);
+  user.refreshToken = refreshToken;
+  user.save();
+  setAccessToken(res, accessToken);
+  setRefreshToken(res, refreshToken);
+
+  sendResponse(res, { user }, STATUS_CODES.OK);
+};

@@ -7,7 +7,8 @@ import { registerUserController,
         resetPasswordController,
         resendVerificationOTPController,
         resendResetOTPController,
-        logoutController} from "../../controllers/user/authController.js"
+        logoutController,
+        googleAuthController} from "../../controllers/user/authController.js"
 import { validate } from "../../middlewares/common/validate.middleware.js"
 import { registerSchema , loginSchema, verifyOTPSchema, forgotPasswordSchema, resetPasswordSchema, resendOtpSchema} from "../../validators/user/authValidators.js"
 import { authenticateUser } from "../../middlewares/user/authenticate-user.js"
@@ -24,5 +25,6 @@ router.post("/reset-password",validate(resetPasswordSchema),resetPasswordControl
 router.post("/resend-verification-otp",validate(resendOtpSchema),resendVerificationOTPController)
 router.post("/resend-reset-otp",validate(resendOtpSchema),resendResetOTPController)
 router.post("/logout",authenticateUser,logoutController)
+router.post("/google", googleAuthController);
 
 export default router
