@@ -5,7 +5,10 @@ import {
   Recycle, 
   Sofa, 
   Hammer, 
-  Monitor 
+  Monitor,
+  ShoppingBag, // Icon for Heavy Bags
+  Package,     // Icon for Recycle Sacks
+  HardHat      // Icon for Safety Gear
 } from 'lucide-react';
 
 const UserSidebar = () => {
@@ -31,6 +34,15 @@ const UserSidebar = () => {
         { name: 'Heavy Furniture', icon: Sofa },
         { name: 'Construction Debris', icon: Hammer },
         { name: 'E-Waste', icon: Monitor }
+      ]
+    },
+    // New Store Section added here
+    {
+      group: 'STORE (BUY)',
+      items: [
+        { name: 'Heavy Bags', icon: ShoppingBag },
+        { name: 'Recycle Sacks', icon: Package },
+        { name: 'Safety Gear', icon: HardHat }
       ]
     }
   ];
