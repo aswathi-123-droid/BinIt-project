@@ -30,6 +30,10 @@ export const UserManagement = lazy(()=>
   import("../features/admin/customerManagement/UserManagement")
 )
 
+export const CategoryManagement = lazy(()=>
+  import("../features/admin/categoryManagement/CategoryManagement")
+)
+
 
 
 

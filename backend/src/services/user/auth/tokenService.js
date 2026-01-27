@@ -27,6 +27,7 @@ export const  refreshAccessToken = async(token)=>{
     try{
         const accessToken = generateAccessToken(user._id)
         const refreshToken = generateRefreshToken(user._id)
+        console.log(refreshToken)
         user.refreshToken.push(refreshToken);
         await user.save();
         return {accessToken,refreshToken}

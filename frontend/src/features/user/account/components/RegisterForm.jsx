@@ -7,6 +7,7 @@ import { registerUser } from '../authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { googleLogin } from '../authSlice';
+import toast from 'react-hot-toast';
 
 const RegisterForm = () => {
   const {
@@ -26,9 +27,10 @@ const RegisterForm = () => {
   try{
     
     await dispatch(registerUser(data)).unwrap()
+    toast.success("Account created! Please verify your email.");
     navigate("/auth/verify-email",{state:{email:data.email}})
   }catch(err){
-    alert(err)
+    toast.error(err?.message || err || "Registration failed");
   }
 };
   
@@ -67,7 +69,7 @@ const RegisterForm = () => {
                 navigate("/services"); 
               }}
               onError={() => {
-                alert("Google Login Failed");
+                toast.error("Google Login Failed");
               }}
               width="320px" 
               theme="outline"

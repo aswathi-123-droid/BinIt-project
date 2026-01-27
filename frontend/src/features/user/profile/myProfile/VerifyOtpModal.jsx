@@ -43,13 +43,14 @@ const OtpVerifyModal = ({ isOpen, onClose, email}) => {
 
   const handleVerify = async (e) => {
     e.preventDefault();
+    let data;
     try {
       console.log(otp)
-     const data = await api.post("/account/verify-email-otp",{otp})
+     data = await api.post("/account/verify-email-otp",{otp})
      await dispatch(getProfile()).unwrap()
      onClose()
     } catch (err) {
-      setError(err.message  );
+      setError("Invalid OTP");
     } finally {
       setLoading(false);
     }

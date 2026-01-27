@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { loginUser } from '../authSlice';
 import { GoogleLogin } from '@react-oauth/google';
 import { googleLogin } from '../authSlice';
+import toast from 'react-hot-toast'
 
 
 const LoginPage = () => {
@@ -29,9 +30,10 @@ const LoginPage = () => {
   const onSubmit = async(data) => {
     try{
      await dispatch(loginUser(data)).unwrap()
+     toast.success("Welcome back!");
      navigate("/services",{replace:true});
     }catch(err){
-     alert(err)
+     toast.error(err?.message || err || "Login failed");
     }
   };
 
@@ -57,16 +59,17 @@ const LoginPage = () => {
           onSuccess={(credentialResponse) => {
           dispatch(googleLogin(credentialResponse.credential));
           navigate("/services"); 
+          toast.success("Logged in with Google!");
           }}
           onError={() => {
-            alert("Google Login Failed");
+            toast.error("Google Login Failed");
           }}
           width="320px" 
           theme="outline"
           shape="rectangular"
         />
 
-        {/* Divider */}
+
         <div className="relative flex py-2 items-center mb-6">
           <div className="grow border-t border-gray-200"></div>
           <span className="shrink-0 mx-4 text-gray-400 text-xs">Or sign in with email</span>
@@ -107,7 +110,7 @@ const LoginPage = () => {
               }`}
               {...register("password", { 
                 required: "Password is required",
-                minLength: { value: 6, message: "Password must be at least 6 characters" }
+                minLength: { value: 8, message: "Password must be at least 6 characters" }
               })}
             />
             {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>}

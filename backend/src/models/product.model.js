@@ -1,0 +1,61 @@
+import mongoose from "mongoose";
+
+const productSchema = new mongoose.Schema(
+    {
+        category: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Category",
+            required: [true,"Product must belong to a category"],
+            index: true
+        },
+        name: {
+            type: String,
+            required: [true,"Product name is required"],
+            trim: true,
+        },
+        slug: {
+            type: String,
+            lowercase: true,
+            trim: true,
+        },
+        image: {
+            type: String, 
+            default: "",
+        },
+        price: {
+            type: Number,
+            required: [true,"Price/rate is required"],
+            min: [0,"Price cannot be negative"]
+        },
+        unit: {
+            type: String,
+            required: [true,"Unit is required"],
+            enum: {
+                values: ["kg","unit","bag"],
+                message: "{VALUE} is not a valid pricing unit",
+            }
+        },
+        isActive: {
+            type: Boolean,
+            default: true
+        },
+        inStock: {
+            type: Boolean,
+            default: true,
+        },
+    },
+    {
+        timestamps: true,
+    }
+);
+
+productSchema.pre("save",function(next) {
+    if(this.isModified("name") && !this.slug) {
+        this.slug = this.name.toLowerCase().split(" ").join("-");
+    }
+    next();
+})
+
+const Product = mongoose.model("Product",productSchema);
+
+export default Product;

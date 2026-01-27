@@ -52,11 +52,11 @@ const AdminSidebar = () => {
         {menuItems.map((item) => {
           const isActive = activeItem === item.name;
           const Icon = item.icon;
-
+          const url = item.name.toLowerCase();
           return (
             <button
               key={item.name}
-              onClick={() => {setActiveItem(item.name); navigate("/admin/users")}}
+              onClick={() => {setActiveItem(item.name); navigate(`/admin/${url}`)}}
               className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-200 group ${
                 isActive 
                   ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' 

@@ -1,4 +1,5 @@
 import { RouterProvider } from "react-router-dom"
+import {Toaster} from 'react-hot-toast'
 import { router } from "./routes/UserRoutes"
 import { getProfile } from "./features/user/account/authSlice"
 import { useDispatch } from "react-redux"
@@ -11,12 +12,18 @@ function App() {
   
   useEffect(() => {
     dispatch(getProfile())
-    console.log("Cachee")
-    dispatch(getAdminProfile())
+    dispatch(getAdminProfile());
   }, [dispatch])
 
+
   return (
-    <RouterProvider router={router} />
+    <>
+     <Toaster 
+        position="top-center" 
+        reverseOrder={false} 
+     />
+     <RouterProvider router={router} />
+    </>
   )
 }
 

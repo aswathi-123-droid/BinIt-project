@@ -2,8 +2,13 @@ import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import AdminSidebar from '../features/admin/components/AdminSidebar';
 import AdminNavbar from '../features/admin/components/AdminNavbar';
+
+import { useDispatch } from 'react-redux';
+
 const AdminLayout = () => {
   const location = useLocation();
+
+
 
   const titleMap = {
     '/admin/dashboard': 'Dashboard',

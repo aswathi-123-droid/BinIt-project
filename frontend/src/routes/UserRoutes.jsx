@@ -8,17 +8,19 @@ import SetNewPasswordPage from "../features/user/account/components/SetNewPasswo
 import PasswordResetSent from "../features/user/account/components/passwordLinkSuccess";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 import ChangePassword from "../features/user/profile/ChangePassword/ChangePassword";
-import * as Pages from "./LazyPages"
+import * as Pages from "./LazyPages";
 import { Suspense } from "react";
 import AdminProtectedRoute from "./AdminProtectedRoutes";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../features/admin/dashboard/AdminDashboard";
+import PublicRoute from "./PublicRoutes";
+import AdminPublicRoute from "./AdminPublicRoute";
 
 
 const PageLoader = () => (
-    <div className="flex justify-center items-center h-screen">
-      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-    </div>
+  <div className="flex justify-center items-center h-screen">
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+  </div>
 );
 
 const withSuspense = (Component) => (
@@ -29,32 +31,37 @@ const withSuspense = (Component) => (
 
 export const router = createBrowserRouter([
   {
-    path: "/auth/register",
-    element: <RegisterForm />,
-  },
-  {
-    path: "/auth/verify-email",
-    element: <VerifyEmail />,
-  },
-  {
-    path: "/auth/verifysuccess",
-    element: <EmailVerifiedSuccess />,
-  },
-  {
-    path: "/auth/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/auth/forgot-password",
-    element: <ForgotPasswordPage />,
-  },
-  {
-    path: "/auth/link-success",
-    element: <PasswordResetSent />,
-  },
-  {
-    path: "/auth/reset-password/:token",
-    element: <SetNewPasswordPage />,
+    element: <PublicRoute />,
+    children: [
+      {
+        path: "/auth/register",
+        element: <RegisterForm />,
+      },
+      {
+        path: "/auth/verify-email",
+        element: <VerifyEmail />,
+      },
+      {
+        path: "/auth/verifysuccess",
+        element: <EmailVerifiedSuccess />,
+      },
+      {
+        path: "/auth/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/auth/forgot-password",
+        element: <ForgotPasswordPage />,
+      },
+      {
+        path: "/auth/link-success",
+        element: <PasswordResetSent />,
+      },
+      {
+        path: "/auth/reset-password/:token",
+        element: <SetNewPasswordPage />,
+      },
+    ],
   },
   {
     element: <ProtectedRoutes />,
@@ -65,51 +72,60 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "/services",
-            element: withSuspense(Pages.ServiceListing )
+            element: withSuspense(Pages.ServiceListing),
           },
           {
             path: "/profile",
             element: withSuspense(Pages.UserProfile),
-            children :[
+            children: [
               {
-                path:"my-profile",
-                element: withSuspense(Pages.MyProfile)
+                path: "my-profile",
+                element: withSuspense(Pages.MyProfile),
               },
               {
-                path:"change-password",
-                element:<ChangePassword/>
+                path: "change-password",
+                element: <ChangePassword />,
               },
               {
-                path:"my-address",
-                element:withSuspense(Pages.MyAddresses)
-              }
-            ]
-          }
+                path: "my-address",
+                element: withSuspense(Pages.MyAddresses),
+              },
+            ],
+          },
         ],
       },
     ],
   },
   {
-    element: <AdminProtectedRoute/>,
+    element: <AdminProtectedRoute />,
     children: [
       {
         path: "/admin",
         element: <AdminLayout />,
         children: [
           {
-            path:  "dashboard",
-            element: <Dashboard/>
+            path: "dashboard",
+            element: <Dashboard />,
           },
           {
             path: "users",
-            element: withSuspense(Pages.UserManagement)
+            element: withSuspense(Pages.UserManagement),
+          },
+          {
+            path: "categories",
+            element: withSuspense(Pages.CategoryManagement),
           }
-        ]
-      }
-    ]
+        ],
+      },
+    ],
   },
   {
-    path: "admin/login",
-    element:withSuspense(Pages.AdminLoginPage)
+    element: <AdminPublicRoute />, 
+    children: [
+      {
+        path: "admin/login",
+        element: withSuspense(Pages.AdminLoginPage),
+      },
+    ]
   },
 ]);

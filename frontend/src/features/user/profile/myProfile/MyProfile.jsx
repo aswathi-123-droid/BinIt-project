@@ -5,6 +5,8 @@ import { getProfile } from '../../account/authSlice';
 import { User, Mail, Edit2, Camera, Info, Copy, CheckCircle2 } from 'lucide-react';
 import OtpVerifyModal from './VerifyOtpModal';
 import { api } from '../../../../api/axiosInstance';
+import toast from 'react-hot-toast';
+
 const MyProfile = () => {
   const dispatch = useDispatch();
   const { user} = useSelector((state) => state.auth); 
@@ -48,17 +50,18 @@ const MyProfile = () => {
      setOtpModal(true)
      setNewEmail(data.email)
      const res = await api.patch("/account/update-details",data)
+     toast.success("Profile updated successfully");
     }
     else{
         setLoading(true)
          const res = await api.patch("/account/update-details",{name:data.name});
-         console.log("success")
+          toast.success("Profile updated successfully");
         setLoading(false)
          dispatch(getProfile()).unwrap()
     }
     
     }catch(err){
-      alert(err)
+     toast.error(err?.message || "Update failed");
     }
   };
 

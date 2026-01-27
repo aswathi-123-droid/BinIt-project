@@ -6,13 +6,14 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../../user/account/authSlice';
 import { loginAdmin } from './adminSlice';
+import toast from 'react-hot-toast';
 
 const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate()
   const admin = useSelector((state)=>state.adminAuth.admin)
   const dispatch = useDispatch()
-  // Initialize useForm
+  
   const {
     register,
     handleSubmit,
@@ -29,10 +30,10 @@ const AdminLogin = () => {
    console.log("Admin Login Data:", data);
     try{
        await dispatch(loginAdmin(data)).unwrap()
-       alert("admin login successful")
+       toast.success("Admin login successful");
        navigate("/admin/dashboard")
     }catch(err){
-      alert(err)
+      toast.error(err?.message || err || "Admin login failed");
     }
   };
 

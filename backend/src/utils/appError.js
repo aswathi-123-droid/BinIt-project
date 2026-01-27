@@ -1,3 +1,4 @@
+import Category from "../models/category.model.js";
 import { STATUS_CODES } from "./constants.js";
 
 export class AppError extends Error {
@@ -43,6 +44,56 @@ export const buildUserQuery = ({status,search}) => {
   return query
 }
 
+export const buildCategoryQuery = ({ status, search, type }) => {
+  const query = { isDeleted: false };
+  if (status) {
+    query.isActive = status === "true";
+  }
+
+  if (search && search.trim() !== "") {
+    query.name = { $regex: search.trim(), $options: "i" };
+  }
+
+  if (type && type.trim() !== "") {
+    query.type = type.toLowerCase(); 
+  }
+   return query;
+};
+
+export const buildProductQuery = async({search,category,type}) => {
+  const query = {
+    isActive: true
+  }
+
+  if(search){
+    query.name = {$regex: search,$options: "i"}
+  }
+
+
+  if(category){
+    const categoryDoc = await Category.findOne({slug:category}).select("_id");
+
+    if(categoryDoc){
+      query.category = categoryDoc._id
+    }else{
+      query.category = null;
+    }
+  }
+
+  if(type){
+    const matchingCategories = await Category.find({ type: type }).select("_id");
+    const categoryIds = matchingCategories.map(cat => cat._id);
+
+    if(query.category){
+      const isTypeMatch = categoryIds.some(id => id.toString() === query.category.toString())
+      if (!isTypeMatch) query.category = null;
+    }else{
+      query.category = { $in: categoryIds };
+    }
+  }
+   return query;
+}
+
 export const getPagination = (page= 1, limit= 10, maxLimit= 25) => {
   const pageNumber= parseInt(page);
   
@@ -56,3 +107,26 @@ export const getPagination = (page= 1, limit= 10, maxLimit= 25) => {
 export const getSortOption = (sortBy = "createdAt", sortOrder = "desc") => ({
   [sortBy]: sortOrder === "asc" ? 1 : -1,
 });
+
+export const getCategorySortOption = (sortBy = "newest") => {
+  // Define a mapping between frontend values and Mongoose field names
+  switch (sortBy) {
+    case "newest":
+      return { createdAt: -1 };
+    case "oldest":
+      return { createdAt: 1 };
+    case "name_asc":
+      return { name: 1 };
+    case "name_desc":
+      return { name: -1 };
+    case "items_asc":
+      // Note: Ensure 'itemCount' is a field or virtual in your schema
+      return { itemCount: 1 }; 
+    case "items_desc":
+      return { itemCount: -1 };
+    default:
+      return { createdAt: -1 }; // Default fallback
+  }
+};
+
+

@@ -7,6 +7,7 @@ import {
   ShieldCheck 
 } from 'lucide-react';
 import { api } from '../../../../api/axiosInstance';
+import toast from 'react-hot-toast';
 
 const ChangePassword = () => {
   
@@ -30,10 +31,11 @@ const ChangePassword = () => {
   const onSubmit = async (data) => {
     try{
       const res =await api.patch("/account/update-password",data)
-      alert("Password changed successfully!");
+      toast.success("Password changed successfully!");
       reset(); 
     }catch(err){
-        alert(err)
+      const errorMessage = err.response?.data?.message || err.message || "Failed to update password";
+      toast.error(errorMessage);
     }
   };
 
