@@ -191,7 +191,7 @@ const CategoryManagement = () => {
             <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto">
               
               {/* Type Filter */}
-              <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-[150px]">
+              <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-37.5">
                 <span className="text-xs font-medium text-gray-500">
                   Type: <span className="text-slate-700">{type ? (type === 'recyclable' ? 'Earn' : type === 'store' ? 'Store' : 'Pay') : "All"}</span>
                 </span>
@@ -205,7 +205,7 @@ const CategoryManagement = () => {
               </div>
 
               {/* Sort By Filter */}
-              <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-[160px]">
+              <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-40">
                 <span className="text-xs font-medium text-gray-500">Sort By</span>
                 <ChevronDown size={14} className="text-gray-400 ml-auto" />
                 <select onChange={(e) => setSortBy(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer">
@@ -219,7 +219,7 @@ const CategoryManagement = () => {
               </div>
 
               {/* Status Filter */}
-              <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-[140px]">
+              <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-35">
                 <span className="text-xs font-medium text-gray-500">
                   Status: <span className="text-slate-700">{status ? (status === 'true' ? 'Active' : 'Inactive') : "All"}</span>
                 </span>
