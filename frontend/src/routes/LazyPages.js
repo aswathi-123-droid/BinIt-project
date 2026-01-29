@@ -34,6 +34,10 @@ export const CategoryManagement = lazy(()=>
   import("../features/admin/categoryManagement/CategoryManagement")
 )
 
+export const ProductManagement = lazy(()=>
+  import("../features/admin/productManagement/productManagement")
+)
+
 
 
 

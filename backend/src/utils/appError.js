@@ -60,37 +60,52 @@ export const buildCategoryQuery = ({ status, search, type }) => {
    return query;
 };
 
-export const buildProductQuery = async({search,category,type}) => {
-  const query = {
-    isActive: true
-  }
+export const buildProductQuery = ({search,type,stockStatus}) => {
+  const query = {}
 
   if(search){
-    query.name = {$regex: search,$options: "i"}
+    query.name = {$regex: search.trim(),$options: "i"}
+  }
+  
+  if (type && type.trim() !== "") {
+    query.type = type.toLowerCase(); 
   }
 
-
-  if(category){
-    const categoryDoc = await Category.findOne({slug:category}).select("_id");
-
-    if(categoryDoc){
-      query.category = categoryDoc._id
-    }else{
-      query.category = null;
+  if (stockStatus) {
+    if (stockStatus === 'in_stock') {
+      // Show anything with stock > 0 (Store items) OR Service items (infinite)
+      query.$or = [
+          { stock: { $gt: 0 } },
+          { type: { $ne: 'store' } } // Service items are technically "in stock"
+      ];
+    } else if (stockStatus === 'out_of_stock') {
+      // Strict: Only show Store items that have 0 stock
+      query.type = 'store';
+      query.stock = { $lte: 0 };
     }
   }
 
-  if(type){
-    const matchingCategories = await Category.find({ type: type }).select("_id");
-    const categoryIds = matchingCategories.map(cat => cat._id);
+  // if(category){
+  //   const categoryDoc = await Category.findOne({slug:category}).select("_id");
 
-    if(query.category){
-      const isTypeMatch = categoryIds.some(id => id.toString() === query.category.toString())
-      if (!isTypeMatch) query.category = null;
-    }else{
-      query.category = { $in: categoryIds };
-    }
-  }
+  //   if(categoryDoc){
+  //     query.category = categoryDoc._id
+  //   }else{
+  //     query.category = null;
+  //   }
+  // }
+
+  // if(type){
+  //   const matchingCategories = await Category.find({ type: type }).select("_id");
+  //   const categoryIds = matchingCategories.map(cat => cat._id);
+
+  //   if(query.category){
+  //     const isTypeMatch = categoryIds.some(id => id.toString() === query.category.toString())
+  //     if (!isTypeMatch) query.category = null;
+  //   }else{
+  //     query.category = { $in: categoryIds };
+  //   }
+  // }
    return query;
 }
 
@@ -124,6 +139,10 @@ export const getCategorySortOption = (sortBy = "newest") => {
       return { itemCount: 1 }; 
     case "items_desc":
       return { itemCount: -1 };
+    case "price_asc":
+      return { price: 1};
+    case "price_desc":
+      return { price: -1}
     default:
       return { createdAt: -1 }; // Default fallback
   }

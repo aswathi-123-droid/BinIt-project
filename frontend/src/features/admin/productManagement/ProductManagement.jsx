@@ -1,0 +1,365 @@
+import React, { useEffect, useState } from "react";
+import {
+  Search,
+  ChevronDown,
+  X,
+  Plus,
+  Edit,
+  Trash,
+  Recycle,
+  Package, // For Total Items
+  ShoppingBag, // For Store Items
+  Lock,
+  Unlock,
+  AlertCircle
+} from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { api } from "../../../api/axiosInstance";
+import Pagination from "../../../components/admin/Pagination";
+// You will need to create/import this modal later
+// import InventoryModal from "./InventoryModal"; 
+import ProductModal from "./ProductModal";
+
+const ProductManagement = () => {
+  const queryClient = useQueryClient();
+
+  // --- State Management ---
+  const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [type, setType] = useState("");         // Earn | Pay | Store
+  const [stockStatus, setStockStatus] = useState(""); // In Stock | Out of Stock
+  const [sortBy, setSortBy] = useState("newest");
+  const [sortOrder, setSortOrder] = useState("desc");
+  const [searchInput, setSearchInput] = useState("");
+  
+  // Modal State
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+
+  // --- Debounce Search ---
+  useEffect(() => {
+    let id = setTimeout(() => {
+      setSearchInput(search);
+    }, 500);
+    return () => clearTimeout(id);
+  }, [search]);
+
+  // --- Data Fetching ---
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ["products", searchInput, page, type, stockStatus, sortBy, sortOrder],
+    queryFn: async () => {
+      const res = await api.get("/admin/products", {
+        params: { 
+          search: searchInput, 
+          page, 
+          type, 
+          stockStatus, 
+          sortBy, 
+          sortOrder, 
+          limit: 2
+        },
+      });
+      return res.data;
+    },
+    keepPreviousData: true,
+  });
+
+  const productMutation = useMutation({
+      mutationFn: async (formData) => {
+        const config = { headers: { "Content-Type": "multipart/form-data" } };
+        if (editingItem) {
+          console.log(editingItem,"kii")
+          await api.patch(`/admin/products/${editingItem._id}`, formData, config);
+        } else {
+          await api.post("/admin/products", formData, config);
+        }
+      },
+      onSuccess: () => {
+        alert(editingItem ? "Item Updated Successfully" : "Item Added Successfully");
+        queryClient.invalidateQueries(["products"]);
+        setIsModalOpen(false);
+        setEditingItem(null);
+      },
+      onError: (error) => {
+        const message = error.response?.data?.message || "Something went wrong";
+        alert(message);
+      }
+    });
+  // --- Mutations ---
+  const toggleStatusMutation = useMutation({
+    mutationFn: async ({ itemId}) => {
+      const res = await api.patch(`/admin/products/${itemId}/status`);
+      return res.data;
+    },
+    onSuccess: () => {
+      alert( "status updated Successfully");
+      queryClient.invalidateQueries(["products"]);
+    },
+    onError: (err) => alert(err.response?.data?.message || "Failed to update status"),
+  });
+
+  // --- Handlers ---
+  const handleToggleStatus = (item) => {
+    if (window.confirm(`Are you sure you want to ${item.isActive ? 'deactivate' : 'activate'} ${item.name}?`)) {
+      toggleStatusMutation.mutate({ itemId: item._id });
+    }
+  };
+
+  const handleAddNew = () => {
+    setEditingItem(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditClick = (item) => {
+    setEditingItem(item);
+    setIsModalOpen(true);
+  };
+
+
+  const handleFormSubmit = async(data)=>{
+    try {
+      productMutation.mutate(data);
+      setIsModalOpen(false);
+    } catch (err) {
+      alert(err);
+    }
+  }
+
+  // --- Stats Configuration ---
+  const stats = [
+    { label: "Total Items Listed", value: data?.stats?.totalCount || "0", icon: Package, color: "text-slate-600", bg: "bg-slate-50" },
+    { label: "Recyclable Items", value: data?.stats?.recyclableCount || "0", icon: Recycle, color: "text-emerald-500", bg: "bg-emerald-50" },
+    { label: "Junk Removal Items", value: data?.stats?.junkCount || "0", icon: Trash, color: "text-slate-700", bg: "bg-slate-50" },
+    { label: "Store Items", value: data?.stats?.storeCount || "0", icon: ShoppingBag, color: "text-blue-500", bg: "bg-blue-50" },
+  ];
+
+  if (isError) return <div className="p-8 text-center text-red-500 font-bold">Error: {error.message}</div>;
+
+  return (
+    <div className="p-4 md:p-8 bg-gray-50 min-h-screen font-sans">
+      
+      {/* 1. Stats Grid (Aligned 4 in a row) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {stats.map((stat, index) => (
+          <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium text-gray-500 mb-1">{stat.label}</p>
+              <h3 className="text-2xl font-bold text-slate-800">{stat.value}</h3>
+            </div>
+            <div className={`p-3 rounded-lg ${stat.bg} ${stat.color}`}>
+              <stat.icon size={24} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        
+        {/* 2. Controls Bar */}
+        <div className="p-6 border-b border-gray-50 space-y-4">
+          <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
+            
+            {/* Filters Group */}
+            <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto">
+              
+              {/* Type Filter */}
+              <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-40">
+                <span className="text-xs font-medium text-gray-500">
+                  Type: <span className="text-slate-700">{!type ? "All Types" : type === 'store' ? 'Store' : type === 'recyclable' ? 'Earn' : 'Pay'}</span>
+                </span>
+                <ChevronDown size={14} className="text-gray-400 ml-auto" />
+                <select onChange={(e) => setType(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer">
+                  <option value="">All Types</option>
+                  <option value="recyclable">Earn (Recyclable)</option>
+                  <option value="junk">Pay (Junk)</option>
+                  <option value="store">Store (Buy)</option>
+                </select>
+              </div>
+
+              {/* Stock Status Filter (New) */}
+              <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-37.5">
+                <span className="text-xs font-medium text-gray-500">
+                  Stock: <span className="text-slate-700">{!stockStatus ? "All" : stockStatus === 'in_stock' ? 'In Stock' : 'Out of Stock'}</span>
+                </span>
+                <ChevronDown size={14} className="text-gray-400 ml-auto" />
+                <select onChange={(e) => setStockStatus(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer">
+                  <option value="">All</option>
+                  <option value="in_stock">In Stock</option>
+                  <option value="out_of_stock">Out of Stock</option>
+                </select>
+              </div>
+
+              {/* Sort By Filter */}
+              <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-42.5">
+                <span className="text-xs font-medium text-gray-500">Sort By</span>
+                <ChevronDown size={14} className="text-gray-400 ml-auto" />
+                <select onChange={(e)=> setSortBy(e.target.value)} className="absolute inset-0 opacity-0 cursor-pointer">
+                  <option value="newest">Newest Added</option>
+                  <option value="oldest">Oldest Added</option>
+                  <option value="price_asc">Price: Low to High</option>
+                  <option value="price_desc">Price: High to Low</option>
+                  <option value="name_asc">Name (A-Z)</option>
+                  <option value="name_desc">Name (Z-A)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Search & Add Group */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto">
+              <div className="relative w-full sm:w-72">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                  placeholder="Search items..."
+                  className="w-full pl-10 pr-10 py-2 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+                />
+                {search && (
+                  <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600">
+                    <X size={14} />
+                  </button>
+                )}
+              </div>
+              <button 
+                onClick={handleAddNew}
+                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-emerald-500 text-white px-5 py-2.5 rounded-lg text-xs font-bold hover:bg-emerald-600 transition-all shadow-md active:scale-95"
+              >
+                <Plus size={16} /> Add New Item
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* 3. Inventory List Table */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-left whitespace-nowrap">
+            <thead>
+              <tr className="bg-gray-50 border-b border-gray-100 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                <th className="px-6 py-4">Item ID</th>
+                <th className="px-6 py-4">Item Name</th>
+                <th className="px-6 py-4">Category</th>
+                <th className="px-6 py-4">Type</th>
+                <th className="px-6 py-4">Price / Unit</th>
+                <th className="px-6 py-4">Stock / Info</th>
+                <th className="px-6 py-4">Last Updated</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4 text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50 text-xs font-medium text-slate-700">
+              {!isLoading && data?.items?.map((item, index) => (
+                <tr key={item._id} className="hover:bg-gray-50/50 transition-colors">
+                  <td className="px-6 py-4 font-bold text-slate-900">
+                    #{item.itemId || `INV-${String(index + 1).padStart(3, '0')}`}
+                  </td>
+                  
+                  {/* Item Name */}
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      {/* {item.image && (
+                         <img src={item.image} alt="" className="w-8 h-8 rounded-lg object-cover bg-gray-100" />
+                      )} */}
+                      <span className="font-semibold">{item.name}</span>
+                    </div>
+                  </td>
+
+                  {/* Category */}
+                  <td className="px-6 py-4 text-gray-500">{item.categoryId?.name || "N/A"}</td>
+                  
+                  {/* Type Badge */}
+                  <td className="px-6 py-4">
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                      item.type === 'recyclable' ? 'bg-emerald-50 text-emerald-600' 
+                      : item.type === 'store' ? 'bg-blue-50 text-blue-600' 
+                      : 'bg-slate-100 text-slate-500'
+                    }`}>
+                      {item.type === 'recyclable' ? 'Earn' : item.type === 'store' ? 'Buy' : 'Pay'}
+                    </span>
+                  </td>
+
+                  {/* Price/Unit Column */}
+                  <td className="px-6 py-4 font-bold text-slate-800">
+                    ₹{item.price} <span className="text-gray-400 font-normal text-[10px]">/ {item.unit}</span>
+                  </td>
+
+                  {/* Stock/Info Column (Contextual) */}
+                  <td className="px-6 py-4">
+                    {item.type === 'store' ? (
+                       item.stock > 0 ? (
+                         <span className="text-emerald-600 font-bold flex items-center gap-1">
+                           {item.stock} in stock
+                         </span>
+                       ) : (
+                         <span className="text-red-500 font-bold flex items-center gap-1">
+                           <AlertCircle size={12} /> Out of Stock
+                         </span>
+                       )
+                    ) : (
+                       <span className="text-gray-400">-</span> 
+                    )}
+                  </td>
+
+                  {/* Last Updated */}
+                  <td className="px-6 py-4 text-gray-400">
+                    {item.updatedAt ? new Date(item.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : "-"}
+                  </td>
+
+                  {/* Status Badge */}
+                  <td className="px-6 py-4">
+                    <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold w-fit ${
+                        item.isActive ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-500"
+                    }`}>
+                      <span className={`w-1.5 h-1.5 rounded-full ${item.isActive ? "bg-emerald-500" : "bg-red-500"}`}></span>
+                      {item.isActive ? "Active" : "Inactive"}
+                    </span>
+                  </td>
+
+                  {/* Actions */}
+                  <td className="px-6 py-4">
+                    <div className="flex items-center justify-center gap-2">
+                      <button 
+                        onClick={() => handleEditClick(item)}
+                        className="p-2 text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 rounded-lg transition-all"
+                        title="Edit Item"
+                      >
+                        <Edit size={16} />
+                      </button>
+                      <button 
+                        onClick={() => handleToggleStatus(item)}
+                        className={`p-2 rounded-lg transition-all ${item.isActive ? 'text-slate-400 hover:text-red-500 hover:bg-red-50' : 'text-emerald-600 hover:bg-emerald-50'}`}
+                        title={item.isActive ? "Deactivate" : "Activate"}
+                      >
+                        {item.isActive ? <Lock size={16} /> : <Unlock size={16} />}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Modal Injection Placeholder */}
+        {isModalOpen && (
+           <ProductModal 
+             isOpen={isModalOpen} 
+             onClose={() => setIsModalOpen(false)} 
+             initialData={editingItem}
+             onSubmit={handleFormSubmit}
+           />
+        )}
+
+        {/* Pagination */}
+        <div className="p-4 border-t border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4">
+           <p className="text-xs text-gray-400">
+             Showing {data?.items?.length || 0} of {data?.pagination?.totalCount || 0} items
+           </p>
+           {!isLoading && data && <Pagination data={data} setPage={setPage} page={page} />}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductManagement;

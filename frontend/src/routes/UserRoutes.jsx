@@ -114,6 +114,10 @@ export const router = createBrowserRouter([
           {
             path: "categories",
             element: withSuspense(Pages.CategoryManagement),
+          },
+          {
+            path: "products",
+            element: withSuspense(Pages.ProductManagement)
           }
         ],
       },

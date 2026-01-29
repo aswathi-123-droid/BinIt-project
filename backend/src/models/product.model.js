@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema(
     {
-        category: {
+        categoryId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Category",
             required: [true,"Product must belong to a category"],
@@ -13,14 +13,23 @@ const productSchema = new mongoose.Schema(
             required: [true,"Product name is required"],
             trim: true,
         },
+        type: {
+            type: String,
+            enum: ["recyclable", "junk", "store"],
+            required: true
+        },
+        description: {
+            type: String,
+            trim: true
+        },
         slug: {
             type: String,
             lowercase: true,
             trim: true,
         },
         image: {
-            type: String, 
-            default: "",
+            type: [String], 
+            default: [],
         },
         price: {
             type: Number,
@@ -39,9 +48,13 @@ const productSchema = new mongoose.Schema(
             type: Boolean,
             default: true
         },
-        inStock: {
+        isEstimationEnabled: {
             type: Boolean,
-            default: true,
+            default: false
+        },
+        stock: {
+            type: Number,
+            default: 0,
         },
     },
     {
@@ -49,11 +62,10 @@ const productSchema = new mongoose.Schema(
     }
 );
 
-productSchema.pre("save",function(next) {
+productSchema.pre("save",function() {
     if(this.isModified("name") && !this.slug) {
         this.slug = this.name.toLowerCase().split(" ").join("-");
     }
-    next();
 })
 
 const Product = mongoose.model("Product",productSchema);

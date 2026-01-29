@@ -6,7 +6,7 @@ import { createCategorySchema, updateCategorySchema } from "../../validators/adm
 import { createCategoryController, createCategoryOfferController, getAllCategoriesContoller, updateCategoryController, updateCategoryOfferController, updateCategoryStatusController } from "../../controllers/admin/categoryController.js";
 import { parseFormData } from "../../middlewares/common/parseFormData.js";
 import { verifyAdminToken } from "../../middlewares/admin/authenticate-admin.js";
-import { offerSchema } from "../../validators/admin/offerValidators";
+import { offerSchema } from "../../validators/admin/offerValidators.js";
 
 const router = express.Router();
 

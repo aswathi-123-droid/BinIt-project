@@ -1,36 +1,65 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Upload, X } from 'lucide-react';
+import { Upload, X, Plus } from 'lucide-react';
 
-const ImageDropzone = ({ value, onChange }) => {
+const ImageDropzone = ({ value, onChange, multiple = false }) => {
+  
+  // 1. Normalize value to always be an array
+  const files = Array.isArray(value) ? value : (value ? [value] : []);
+
   const onDrop = useCallback((acceptedFiles) => {
-    // Take the first file
-    if (acceptedFiles?.length > 0) {
-      onChange(acceptedFiles[0]);
+    if (multiple) {
+      // Multiple Mode: INFINITE UPLOAD
+      // Simply append all new files to the existing list
+      if (acceptedFiles.length > 0) {
+        onChange([...files, ...acceptedFiles]);
+      }
+    } else {
+      // Single Mode: Replace the existing file
+      if (acceptedFiles.length > 0) {
+        onChange(acceptedFiles[0]);
+      }
     }
-  }, [onChange]);
+  }, [files, multiple, onChange]);
+
+  const removeFile = (e, indexToRemove) => {
+    e.stopPropagation(); // Stop the click from opening the file picker
+    if (multiple) {
+      const newFiles = files.filter((_, index) => index !== indexToRemove);
+      onChange(newFiles);
+    } else {
+      onChange(null);
+    }
+  };
+
+  // Helper: Handle both File objects and URL strings
+  const getPreviewSource = (file) => {
+    if (typeof file === 'string') return file;
+    if (file instanceof File) return URL.createObjectURL(file);
+    return null;
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/*': [] },
-    maxFiles: 1,
-    multiple: false
+    accept: { 'image/*': ['.jpeg', '.png', '.jpg', '.webp'] },
+    // maxFiles: REMOVED (Defaults to 0/Infinity in the library)
+    multiple: multiple,
+    // Only disable click if Single Mode AND file exists (to force using X to remove)
+    noClick: !multiple && files.length > 0 
   });
 
-  // Helper to generate preview URL
-  const previewUrl = value instanceof File ? URL.createObjectURL(value) : value;
+  // --- RENDER LOGIC ---
 
-  if (previewUrl) {
+  // CASE A: Single Image Mode (UI: One big image, replaced by X)
+  if (!multiple && files.length > 0) {
+    const previewUrl = getPreviewSource(files[0]);
     return (
       <div className="relative w-full h-full rounded-2xl overflow-hidden border border-gray-200 group">
         <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
         <button
           type="button"
-          onClick={(e) => {
-             e.stopPropagation();
-             onChange(null); // Clear image
-          }}
-          className="absolute top-2 right-2 p-1 bg-white rounded-full shadow-md text-gray-500 hover:text-red-500 transition-colors"
+          onClick={(e) => removeFile(e, 0)}
+          className="absolute top-2 right-2 p-1 bg-white rounded-full shadow-md text-gray-500 hover:text-red-500 transition-colors cursor-pointer z-10"
         >
           <X size={16} />
         </button>
@@ -38,21 +67,63 @@ const ImageDropzone = ({ value, onChange }) => {
     );
   }
 
+  // CASE B: Standard Dropzone / Multiple Grid Mode
   return (
-    <div 
-      {...getRootProps()} 
-      className={`border-2 border-dashed rounded-2xl h-full flex flex-col items-center justify-center cursor-pointer transition-colors ${
-        isDragActive ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 hover:bg-gray-50'
-      }`}
-    >
-      <input {...getInputProps()} />
-      <div className="p-4 bg-white rounded-full shadow-sm mb-3 text-gray-400">
-        <Upload size={24} />
+    <div className="w-full h-full">
+      <div
+        {...getRootProps()}
+        className={`border-2 border-dashed rounded-2xl h-full p-4 transition-colors ${
+          isDragActive ? 'border-emerald-500 bg-emerald-50' : 'border-gray-200 hover:bg-gray-50'
+        } ${files.length > 0 ? 'cursor-default' : 'cursor-pointer flex flex-col items-center justify-center'}`}
+      >
+        <input {...getInputProps()} />
+
+        {files.length === 0 ? (
+          // Empty State
+          <div className="flex flex-col items-center justify-center h-full">
+            <div className="p-3 bg-white rounded-full shadow-sm mb-3 text-gray-400">
+              <Upload size={24} />
+            </div>
+            <p className="text-xs font-bold text-slate-700 text-center">
+              <span className="text-emerald-500 underline">Click to upload</span> or drag and drop
+            </p>
+            <p className="text-[10px] text-gray-400 mt-1 text-center">
+              PNG, JPG UP TO 5MB {multiple && "(Upload multiple)"}
+            </p>
+          </div>
+        ) : (
+          // Multiple Images Grid
+          // Note: Since we are infinite, we use flex-wrap or a grid that handles overflow
+          <div className="flex flex-wrap gap-3 w-full h-full content-start">
+            {files.map((file, index) => (
+              <div key={index} className="relative w-20 h-20 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 group shrink-0">
+                <img
+                  src={getPreviewSource(file)}
+                  alt={`preview-${index}`}
+                  className="w-full h-full object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={(e) => removeFile(e, index)}
+                  className="absolute top-1 right-1 p-1 bg-white/90 rounded-full shadow-sm text-gray-500 hover:text-red-500 transition-colors z-10"
+                >
+                  <X size={12} />
+                </button>
+              </div>
+            ))}
+
+            {/* "Add More" Button - ALWAYS VISIBLE IN MULTIPLE MODE */}
+            {multiple && (
+              <div 
+                className="flex flex-col items-center justify-center w-20 h-20 bg-white border-2 border-dashed border-emerald-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors text-emerald-500 shrink-0"
+              >
+                <Plus size={20} />
+                <span className="text-[10px] font-bold mt-1">Add</span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
-      <p className="text-xs font-bold text-slate-700">
-        <span className="text-emerald-500 underline">Click to upload</span> or drag and drop
-      </p>
-      <p className="text-[10px] text-gray-400 mt-1">PNG, JPG UP TO 5MB</p>
     </div>
   );
 };

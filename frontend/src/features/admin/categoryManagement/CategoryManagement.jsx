@@ -50,7 +50,7 @@ const CategoryManagement = () => {
     queryKey: ["categories", searchInput, page, status, type, sortBy, sortOrder],
     queryFn: async () => {
       const res = await api.get("/admin/categories", {
-        params: { search: searchInput, page, status, type, sortBy, sortOrder, limit: 10 },
+        params: { search: searchInput, page, status, type, sortBy, sortOrder, limit: 2 },
       });
       return res.data;
     },
@@ -374,7 +374,7 @@ const CategoryManagement = () => {
 
         <div className="p-4 border-t border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4">
            <p className="text-xs text-gray-400">
-             Showing {data?.categories?.length || 0} of {data?.totalCount || 0} categories
+             Showing {data?.categories?.length || 0} of {data?.pagination?.totalCount || 0} categories
            </p>
            {!isLoading && data && <Pagination data={data} setPage={setPage} page={page} />}
         </div>
