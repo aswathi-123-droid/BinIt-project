@@ -28,6 +28,7 @@ export const createCategory = async(categoryData) => {
         type,
         description: categoryData.description || "",
         image: categoryData.image || "",
+        isActive: categoryData.isActive
     };
 
     if(offer){
@@ -37,7 +38,7 @@ export const createCategory = async(categoryData) => {
             description: offer.description,
             discountType: offer.discountType,
             value: offer.value,
-            maxRedeemablePrice: offer.maxRedeemablePrice || null,
+            maxRedeemableAmount: offer.maxRedeemableAmount || null,
             minTransactionalValue: offer.minTransactionalValue || 0,
             startDate: offer.startDate,
             expiryDate: offer.expiryDate,
@@ -56,7 +57,6 @@ export const updateCategory = async (categoryId, updateData) => {
 
     logger.info(`Admin initiating update for category ID: ${categoryId}`);
 
-    // 1. Check if the category exists
     const category = await Category.findById(categoryId);
     if (!category) {
         throw new AppError(
@@ -66,7 +66,6 @@ export const updateCategory = async (categoryId, updateData) => {
         );
     }
 
-    // 2. Check for duplicate name (only if name is changing)
     if (name && name.trim().toLowerCase() !== category.name.toLowerCase()) {
         const existingCategory = await Category.findOne({
             name: { $regex: new RegExp(`^${name}$`, "i") },
@@ -83,32 +82,14 @@ export const updateCategory = async (categoryId, updateData) => {
         }
     }
 
-    // 3. Construct the update object
     let finalData = {
         ...(name && { name }),
         ...(type && { type }),
         ...(description && { description }),
-        ...(image && { image }), // Assumes controller handles file upload and passes URL
+        ...(image && { image }), 
         ...(isActive !== undefined && { isActive }),
     };
 
-    // 4. Handle Nested Offer Updates
-    // We merge existing offer data with new data to prevent overwriting fields with undefined
-    if (offer) {
-        finalData.offer = {
-            isActive: offer.isActive !== undefined ? offer.isActive : category.offer?.isActive,
-            title: offer.title || category.offer?.title,
-            description: offer.description || category.offer?.description,
-            discountType: offer.discountType || category.offer?.discountType,
-            value: offer.value || category.offer?.value,
-            maxRedeemablePrice: offer.maxRedeemablePrice !== undefined ? offer.maxRedeemablePrice : category.offer?.maxRedeemablePrice,
-            minTransactionalValue: offer.minTransactionalValue !== undefined ? offer.minTransactionalValue : category.offer?.minTransactionalValue,
-            startDate: offer.startDate || category.offer?.startDate,
-            expiryDate: offer.expiryDate || category.offer?.expiryDate,
-        };
-    }
-
-    // 5. Perform the Update
     const updatedCategory = await Category.findByIdAndUpdate(
         categoryId,
         finalData,
@@ -136,11 +117,29 @@ export const getAllCategories = async(queryParams) => {
   
   const sort = getCategorySortOption(sortBy);
 
+  const categoriesPromise = Category.aggregate([
+    { $match: query },
+    {
+      $lookup: {
+        from: 'products',          // The actual name of your collection in MongoDB
+        localField: '_id',
+        foreignField: 'categoryId', // The field in Product model that references Category
+        as: 'products'
+      }
+    },
+    {
+      $addFields: {
+        itemCount: { $size: '$products' } 
+      }
+    },
+    { $sort: sort },   
+    { $skip: skip },  
+    { $limit: pageSize }, 
+    { $project: { products: 0 } } // Remove the products array to keep the response light
+  ]);
+
   const [categories, totalCount, recyclableCount, junkCount, storeCount] = await Promise.all([
-    Category.find(query)
-      .sort(sort)
-      .skip(skip)
-      .limit(pageSize),
+    categoriesPromise,
     Category.countDocuments({ isDeleted: false }),
     Category.countDocuments({ type: "recyclable", isDeleted: false }),
     Category.countDocuments({ type: "junk", isDeleted: false }),
@@ -199,13 +198,13 @@ export const createCategoryOffer = async (categoryId, offerData) => {
         discountType, 
         value, 
         minTransactionalValue, 
-        maxRedeemablePrice, 
+        maxRedeemableAmount, 
         startDate, 
         expiryDate, 
         isActive 
     } = offerData;
 
-    // 1. Check if category exists
+   
     const category = await Category.findById(categoryId);
     if (!category) {
         throw new AppError(
@@ -215,7 +214,7 @@ export const createCategoryOffer = async (categoryId, offerData) => {
         );
     }
 
-    // 2. Validate Dates (Basic check)
+   
     const start = new Date(startDate);
     const expiry = new Date(expiryDate);
     if (start >= expiry) {
@@ -226,21 +225,20 @@ export const createCategoryOffer = async (categoryId, offerData) => {
         );
     }
 
-    // 3. Construct the Offer Object
-    // We explicitly set fields to ensure clean data
+
     const newOffer = {
         title,
         description: description || "",
         discountType,
         value,
         minTransactionalValue: minTransactionalValue || 0,
-        maxRedeemablePrice: maxRedeemablePrice || null,
+        maxRedeemableAmount: maxRedeemableAmount || null,
         startDate: start,
         expiryDate: expiry,
         isActive: isActive !== undefined ? isActive : true
     };
 
-    // 4. Update the Category
+
     category.offer = newOffer;
     await category.save();
 
@@ -261,9 +259,6 @@ export const updateCategoryOffer = async(categoryId, offerData) => {
         );
     }
 
-    // 2. Overwrite the offer field with new data
-    // We merge with existing offer data to be safe, or replace entirely.
-    // Since your frontend sends the full object, direct replacement is usually fine.
     category.offer = {
         isActive: offerData.isActive !== undefined ? offerData.isActive : true,
         title: offerData.title,
@@ -271,12 +266,11 @@ export const updateCategoryOffer = async(categoryId, offerData) => {
         discountType: offerData.discountType,
         value: offerData.value,
         minTransactionalValue: offerData.minTransactionalValue || 0,
-        maxRedeemableAmount: offerData.maxRedeemablePrice || 0, // Note: Frontend calls it maxRedeemablePrice, Schema calls it minRedeemableAmount (check naming consistency!)
+        maxRedeemableAmount: offerData.maxRedeemableAmount || 0, 
         startDate: offerData.startDate,
         expiryDate: offerData.expiryDate
     };
 
-    // 3. Save
     const updatedCategory = await category.save();
     
     logger.info(`Service: Offer updated successfully for category '${category.name}'`);

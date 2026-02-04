@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { X, Recycle, Trash2, Check, ShoppingBag } from 'lucide-react'; // Added ShoppingBag
-import ImageDropzone from './ImageDropzone';
+import ImageDropzone from '../../../components/common/ImageDropZone';
 
 const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
   const {
@@ -147,7 +147,6 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 {errors.description && <p className="text-[10px] text-red-500">{errors.description.message}</p>}
             </div>
 
-            {/* Row 4: Image Upload */}
             <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Category Image</label>
                 <div className="h-32">
@@ -160,7 +159,6 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 </div>
             </div>
 
-            {/* Row 5: Status Toggle */}
             <div className="flex items-center justify-between px-4 py-3 bg-gray-50/50 rounded-xl border border-gray-100">
                 <div className="flex flex-col">
                 <span className="text-xs font-bold text-slate-700">Active Status</span>
@@ -176,14 +174,13 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200 flex items-center justify-center ${
                     isActiveStatus ? 'translate-x-5' : 'translate-x-0'
                 }`}>
-                    {isActiveStatus && <Check size={8} className="text-emerald-500" strokeWidth={4} />}
+                    {/* {isActiveStatus && <Check size={8} className="text-emerald-500" strokeWidth={4} />} */}
                 </div>
                 </button>
             </div>
             </form>
         </div>
 
-        {/* Footer Actions */}
         <div className="flex gap-3 px-6 py-4 border-t border-gray-100 shrink-0">
           <button 
             type="button" 

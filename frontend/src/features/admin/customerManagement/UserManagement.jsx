@@ -8,28 +8,28 @@ import {
   ChevronDown,
   Lock,
   Unlock,
-  X
+  X,
 } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
-import Pagination from "../../../components/admin/Pagination";
+import Pagination from "../../../components/common/Pagination";
 import AdminNavbar from "../components/AdminNavbar";
 
 const UserManagement = () => {
-  // Stat data from provided UI 
+  // Stat data from provided UI
   const queryClient = useQueryClient();
 
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState("");
 
-  const [searchInput,setSearchInput]=useState("");
+  const [searchInput, setSearchInput] = useState("");
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["users", searchInput, page, status],
     queryFn: async () => {
       const res = await api.get("/admin/users", {
-        params: {search:searchInput, page, status, limit: 2 },
+        params: { search: searchInput, page, status, limit: 2 },
       });
       console.log(res);
       return res.data;
@@ -37,30 +37,39 @@ const UserManagement = () => {
     keepPreviousData: true,
   });
 
-  useEffect(()=>{
-   let id= setTimeout(()=>{
-         setSearchInput(search);
-    },500)
-   
-    return ()=> clearTimeout(id)
-  },[search])
+  useEffect(() => {
+    let id = setTimeout(() => {
+      setSearchInput(search);
+    }, 500);
+
+    return () => clearTimeout(id);
+  }, [search]);
 
   const toggleBlockMutation = useMutation({
-    mutationFn:async({userId,isBlocked}) => {
-      const res = await api.patch(`/admin/users/${userId}/stats`,{isBlocked:!isBlocked})
-      return res.data
+    mutationFn: async ({ userId, isBlocked }) => {
+      const res = await api.patch(`/admin/users/${userId}/stats`, {
+        isBlocked: !isBlocked,
+      });
+      return res.data;
     },
-    onSuccess: ()=>{
+    onSuccess: () => {
       queryClient.invalidateQueries(["users"]);
     },
-    onError:(error)=>{
-      alert(error)
-    }
+    onError: (error) => {
+      alert(error);
+    },
   });
 
   const handleToggleBlock = (user) => {
-    if (window.confirm(`Are you sure you want to ${user.isBlocked ? 'unblock' : 'block'} ${user.name}?`)) {
-      toggleBlockMutation.mutate({ userId: user._id, isBlocked: user.isBlocked });
+    if (
+      window.confirm(
+        `Are you sure you want to ${user.isBlocked ? "unblock" : "block"} ${user.name}?`,
+      )
+    ) {
+      toggleBlockMutation.mutate({
+        userId: user._id,
+        isBlocked: user.isBlocked,
+      });
     }
   };
 
@@ -126,13 +135,13 @@ const UserManagement = () => {
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        <div className="p-6 border-b border-gray-50 space-y-4">
-          <div className="flex flex-wrap items-center gap-4">
+        <div className="p-6 border-b border-gray-50 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
             <button
               onClick={() => setStatus("")}
-              className={`px-4 py-2 text-xs font-bold rounded-md ${
+              className={`px-4 py-2 text-xs font-bold rounded-md transition-colors ${
                 status === ""
-                  ? "bg-emerald-500 text-white"
+                  ? "bg-emerald-500 text-white shadow-sm"
                   : "text-gray-400 hover:bg-gray-50"
               }`}
             >
@@ -140,9 +149,9 @@ const UserManagement = () => {
             </button>
             <button
               onClick={() => setStatus("active")}
-              className={`px-4 py-2 text-xs font-bold rounded-md ${
+              className={`px-4 py-2 text-xs font-bold rounded-md transition-colors ${
                 status === "active"
-                  ? "bg-emerald-500 text-white"
+                  ? "bg-emerald-500 text-white shadow-sm"
                   : "text-gray-400 hover:bg-gray-50"
               }`}
             >
@@ -150,9 +159,9 @@ const UserManagement = () => {
             </button>
             <button
               onClick={() => setStatus("blocked")}
-              className={`px-4 py-2 text-xs font-bold rounded-md ${
+              className={`px-4 py-2 text-xs font-bold rounded-md transition-colors ${
                 status === "blocked"
-                  ? "bg-emerald-500 text-white"
+                  ? "bg-emerald-500 text-white shadow-sm"
                   : "text-gray-400 hover:bg-gray-50"
               }`}
             >
@@ -160,35 +169,32 @@ const UserManagement = () => {
             </button>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between gap-4">
-            <div className="relative w-full max-w-md">
-              <Search
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-                size={16}
-              />
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  setPage(1);
-                }} 
-                placeholder="Search users by name or email..."
-                className="w-full pl-10 pr-10 py-2 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
-              />
-              {search && (
-                <button
-                  onClick={() => setSearch("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600"
-                >
-                  <X size={14} />
-                </button>
-              )}
-            </div>
+          <div className="relative w-full max-w-sm">
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              size={16}
+            />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+              placeholder="Search users..."
+              className="w-full pl-10 pr-10 py-2 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20 transition-all"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600"
+              >
+                <X size={14} />
+              </button>
+            )}
           </div>
         </div>
 
-       
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
@@ -202,57 +208,59 @@ const UserManagement = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50 text-xs font-medium text-slate-700">
-              {!isLoading && data.users.map((user) => (
-                <tr
-                  key={user._id}
-                  className="hover:bg-gray-50/50 transition-colors"
-                >
-                  <td className="px-6 py-4">{user.name}</td>
-                  <td className="px-6 py-4 text-gray-400">{user.email}</td>
-                  <td className="px-6 py-4 text-gray-400">
-                    {user.phone || "N/A"}
-                  </td>
-                  <td className="px-6 py-4 text-gray-400">
-                    {new Date(user.createdAt).toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold ${
-                        !user.isBlocked
-                          ? "bg-emerald-50 text-emerald-600 w-20"
-                          : "bg-red-50 text-red-500 w-20"
-                      }`}
-                    >
-                      
+              {!isLoading &&
+                data.users.map((user) => (
+                  <tr
+                    key={user._id}
+                    className="hover:bg-gray-50/50 transition-colors"
+                  >
+                    <td className="px-6 py-4">{user.name}</td>
+                    <td className="px-6 py-4 text-gray-400">{user.email}</td>
+                    <td className="px-6 py-4 text-gray-400">
+                      {user.phone || "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-gray-400">
+                      {new Date(user.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4">
                       <span
-                        className={`w-1.5 h-1.5 rounded-full ${
-                          !user.isBlocked ? "bg-emerald-500" : "bg-red-500"
+                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold ${
+                          !user.isBlocked
+                            ? "bg-emerald-50 text-emerald-600 w-20"
+                            : "bg-red-50 text-red-500 w-20"
                         }`}
-                      ></span>
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            !user.isBlocked ? "bg-emerald-500" : "bg-red-500"
+                          }`}
+                        ></span>
 
-                      {!user.isBlocked ? "Active" : "Blocked"}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-center">
-                    <button
-                      onClick={() => handleToggleBlock(user)}
-                      className="p-2 text-slate-800 hover:bg-gray-100 rounded-lg transition-colors"
-                      title={user.isBlocked ? "Unblock User" : "Block User"}
-                    >
-                      {user.isBlocked ? (
-                        <Unlock size={16} />
-                      ) : (
-                        <Lock size={16} />
-                      )}
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                        {!user.isBlocked ? "Active" : "Blocked"}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <button
+                        onClick={() => handleToggleBlock(user)}
+                        className="p-2 text-slate-800 hover:bg-gray-100 rounded-lg transition-colors"
+                        title={user.isBlocked ? "Unblock User" : "Block User"}
+                      >
+                        {user.isBlocked ? (
+                          <Unlock size={16} />
+                        ) : (
+                          <Lock size={16} />
+                        )}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
 
-      {!isLoading && <Pagination data={data} setPage={setPage} page={page}></Pagination>}
+        {!isLoading && (
+          <Pagination data={data} setPage={setPage} page={page}></Pagination>
+        )}
       </div>
     </div>
   );

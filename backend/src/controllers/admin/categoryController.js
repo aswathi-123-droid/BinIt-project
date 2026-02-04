@@ -10,27 +10,26 @@ export const getAllCategoriesContoller = async(req,res) => {
 }
 
 export const createCategoryController = async (req, res) => {
+ 
   logger.info(
-    `Controller: Received request to create category by Admin [${req.user?._id}]`
+    `Controller: Received request to create category by Admin [${req.admin?._id}]`
   );
 
   const file = req.file;
   let imageUrl = "";
 
-  // 1. IMAGE HANDLING
-  // Logic: Prefer uploaded file. If no file, check if a URL string was sent.
-  // If neither exists, throw an error.
   if (file) {
     imageUrl = await uploadToCloudinary(file.path);
   } else if (req.body.image) {
     imageUrl = req.body.image;
-  } else {
-    throw new AppError(
-      STATUS_CODES.BAD_REQUEST,
-      "BAD_REQUEST",
-      "Category Image is required (File or URL)"
-    );
-  }
+  } 
+  // else {
+  //   throw new AppError(
+  //     STATUS_CODES.BAD_REQUEST,
+  //     "BAD_REQUEST",
+  //     "Category Image is required (File or URL)"
+  //   );
+  // }
 
   const categoryData = {
     ...req.body,
@@ -98,13 +97,10 @@ export const createCategoryOfferController = async (req, res) => {
     const { categoryId } = req.params;
     const offerData = req.body;
 
-    // 1. Log Request
     logger.info(`Controller: Request to create offer for category [${categoryId}] by Admin [${req.user?._id}]`);
 
-    // 2. Call Service
     const createdCategory = await createCategoryOffer(categoryId, offerData);
 
-    // 3. Send Response
     sendResponse(
         res,
         {

@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { api } from '../../../api/axiosInstance';
 import { useDispatch } from 'react-redux';
 import { clearAdminState } from '../auth/adminSlice';
+import toast from 'react-hot-toast';
 
 const AdminSidebar = () => {
   const [activeItem, setActiveItem] = useState('Users');
@@ -25,14 +26,14 @@ const AdminSidebar = () => {
       dispatch(clearAdminState());
       
     }catch(err){
-      alert(err)
+      toast.error(err)
     }
   }
 
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard },
     { name: 'Pickups', icon: Truck },
-    { name: 'Inventory', icon: Archive },
+    { name: 'Services', icon: Archive },
     { name: 'Categories', icon: Layers },
     { name: 'Users', icon: Users ,},
     { name: 'Coupons', icon: Ticket },

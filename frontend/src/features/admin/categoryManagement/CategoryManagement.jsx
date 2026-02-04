@@ -10,27 +10,28 @@ import {
   Trash,
   Lock,
   Unlock,
-  ShoppingBag // Added missing import for Store icon
+  ShoppingBag 
 } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
-import Pagination from "../../../components/admin/Pagination";
+import Pagination from "../../../components/common/Pagination";
 import CategoryModal from "./CategoryModal";
 import OfferModal from "./OfferModal";
+import { useCategories } from "./categoryHooks";
+import toast from "react-hot-toast";
 
 const CategoryManagement = () => {
   const queryClient = useQueryClient();
 
-  // State Management
+ 
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [type, setType] = useState(""); 
   const [status, setStatus] = useState(""); 
   const [sortBy, setSortBy] = useState("newest");
-  const [sortOrder, setSortOrder] = useState("desc");
   const [searchInput, setSearchInput] = useState("");
   
-  // Modal States
+ 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
@@ -40,42 +41,41 @@ const CategoryManagement = () => {
   // Debounce Search Logic
   useEffect(() => {
     let id = setTimeout(() => {
-      setSearchInput(search);
+      setSearch(searchInput);
     }, 500);
     return () => clearTimeout(id);
-  }, [search]);
+  }, [searchInput]);
 
-  // Data Fetching
+ 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["categories", searchInput, page, status, type, sortBy, sortOrder],
-    queryFn: async () => {
-      const res = await api.get("/admin/categories", {
-        params: { search: searchInput, page, status, type, sortBy, sortOrder, limit: 2 },
+        queryKey: ["categories",  search, page, status, type, sortBy ],
+        queryFn: async () => {
+          const res = await api.get("/admin/categories", {
+            params:{ search, page, status, type, sortBy,limit:2},
+          });
+          return res.data;
+        },
+        keepPreviousData: true,
       });
-      return res.data;
-    },
-    keepPreviousData: true,
-  });
 
-  // Mutations
   const categoryMutation = useMutation({
     mutationFn: async (formData) => {
       const config = { headers: { "Content-Type": "multipart/form-data" } };
       if (editingCategory) {
-        // await api.patch(`/admin/categories/${editingCategory._id}`, formData, config);
+        await api.patch(`/admin/categories/${editingCategory._id}`, formData, config);
       } else {
         await api.post("/admin/categories", formData, config);
       }
     },
     onSuccess: () => {
-      alert(editingCategory ? "Category Updated Successfully" : "Category Added Successfully");
+      toast.success(editingCategory ? "Category Updated Successfully" : "Category Added Successfully");
       queryClient.invalidateQueries(["categories"]);
       setIsModalOpen(false);
       setEditingCategory(null);
     },
     onError: (error) => {
       const message = error.response?.data?.message || "Something went wrong";
-      alert(message);
+      toast.error(message);
     }
   });
 
@@ -90,11 +90,11 @@ const CategoryManagement = () => {
         return res;
     },
     onSuccess: () => {
-        alert("Offer Saved Successfully!");
+        toast.success("Offer Saved Successfully!");
         queryClient.invalidateQueries(["categories"]);
         setIsOfferModalOpen(false);
     },
-    onError: (err) => alert(err.response?.data?.message || "Failed to save offer")
+    onError: (err) => toast.error(err.response?.data?.message || "Failed to save offer")
   });
 
   const toggleStatusMutation = useMutation({
@@ -103,11 +103,13 @@ const CategoryManagement = () => {
       return res.data;
     },
     onSuccess: () => {
+      toast.success("Status updated successfully");
       queryClient.invalidateQueries(["categories"]);
     },
+    onError: ()=>toast.error("Failed to update status")
   });
 
-  // Handlers
+  
   const handleToggleStatus = (category) => {
     if (window.confirm(`Are you sure you want to ${category.isActive ? 'deactivate' : 'activate'} ${category.name}?`)) {
       toggleStatusMutation.mutate({ categoryId: category._id });
@@ -126,7 +128,7 @@ const CategoryManagement = () => {
 
   const handleAddNewOffer = (category) => {
     setEditingOffer(null);
-    setCategoryName(category); // Pass full object
+    setCategoryName(category); 
     setIsOfferModalOpen(true);
   };
 
@@ -137,6 +139,7 @@ const CategoryManagement = () => {
   };
 
   const handleFormSubmit = async (data) => {
+    console.log(data)
     try {
       categoryMutation.mutate(data);
       setIsModalOpen(false);
@@ -151,7 +154,7 @@ const CategoryManagement = () => {
      }
   };
 
-  // Stats Data
+  
   const stats = [
     { label: "Total Categories", value: data?.stats?.totalCount || "0", icon: Layers, color: "text-slate-400" },
     { label: "Recyclable (Earn)", value: data?.stats?.recyclableCount || "0", icon: Recycle, color: "text-emerald-500" },
@@ -163,10 +166,6 @@ const CategoryManagement = () => {
 
   return (
     <div className="p-4 md:p-8 bg-gray-50 min-h-screen font-sans">
-      
-      {/* --- CHANGE HERE: Updated Grid Layout --- 
-          Changed from lg:grid-cols-3 to lg:grid-cols-4 to fit 4 items in one row 
-      */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, index) => (
           <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
@@ -183,14 +182,11 @@ const CategoryManagement = () => {
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         
-        {/* Controls Bar */}
         <div className="p-6 border-b border-gray-50 space-y-4">
           <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
             
-            {/* Filters Group */}
             <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto">
               
-              {/* Type Filter */}
               <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-37.5">
                 <span className="text-xs font-medium text-gray-500">
                   Type: <span className="text-slate-700">{type ? (type === 'recyclable' ? 'Earn' : type === 'store' ? 'Store' : 'Pay') : "All"}</span>
@@ -204,7 +200,6 @@ const CategoryManagement = () => {
                 </select>
               </div>
 
-              {/* Sort By Filter */}
               <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-40">
                 <span className="text-xs font-medium text-gray-500">Sort By</span>
                 <ChevronDown size={14} className="text-gray-400 ml-auto" />
@@ -218,7 +213,6 @@ const CategoryManagement = () => {
                 </select>
               </div>
 
-              {/* Status Filter */}
               <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-35">
                 <span className="text-xs font-medium text-gray-500">
                   Status: <span className="text-slate-700">{status ? (status === 'true' ? 'Active' : 'Inactive') : "All"}</span>
@@ -233,19 +227,18 @@ const CategoryManagement = () => {
 
             </div>
 
-            {/* Search & Add Group */}
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto">
               <div className="relative w-full sm:w-72">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
                 <input
                   type="text"
-                  value={search}
-                  onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+                  value={searchInput}
+                  onChange={(e) => { setSearchInput(e.target.value); setPage(1); }}
                   placeholder="Search categories..."
                   className="w-full pl-10 pr-10 py-2 bg-white border border-gray-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
                 />
                 {search && (
-                  <button onClick={() => setSearch("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600">
+                  <button onClick={() => setSearchInput("")} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-slate-600">
                     <X size={14} />
                   </button>
                 )}
@@ -260,7 +253,6 @@ const CategoryManagement = () => {
           </div>
         </div>
 
-        {/* Responsive Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left whitespace-nowrap">
             <thead>
@@ -279,7 +271,7 @@ const CategoryManagement = () => {
               {!isLoading && data?.categories?.map((category, index) => (
                 <tr key={category._id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4 font-bold text-slate-900">
-                    {(page - 1) * 10 + (index + 1)}
+                    {(page - 1) * 2 + (index + 1)}
                   </td>
                   <td className="px-6 py-4 font-semibold">{category.name}</td>
                   <td className="px-6 py-4">
@@ -384,3 +376,6 @@ const CategoryManagement = () => {
 };
 
 export default CategoryManagement;
+
+
+

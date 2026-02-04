@@ -60,7 +60,7 @@ export const buildCategoryQuery = ({ status, search, type }) => {
    return query;
 };
 
-export const buildProductQuery = ({search,type,stockStatus}) => {
+export const buildProductQuery = ({search,type,stockStatus,isActive,categoryId}) => {
   const query = {}
 
   if(search){
@@ -69,6 +69,14 @@ export const buildProductQuery = ({search,type,stockStatus}) => {
   
   if (type && type.trim() !== "") {
     query.type = type.toLowerCase(); 
+  }
+  
+  if(isActive){
+    query.isActive = true
+  }
+
+  if(categoryId){
+    query.categoryId =categoryId
   }
 
   if (stockStatus) {
@@ -109,7 +117,7 @@ export const buildProductQuery = ({search,type,stockStatus}) => {
    return query;
 }
 
-export const getPagination = (page= 1, limit= 10, maxLimit= 25) => {
+export const getPagination = (page= 1, limit= 8, maxLimit= 25) => {
   const pageNumber= parseInt(page);
   
   const pageSize= Math.min(parseInt(limit),maxLimit);

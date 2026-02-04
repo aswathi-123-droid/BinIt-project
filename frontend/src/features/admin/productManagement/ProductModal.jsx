@@ -1,42 +1,51 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { X, Check, Recycle, Trash, ShoppingBag, Info } from 'lucide-react';
-import ImageDropzone from '../categoryManagement/ImageDropzone';
+import { X, Check, Recycle, Trash, ShoppingBag, Info, Plus, Layers } from 'lucide-react';
+import ImageDropzone from '../../../components/common/ImageDropZone';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../../api/axiosInstance';
 
 const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
-  // ... (useForm hook remains the same)
   const {
     register,
     handleSubmit,
     watch,
     setValue,
+    getValues,
     reset,
-    setError, 
+    setError,
     clearErrors,
     formState: { errors }
   } = useForm({
     defaultValues: {
       name: '',
       categoryId: '',
+      description: '', // Added description field
       type: 'recyclable',
       price: '',
-      unit: 'kg',
+      unit: 'unit',
       stock: '',
       isEstimationEnabled: false,
       isActive: true,
-      image: [] // Note: Based on previous turns, this should likely be 'images: []' for multiple, but sticking to your provided code for now.
+      hasVariations: false,
+      variations: [],
+      image: [] 
     }
   });
 
-  // ... (watchers and useEffect remain the same)
   const itemType = watch('type');
   const isActiveStatus = watch('isActive');
   const isEstimationEnabled = watch('isEstimationEnabled');
+  const hasVariations = watch('hasVariations');
   const currentImage = watch('image');
   const imageList = Array.isArray(currentImage) ? currentImage : (currentImage ? [currentImage] : []);
+  
+  // Local state for the "Add Variation" mini-form
+  const [varName, setVarName] = useState("");
+  const [varPrice, setVarPrice] = useState("");
+  const currentVariations = watch('variations') || [];
 
+  // 1. Validation Rule: Min 4 Images
   useEffect(() => {
     register('image', { 
         validate: (val) => {
@@ -46,73 +55,110 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
     });
   }, [register]);
 
-  useEffect(() => {
-    if (isOpen) {
-      if (initialData) {
-        reset({
-          // ... (reset logic)
-          name: initialData.name || '',
-          categoryId: initialData.category?._id || '',
-          type: initialData.type || 'recyclable',
-          price: initialData.price || '',
-          unit: initialData.unit || 'kg',
-          stock: initialData.stock || '',
-          isEstimationEnabled: initialData.isEstimationEnabled || false,
-          isActive: initialData.isActive !== undefined ? initialData.isActive : true,
-          image: initialData.image || []
-        });
-      } else {
-        reset({
-          // ... (reset logic)
-          name: '',
-          categoryId: '',
-          type: 'recyclable',
-          price: '',
-          unit: 'kg',
-          stock: '',
-          isEstimationEnabled: false,
-          isActive: true,
-          image: []
-        });
-      }
-    }
-  }, [isOpen, initialData, reset]);
-
-
-  const { data, isLoading: isCategoriesLoading ,error} = useQuery({
+  // 2. Fetch Categories
+  const { data, isLoading: isCategoriesLoading } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
       const res = await api.get("/admin/categories"); 
       return res.data; 
     },
-    enabled: isOpen, // Only fetch when modal is open
-    staleTime: 5 * 60 * 1000, // Cache for 5 mins
+    enabled: isOpen, 
+    staleTime: 5 * 60 * 1000, 
   });
-  
-  
-  const categories = data?.categories ||(Array.isArray(data) ? data : []);
-  console.log(categories)
 
-  const handleModalSubmit = (data) => {
-  if (!data.image || data.image.length < 4) {
-      setError("image", { type: "manual", message: "Minimum 4 images are required" }); // Show error if trying to hack/force submit
-      return; 
-  }
-    const formData = new FormData();
+  const categories = data?.categories || (Array.isArray(data) ? data : []);
 
-    // Loop through every key in your form data
-    Object.keys(data).forEach((key) => {
-      
-      // Special handling for the 'image' array
-      if (key === 'image' && Array.isArray(data[key])) {
-        data[key].forEach((file) => {
-             // Appends both new Files (uploads) and Strings (existing URLs)
-             formData.append('image', file); 
+  // 3. Load Data & Reset Form
+  useEffect(() => {
+    if (isOpen) {
+      if (initialData) {
+        reset({
+          name: initialData.name || '',
+          categoryId: initialData.category?._id || initialData.categoryId || '',
+          description: initialData.description || '', // Reset description
+          type: initialData.type || 'recyclable',
+          price: initialData.price || '',
+          unit: initialData.unit || 'unit',
+          stock: initialData.stock || '',
+          isEstimationEnabled: initialData.isEstimationEnabled || false,
+          isActive: initialData.isActive !== undefined ? initialData.isActive : true,
+          hasVariations: initialData.hasVariations || false,
+          variations: initialData.variations || [],
+          image: initialData.image || []
         });
+      } else {
+        reset({
+          name: '',
+          categoryId: '',
+          description: '', // Reset description
+          type: 'recyclable',
+          price: '',
+          unit: 'unit',
+          stock: '',
+          isEstimationEnabled: false,
+          isActive: true,
+          hasVariations: false,
+          variations: [],
+          image: []
+        });
+      }
+      setVarName("");
+      setVarPrice("");
+    }
+  }, [isOpen, reset]);
+
+  // 4. Variation Logic Helpers
+  const addVariation = () => {
+    if (!varName || !varPrice) return;
+    const newVar = { name: varName, price: parseFloat(varPrice) };
+    setValue('variations', [...currentVariations, newVar], { shouldDirty: true });
+    setVarName("");
+    setVarPrice("");
+  };
+
+  const removeVariation = (index) => {
+    const updated = currentVariations.filter((_, i) => i !== index);
+    setValue('variations', updated, { shouldDirty: true });
+  };
+
+  // 5. Submit Handler
+  const handleModalSubmit = (data) => {
+    // Validation: Min 4 Images
+    if (!data.image || data.image.length < 4) {
+        setError("image", { type: "manual", message: "Minimum 4 images are required" });
+        return; 
+    }
+
+    // Validation: Variations
+    if (data.hasVariations && data.variations.length === 0) {
+        alert("Please add at least one variation (e.g. Small, Large) or disable variations.");
+        return;
+    }
+
+    const formData = new FormData();
+    
+    // Prepare Data Copy to handle Price
+    let submitData = { ...data };
+
+    if (submitData.hasVariations) {
+        // Calculate the lowest price from the variations array
+        const lowestPrice = Math.min(...submitData.variations.map(v => Number(v.price)));
+        // Manually inject this into the data object
+        submitData.price = lowestPrice; 
+    }
+
+    // Append fields
+    Object.keys(submitData).forEach((key) => {
+      if (key === 'image') {
+        if (Array.isArray(submitData[key])) {
+            submitData[key].forEach((file) => formData.append('image', file));
+        }
       } 
-      // Handle all other fields (name, price, stock, type, etc.)
-      else if (data[key] !== undefined && data[key] !== null) {
-        formData.append(key, data[key]);
+      else if (key === 'variations') {
+        formData.append('variations', JSON.stringify(submitData[key]));
+      }
+      else if (submitData[key] !== undefined && submitData[key] !== null) {
+        formData.append(key, submitData[key]);
       }
     });
 
@@ -139,16 +185,14 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
         <div className="overflow-y-auto px-6 py-6 custom-scrollbar">
           <form id="inventory-form" onSubmit={handleSubmit(handleModalSubmit)} className="space-y-6">
             
-            {/* Row 1 to Row 4 remain exactly the same as your provided code */}
-            {/* ... (Row 1: Item Name & Category) ... */}
+            {/* Row 1: Name & Category */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {/* ... inputs ... */}
-                 <div className="space-y-1.5">
+               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Item Name</label>
                 <input 
                   {...register('name', { required: 'Item name is required' })}
                   type="text"
-                  placeholder="e.g. Cardboard Boxes"
+                  placeholder="e.g. Sofa, Mattress (Generic Name)"
                   className={`w-full px-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-all ${
                     errors.name ? 'border-red-500 focus:ring-red-50' : 'border-gray-200 focus:border-emerald-500/50 focus:ring-emerald-500/5'
                   }`}
@@ -159,91 +203,150 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Category</label>
                 <div className="relative">
-                <select 
-                  {...register('categoryId', { required: 'Category is required' })}
-                  className={`w-full px-4 py-2.5 border rounded-lg text-sm appearance-none focus:outline-none focus:ring-2 bg-white ${
-                      errors.categoryId ? 'border-red-500 focus:ring-red-50' : 'border-gray-200 focus:border-emerald-500/50 focus:ring-emerald-500/5'
-                  }`}
-                >
-                  <option value="">Select a category...</option>
-                  
-                  {/* Show loading state */}
-                  {isCategoriesLoading && <option disabled>Loading categories...</option>}
-
-                  {/* Map through fetched categories */}
-                  {!isCategoriesLoading && categories.map((cat) => (
-                    <option key={cat._id} value={cat._id}>
-                      {cat.name}
-                    </option>
-                  ))}
-                </select>
+                  <select 
+                    {...register('categoryId', { required: 'Category is required' })}
+                    className={`w-full px-4 py-2.5 border rounded-lg text-sm appearance-none focus:outline-none focus:ring-2 bg-white ${
+                        errors.categoryId ? 'border-red-500 focus:ring-red-50' : 'border-gray-200 focus:border-emerald-500/50 focus:ring-emerald-500/5'
+                    }`}
+                  >
+                    <option value="">Select a category...</option>
+                    {isCategoriesLoading ? (
+                        <option disabled>Loading categories...</option>
+                    ) : (
+                        categories.map((cat) => (
+                            <option key={cat._id} value={cat._id}>{cat.name}</option>
+                        ))
+                    )}
+                  </select>
                 </div>
                 {errors.categoryId && <p className="text-[10px] text-red-500">{errors.categoryId.message}</p>}
               </div>
             </div>
+
+            {/* Row 1.5: Description (New Field) */}
+            <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-700">Description</label>
+                <textarea
+                    {...register('description')}
+                    rows="3"
+                    placeholder="Provide details about the item (e.g. condition, accepted types)..."
+                    className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/5 resize-none"
+                />
+            </div>
             
-            {/* ... (Row 2: Item Type) ... */}
-             <div className="space-y-2">
+            {/* Row 2: Item Type */}
+            <div className="space-y-2">
               <label className="text-xs font-bold text-slate-700">Item Type & Business Model</label>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <button
-                  type="button"
-                  onClick={() => setValue('type', 'recyclable')}
-                  className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all gap-1.5 ${
-                    itemType === 'recyclable'
-                    ? 'border-emerald-500 bg-emerald-50/50 text-emerald-700'
-                    : 'border-gray-100 hover:border-gray-200 text-gray-500'
-                  }`}
-                >
-                  <Recycle size={20} />
-                  <div className="text-center">
-                    <span className="block text-xs font-bold">Earn</span>
-                    <span className="block text-[10px] opacity-70">Recyclables (Green)</span>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setValue('type', 'junk')}
-                  className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all gap-1.5 ${
-                    itemType === 'junk'
-                    ? 'border-slate-800 bg-slate-50 text-slate-800'
-                    : 'border-gray-100 hover:border-gray-200 text-gray-500'
-                  }`}
-                >
-                  <Trash size={20} />
-                  <div className="text-center">
-                    <span className="block text-xs font-bold">Pay</span>
-                    <span className="block text-[10px] opacity-70">Junk Removal (Dark)</span>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setValue('type', 'store')}
-                  className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all gap-1.5 ${
-                    itemType === 'store'
-                    ? 'border-blue-500 bg-blue-50/50 text-blue-700'
-                    : 'border-gray-100 hover:border-gray-200 text-gray-500'
-                  }`}
-                >
-                  <ShoppingBag size={20} />
-                  <div className="text-center">
-                    <span className="block text-xs font-bold">Store</span>
-                    <span className="block text-[10px] opacity-70">Sell Items (Blue)</span>
-                  </div>
-                </button>
+                {['recyclable', 'junk', 'store'].map((type) => (
+                    <button
+                        key={type}
+                        type="button"
+                        onClick={() => setValue('type', type)}
+                        className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all gap-1.5 ${
+                            itemType === type
+                            ? type === 'recyclable' ? 'border-emerald-500 bg-emerald-50/50 text-emerald-700'
+                            : type === 'store' ? 'border-blue-500 bg-blue-50/50 text-blue-700'
+                            : 'border-slate-800 bg-slate-50 text-slate-800'
+                            : 'border-gray-100 hover:border-gray-200 text-gray-500'
+                        }`}
+                    >
+                        {type === 'recyclable' && <Recycle size={20} />}
+                        {type === 'junk' && <Trash size={20} />}
+                        {type === 'store' && <ShoppingBag size={20} />}
+                        <div className="text-center">
+                            <span className="block text-xs font-bold capitalize">{type === 'junk' ? 'Pay' : type === 'recyclable' ? 'Earn' : 'Store'}</span>
+                            <span className="block text-[10px] opacity-70 capitalize">{type === 'junk' ? 'Junk Removal' : type === 'recyclable' ? 'Recyclables' : 'Sell Items'}</span>
+                        </div>
+                    </button>
+                ))}
               </div>
             </div>
 
-            {/* ... (Row 3: Pricing) ... */}
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            {/* --- VARIATIONS SECTION --- */}
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                        <Layers size={18} className="text-slate-600"/>
+                        <span className="text-sm font-bold text-slate-700">Has Variations?</span>
+                    </div>
+                    <div 
+                      onClick={() => setValue('hasVariations', !hasVariations)}
+                      className={`w-10 h-5 rounded-full cursor-pointer transition-colors duration-200 flex items-center p-0.5 ${
+                        hasVariations ? 'bg-emerald-500' : 'bg-gray-300'
+                      }`}
+                    >
+                      <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200 ${
+                        hasVariations ? 'translate-x-5' : 'translate-x-0'
+                      }`} />
+                    </div>
+                </div>
+
+                {hasVariations ? (
+                    <div className="space-y-3 animate-in fade-in slide-in-from-top-2">
+                        {/* Builder Inputs */}
+                        <div className="flex gap-2 items-end">
+                            <div className="flex-1 space-y-1">
+                                <label className="text-[10px] font-bold text-slate-500">Variation Name (e.g. 3-Seater)</label>
+                                <input 
+                                    type="text" 
+                                    value={varName}
+                                    onChange={(e) => setVarName(e.target.value)}
+                                    className="w-full px-3 py-2 border rounded-lg text-xs"
+                                    placeholder="Type name..."
+                                />
+                            </div>
+                            <div className="w-24 space-y-1">
+                                <label className="text-[10px] font-bold text-slate-500">Price</label>
+                                <input 
+                                    type="number" 
+                                    value={varPrice}
+                                    onChange={(e) => setVarPrice(e.target.value)}
+                                    className="w-full px-3 py-2 border rounded-lg text-xs"
+                                    placeholder="0.00"
+                                />
+                            </div>
+                            <button 
+                                type="button"
+                                onClick={addVariation}
+                                className="px-3 py-2 bg-slate-800 text-white rounded-lg text-xs font-bold hover:bg-slate-700"
+                            >
+                                Add
+                            </button>
+                        </div>
+
+                        {/* List of Added Variations */}
+                        {currentVariations.length > 0 && (
+                            <div className="space-y-1.5 mt-2">
+                                {currentVariations.map((v, idx) => (
+                                    <div key={idx} className="flex justify-between items-center bg-white p-2 rounded border text-xs">
+                                        <span className="font-medium text-slate-700">{v.name}</span>
+                                        <div className="flex items-center gap-3">
+                                            <span className="font-bold text-emerald-600">₹{v.price}</span>
+                                            <button type="button" onClick={() => removeVariation(idx)} className="text-red-400 hover:text-red-600">
+                                                <X size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        <p className="text-[10px] text-slate-400 italic">Base price will be automatically set to the lowest variation price.</p>
+                    </div>
+                ) : (
+                    <p className="text-[10px] text-slate-400">Enable this if the item has different sizes or types (e.g. 2-Seater vs 3-Seater) with different prices.</p>
+                )}
+            </div>
+
+            {/* Row 3: Pricing (Visible only if NO variations) */}
+            {!hasVariations && (
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 animate-in fade-in duration-300">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Base Price / Rate</label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">₹</span>
                   <input 
-                    {...register('price', { required: 'Price is required', min: 0 })}
+                    {...register('price', { required: !hasVariations ? 'Price is required' : false, min: 0 })}
                     type="number"
                     placeholder="0.00"
                     className={`w-full pl-8 pr-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-2 transition-all ${
@@ -274,8 +377,9 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 )}
               </div>
             </div>
+            )}
 
-            {/* ... (Row 4: Conditional) ... */}
+            {/* Row 4: Conditionals */}
             <div className="bg-gray-50/50 p-4 rounded-xl border border-gray-100">
               {itemType === 'store' && (
                 <div className="space-y-1.5 animate-in fade-in slide-in-from-top-2 duration-300">
@@ -303,13 +407,10 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
                     <p className="text-sm font-bold text-slate-800">Allow "Bag Count" Input?</p>
-                    
-                    {/* The Toggle Switch Logic */}
                     <div 
                       onClick={() => {
                           const newState = !isEstimationEnabled;
                           setValue('isEstimationEnabled', newState);
-                          // Force Unit to 'kg' if turning ON
                           if(newState) setValue('unit', 'kg'); 
                       }}
                       className={`w-10 h-5 rounded-full cursor-pointer transition-colors duration-200 flex items-center p-0.5 ${
@@ -320,11 +421,8 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                         isEstimationEnabled ? 'translate-x-5' : 'translate-x-0'
                       }`} />
                     </div>
-                    
-                    {/* Hidden Input for Form Data */}
                     <input type="checkbox" {...register('isEstimationEnabled')} className="hidden" />
                   </div>
-                  
                   <p className="text-[10px] text-slate-600 leading-tight">
                     If ON: Users see <b>"Select Bag Size"</b> instead of "Enter Kg".
                   </p>
@@ -337,7 +435,7 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
               )}
             </div>
 
-            {/* Row 5: Image Upload - CHANGED HEIGHT HERE */}
+            {/* Row 5: Image Upload */}
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
                   <label className="text-xs font-bold text-slate-700">
@@ -347,28 +445,29 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                       {imageList.length} uploaded (Min 4 required)
                   </span>
               </div>
-              {/* Increased height from h-32 to h-52 for better visibility */}
+              
               <div className="h-56"> 
-                 <ImageDropzone 
+                  <ImageDropzone 
                     value={currentImage} 
                     multiple={true}     
                     onChange={(file) => {
-                        // When user adds files, clear the error if they meet the requirement
                         const newFiles = Array.isArray(file) ? file : (file ? [file] : []);
                         setValue('image', newFiles, { shouldValidate: true, shouldDirty: true });
                         if(newFiles.length >= 4) clearErrors("image");
                     }}
-                 />
+                  />
               </div>
+              
               {errors.image && (
                   <p className="text-[10px] text-red-500 flex items-center gap-1 mt-1">
                       <Info size={12} /> {errors.image.message}
                   </p>
               )}
-              <p className="text-[10px] text-gray-400">Upload minimun 4 images representing the item.</p>
+              
+              <p className="text-[10px] text-gray-400">Upload minimum 4 images representing the item.</p>
             </div>
 
-            {/* ... (Row 6: Status) ... */}
+            {/* Row 6: Status */}
              <div 
               className="flex items-center gap-3 p-3 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-gray-300 transition-colors"
               onClick={() => setValue('isActive', !isActiveStatus)}
@@ -391,15 +490,20 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
         <div className="flex justify-end items-center gap-4 px-6 py-5 border-t border-gray-100 shrink-0">
           <button 
             type="button" 
-            onClick={onClose}
+            onClick={onClose} 
             className="px-6 py-2.5 border border-gray-200 rounded-lg text-sm font-bold text-slate-600 hover:bg-gray-50 transition-colors"
           >
             Cancel
           </button>
           <button 
-            form="inventory-form"
-            type="submit"
-            className="px-6 py-2.5 bg-emerald-500 text-white text-sm font-bold rounded-lg hover:bg-emerald-600 transition-all shadow-md active:scale-95 flex items-center gap-2"
+            form="inventory-form" 
+            type="submit" 
+            disabled={imageList.length < 4}
+            className={`px-6 py-2.5 text-white text-sm font-bold rounded-lg transition-all shadow-md flex items-center gap-2 ${
+                imageList.length < 4 
+                ? 'bg-emerald-300 cursor-not-allowed' 
+                : 'bg-emerald-500 hover:bg-emerald-600 active:scale-95'
+            }`}
           >
             <Check size={16} />
             {initialData ? 'Update Item' : 'Save New Item'}

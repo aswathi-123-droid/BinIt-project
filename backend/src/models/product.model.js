@@ -18,6 +18,15 @@ const productSchema = new mongoose.Schema(
             enum: ["recyclable", "junk", "store"],
             required: true
         },
+        hasVariations: {
+            type: Boolean,
+            default: false
+        },
+        variations: [{
+            name: { type: String, required: true }, // e.g., "3-Seater", "King Size"
+            price: { type: Number, required: true },
+            _id: { type: mongoose.Schema.Types.ObjectId, auto: true } // Auto-generate ID for cart logic
+        }],
         description: {
             type: String,
             trim: true
@@ -65,6 +74,11 @@ const productSchema = new mongoose.Schema(
 productSchema.pre("save",function() {
     if(this.isModified("name") && !this.slug) {
         this.slug = this.name.toLowerCase().split(" ").join("-");
+    }
+
+    if (this.hasVariations && this.variations && this.variations.length > 0) {
+        const lowestPrice = Math.min(...this.variations.map(v => v.price));
+        this.price = lowestPrice;
     }
 })
 

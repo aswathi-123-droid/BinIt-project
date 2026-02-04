@@ -17,7 +17,7 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
       value: '',
       startDate: '',
       expiryDate: '',
-      maxRedeemablePrice: '',
+      maxRedeemableAmount: '',
       minTransactionalValue: '',
       description: '',
       isActive: true
@@ -38,7 +38,7 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
           value: initialData.value || '',
           startDate: initialData.startDate ? new Date(initialData.startDate).toISOString().split('T')[0] : '',
           expiryDate: initialData.expiryDate ? new Date(initialData.expiryDate).toISOString().split('T')[0] : '',
-          maxRedeemablePrice: initialData.maxRedeemablePrice || '',
+          maxRedeemableAmount: initialData.maxRedeemableAmount || '',
           minTransactionalValue: initialData.minTransactionalValue || '',
           description: initialData.description || '',
           isActive: initialData.isActive !== undefined ? initialData.isActive : true,
@@ -51,7 +51,7 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
           value: '',
           startDate: '',
           expiryDate: '',
-          maxRedeemablePrice: '',
+          maxRedeemableAmount: '',
           minTransactionalValue: '',
           description: '',
           isActive: true
@@ -186,7 +186,7 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">₹</span>
                   <input 
-                    {...register('maxRedeemablePrice')}
+                    {...register('maxRedeemableAmount')}
                     type="number"
                     placeholder="500"
                     className="w-full pl-8 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/5 focus:border-emerald-500/50"

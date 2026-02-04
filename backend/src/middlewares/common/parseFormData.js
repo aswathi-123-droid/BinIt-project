@@ -8,5 +8,10 @@ export const parseFormData = (req, res, next) => {
       logger.warn(`Middleware: Failed to parse 'offer' JSON from FormData. Error: ${e.message}`);
     }
   }
+
+  if (req.body.isActive !== undefined) {
+    if (req.body.isActive === 'true') req.body.isActive = true;
+    if (req.body.isActive === 'false') req.body.isActive = false;
+  }
   next();
 };

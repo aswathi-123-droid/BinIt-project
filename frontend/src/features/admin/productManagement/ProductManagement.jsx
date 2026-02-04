@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
-import Pagination from "../../../components/admin/Pagination";
+import Pagination from "../../../components/common/Pagination";
 // You will need to create/import this modal later
 // import InventoryModal from "./InventoryModal"; 
 import ProductModal from "./ProductModal";
@@ -236,7 +236,7 @@ const ProductManagement = () => {
           <table className="w-full text-left whitespace-nowrap">
             <thead>
               <tr className="bg-gray-50 border-b border-gray-100 text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                <th className="px-6 py-4">Item ID</th>
+                <th className="px-6 py-4">S.NO</th>
                 <th className="px-6 py-4">Item Name</th>
                 <th className="px-6 py-4">Category</th>
                 <th className="px-6 py-4">Type</th>
@@ -251,7 +251,8 @@ const ProductManagement = () => {
               {!isLoading && data?.items?.map((item, index) => (
                 <tr key={item._id} className="hover:bg-gray-50/50 transition-colors">
                   <td className="px-6 py-4 font-bold text-slate-900">
-                    #{item.itemId || `INV-${String(index + 1).padStart(3, '0')}`}
+                    {/* #{item.itemId || `INV-${String(index + 1).padStart(3, '0')}`} */}
+                     {(page - 1) * 2 + (index + 1)}
                   </td>
                   
                   {/* Item Name */}

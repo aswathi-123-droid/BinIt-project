@@ -7,7 +7,7 @@ export const AdminLoginPage = lazy(() =>
 )
 
 export const UserDashboardPage = lazy(() =>
-  import("../features/user/userDashboardPage")
+  import("../features/user/UserDashboardPage")
 )
 
 export const ServiceListing = lazy(()=>
@@ -37,6 +37,11 @@ export const CategoryManagement = lazy(()=>
 export const ProductManagement = lazy(()=>
   import("../features/admin/productManagement/productManagement")
 )
+
+
+export const ServiceDetailPage = lazy(() => 
+  import("../features/user/services/ServiceDetailPage")
+);
 
 
 

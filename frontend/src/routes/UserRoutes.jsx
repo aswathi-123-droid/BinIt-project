@@ -6,15 +6,15 @@ import LoginPage from "../features/user/account/components/LoginPage";
 import ForgotPasswordPage from "../features/user/account/components/ForgotPasswordPage";
 import SetNewPasswordPage from "../features/user/account/components/SetNewPasswordPage";
 import PasswordResetSent from "../features/user/account/components/passwordLinkSuccess";
-import { ProtectedRoutes } from "./ProtectedRoutes";
+import { ProtectedRoutes } from "./guards/ProtectedRoutes";
 import ChangePassword from "../features/user/profile/ChangePassword/ChangePassword";
 import * as Pages from "./LazyPages";
 import { Suspense } from "react";
-import AdminProtectedRoute from "./AdminProtectedRoutes";
+import AdminProtectedRoute from "./guards/AdminProtectedRoutes";
 import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../features/admin/dashboard/AdminDashboard";
-import PublicRoute from "./PublicRoutes";
-import AdminPublicRoute from "./AdminPublicRoute";
+import PublicRoute from "./guards/PublicRoutes";
+import AdminPublicRoute from "./guards/AdminPublicRoute";
 
 
 const PageLoader = () => (
@@ -75,6 +75,10 @@ export const router = createBrowserRouter([
             element: withSuspense(Pages.ServiceListing),
           },
           {
+            path: "/services/product/:id",
+            element: withSuspense(Pages.ServiceDetailPage),
+          },
+          {
             path: "/profile",
             element: withSuspense(Pages.UserProfile),
             children: [
@@ -116,7 +120,7 @@ export const router = createBrowserRouter([
             element: withSuspense(Pages.CategoryManagement),
           },
           {
-            path: "products",
+            path: "services",
             element: withSuspense(Pages.ProductManagement)
           }
         ],

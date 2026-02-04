@@ -1,39 +1,41 @@
 import Category from "../../models/category.model.js";
 import Product from "../../models/product.model.js";
-import { buildProductQuery, getPagination, getSortOption } from "../../utils/appError.js";
+import { buildProductQuery, getCategorySortOption, getPagination, getSortOption } from "../../utils/appError.js";
 
 
-export const getProducts = async(queryParams) => {
+export const getAllProducts = async(queryParams) => {
+  console.log(queryParams,"piiii")
  const {
     page = 1,
-    limit = 10,
+    limit = 8,
     search = "",
-    category = "",
+    categoryId = "",
     type = "",
     sortBy = "createdAt",
-    sortOrder = "desc",
+    isActive
  } = queryParams;
 
- const filter = await buildProductQuery(queryParams);
+
+ const filter = await buildProductQuery({search,type,isActive,categoryId});
 
  const {skip, pageSize, pageNumber} = getPagination(page,limit);
 
- const sort = getSortOption(sortBy,sortOrder);
+ const sort = getCategorySortOption(sortBy)
 
- const [products, totalProducts, currentCategory] = Promise.all([
+ const [products, totalProducts, currentCategory] =await  Promise.all([
    Product.find(filter)
-   .populate("category","name slug type image")
+   .populate("categoryId","name slug type image isActive")
    .sort(sort)
    .skip(skip)
    .limit(pageSize),
 
    Product.countDocuments(filter),
 
-   category? Category.findOne({slug:category}).select("name") : null
+   categoryId? Category.findById(categoryId).select("name") : null
  ])
 
  return {
-   products,
+   items: products,
    categoryTitle: currentCategory ? currentCategory.name : "All Items",
    pagination: {
       currentPage: pageNumber,

@@ -5,7 +5,7 @@ const Navbar = () => {
   const navigate = useNavigate()
   const navLinks = [
     { name: 'Home', href: '#' },
-    { name: 'Services', href: '#', active: true },
+    { name: 'Services', href: '/services', active: true },
     { name: 'Recycling Info', href: '#' },
     { name: 'Pricing', href: '#' },
   ];

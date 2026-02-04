@@ -77,7 +77,7 @@ const categoryBaseSchema = {
     "string.base": "Image must be a valid string path/url",
   }),
 
-  isActive: Joi.boolean().default(true),
+  isActive: Joi.boolean().truthy('true').falsy('false').default(true),
 
   // Validating the nested object
   offer: offerSchema.default({}),
