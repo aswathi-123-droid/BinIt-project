@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   LayoutGrid, 
   ChevronRight,
-  Package, // Default icon for dynamic items
+  Package,
   ChevronsRight
 } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
@@ -12,7 +12,6 @@ import { api } from '../../../../api/axiosInstance';
 const UserSidebar = ({ onFilterChange }) => {
   const [activeId, setActiveId] = useState('All Items');
 
-  // Fetch Categories from DB
   const { data, isLoading } = useQuery({
     queryKey: ["user-categories"],
     queryFn: async () => {
@@ -51,14 +50,12 @@ const UserSidebar = ({ onFilterChange }) => {
   console.log(sections)
   return (
     <aside className="w-64 min-h-screen bg-white border-r border-gray-100 p-6 flex flex-col gap-8">
-      {/* Header */}
       <div>
         <h2 className="text-lg font-bold text-slate-800">Categories</h2>
         <p className="text-xs text-gray-400 font-medium mt-1">Filter waste types</p>
       </div>
 
       <nav className="flex flex-col gap-6">
-        {/* All Items Button - Styled exactly like your reference */}
         <button
           onClick={() => handleSelection('all', 'all', null, 'All Items')}
           className={`flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-200 group ${
@@ -78,7 +75,6 @@ const UserSidebar = ({ onFilterChange }) => {
         ) : (
           sections.map((section) => (
             <div key={section.group} className="flex flex-col gap-2">
-              {/* Section Label - Matches your reference text styling */}
               <button 
                 onClick={() => handleSelection(section.group, 'type', section.type, section.group)}
                 className={`text-[10px] font-black tracking-widest mb-1 px-3 text-left transition-colors ${

@@ -4,7 +4,7 @@ import { Upload, X, Plus } from 'lucide-react';
 
 const ImageDropzone = ({ value, onChange, multiple = false }) => {
   
-  // 1. Normalize value to always be an array
+
   const files = Array.isArray(value) ? value : (value ? [value] : []);
 
   const onDrop = useCallback((acceptedFiles) => {

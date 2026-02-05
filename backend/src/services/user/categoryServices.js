@@ -25,5 +25,5 @@ export const getActiveCategories = async()=> {
       $project: { products: 0, __v: 0 } // Clean up the response
     }
   ]);
-  return categories
+  return categories  
 }

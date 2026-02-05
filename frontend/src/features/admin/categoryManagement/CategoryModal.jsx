@@ -53,7 +53,6 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div className="bg-white rounded-2xl w-full max-w-lg shadow-2xl animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
         
-        {/* Compact Header */}
         <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100 shrink-0">
           <h3 className="text-lg font-bold text-slate-800">
             {initialData ? 'Edit Category' : 'Add New Category'}
@@ -66,11 +65,10 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
           </button>
         </div>
 
-        {/* Scrollable Form Body */}
         <div className="overflow-y-auto custom-scrollbar">
             <form id="category-form" onSubmit={handleSubmit(onSubmit)} className="px-6 py-5 space-y-4">
             
-            {/* Row 1: Name */}
+
             <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Category Name</label>
                 <input 
@@ -86,11 +84,9 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 {errors.name && <p className="text-[10px] text-red-500">{errors.name.message}</p>}
             </div>
 
-            {/* Row 2: Type Selection (3 Buttons) */}
             <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Type</label>
                 <div className="flex gap-2">
-                {/* Earn Button */}
                 <button
                     type="button"
                     onClick={() => setValue('type', 'recyclable')}
@@ -103,7 +99,6 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                     <Recycle size={14} /> Earn
                 </button>
 
-                {/* Pay Button */}
                 <button
                     type="button"
                     onClick={() => setValue('type', 'junk')}
@@ -116,7 +111,6 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                     <Trash2 size={14} /> Pay
                 </button>
 
-                {/* NEW: Store Button */}
                 <button
                     type="button"
                     onClick={() => setValue('type', 'store')}
@@ -131,7 +125,6 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 </div>
             </div>
 
-            {/* Row 3: Description */}
             <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Description</label>
                 <textarea 
@@ -174,7 +167,6 @@ const CategoryModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                 <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200 flex items-center justify-center ${
                     isActiveStatus ? 'translate-x-5' : 'translate-x-0'
                 }`}>
-                    {/* {isActiveStatus && <Check size={8} className="text-emerald-500" strokeWidth={4} />} */}
                 </div>
                 </button>
             </div>

@@ -4,19 +4,16 @@ import { AppError, buildProductQuery, getCategorySortOption, getPagination, getS
 import { STATUS_CODES } from "../../utils/constants.js";
 import logger from "../../config/logger.js";
 
-/**
- * Create a new Inventory Item
- */
+
 export const createProduct = async (productData) => {
   const { categoryId, name, type } = productData;
 
-  // 1. Verify Category exists
+
   const categoryDoc = await Category.findById(categoryId);
   if (!categoryDoc) {
     throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Selected category does not exist.");
   }
 
-  // 2. Check for Duplicates
   const existingProduct = await Product.findOne({ 
     name: { $regex: new RegExp(`^${name}$`, "i") } 
   });
@@ -25,27 +22,23 @@ export const createProduct = async (productData) => {
     throw new AppError(STATUS_CODES.CONFLICT, "CONFLICT", `Item '${name}' already exists.`);
   }
 
-  // 3. Create Product
-  // Ensure we save the specific 'type' (earn/pay/store) to the product for easier filtering later
   const newProduct = await Product.create({
     ...productData,
-    type: type || categoryDoc.type // Fallback to category type if not sent
+    type: type || categoryDoc.type 
   });
 
   logger.info(`Product created: ${newProduct.name} [ID: ${newProduct._id}]`);
   return newProduct;
 };
 
-/**
- * Get All Items (With Filters, Pagination & Stats)
- */
+
 export const getAllProducts = async (queryParams) => {
   const { 
     page, 
     limit, 
     search, 
-    type,       // 'recyclable', 'junk', 'store'
-    stockStatus,// 'in_stock', 'out_of_stock'
+    type,       
+    stockStatus,
     sortBy, 
   } = queryParams;
 
@@ -57,7 +50,7 @@ export const getAllProducts = async (queryParams) => {
 
   const [products, totalCount, recyclableCount, junkCount, storeCount] = await Promise.all([
     Product.find(query)
-      .populate("categoryId", "name type") // Populate category name for the table
+      .populate("categoryId", "name type") 
       .sort(sort)
       .skip(skip)
       .limit(pageSize),
@@ -84,9 +77,7 @@ export const getAllProducts = async (queryParams) => {
   };
 };
 
-/**
- * Update Product
- */
+
 export const updateProduct = async (productId, updateData) => {
   const product = await Product.findByIdAndUpdate(productId, updateData, { new: true });
   
@@ -98,9 +89,6 @@ export const updateProduct = async (productId, updateData) => {
   return product;
 };
 
-/**
- * Toggle Product Status
- */
 export const toggleProductStatus = async (productId) => {
   const product = await Product.findById(productId);
   console.log(product,"will do")
@@ -114,11 +102,7 @@ export const toggleProductStatus = async (productId) => {
   return product;
 };
 
-/**
- * Delete Product (Soft Delete)
- */
 export const deleteProduct = async (productId) => {
-    // We prefer Soft Delete (isDeleted: true) over hard delete to keep history
     const product = await Product.findByIdAndUpdate(productId, { isDeleted: true });
     
     if (!product) {

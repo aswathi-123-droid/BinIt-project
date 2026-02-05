@@ -10,8 +10,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-
-// --- MAIN COMPONENT ---
 const ServiceListing = () => {
   const navigate = useNavigate()
   const [search, setSearch] = useState("");
@@ -19,12 +17,11 @@ const ServiceListing = () => {
   const [filters, setFilters] = useState("")
   const [page, setPage] = useState(1)
   console.log(filters)
-  // State for modals
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isVarModalOpen, setIsVarModalOpen] = useState(false);
   const [isEstModalOpen, setIsEstModalOpen] = useState(false);
 
-  // Fetch Data
+
   const { data, isLoading } = useQuery({
     queryKey: ["user-listing", search , sortBy, page, filters], 
     queryFn: async () => {
@@ -36,24 +33,19 @@ const ServiceListing = () => {
     staleTime: 5 * 60 * 1000, 
   });
    console.log(data)
-  // --- ACTION HANDLER ---
   const handleItemAction = (e, item) => {
     e.stopPropagation()
     if (item.hasVariations) {
-      // 1. Variations (Furniture/Junk)
       setSelectedProduct(item);
       setIsVarModalOpen(true);
     } else if (item.isEstimationEnabled) {
-      // 2. Estimation (Recyclables like Paper/Plastic)
       setSelectedProduct(item);
       setIsEstModalOpen(true);
     } else {
-      // 3. Simple Item
       handleAddToCart(item, null);
     }
   };
 
-  // Add to Cart Logic
   const handleAddToCart = (product, selection) => {
     let finalItem = {
       productId: product._id,
@@ -62,25 +54,21 @@ const ServiceListing = () => {
       unit: product.unit
     };
 
-    // Determine Name and Price based on selection type
+
     if (selection?.type === 'variation') {
-      // Variation Selected
       finalItem.name = `${product.name} (${selection.data.name})`;
       finalItem.price = selection.data.price;
     } else if (selection?.type === 'estimation') {
-      // Estimation Selected
       finalItem.name = `${product.name} (${selection.data.name})`;
       finalItem.price = selection.data.price;
       finalItem.estimatedWeight = selection.data.weight; // Optional: store estimated weight
     } else {
-      // Simple Item
       finalItem.name = product.name;
       finalItem.price = product.price;
     }
     
     console.log("Adding to Cart:", finalItem);
     alert(`Added ${finalItem.name} - ₹${finalItem.price} to cart!`);
-    // TODO: Dispatch to Redux/Context
   };
 
   return (
@@ -89,7 +77,6 @@ const ServiceListing = () => {
       
       <div className="flex-1 bg-gray-50 min-h-screen p-6 font-sans">
       
-        {/* Top Bar */}
         <div className="flex flex-col md:flex-row justify-end items-center gap-4 mb-8">
           <div className="relative w-full max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -119,7 +106,6 @@ const ServiceListing = () => {
           </div>
         </div>
 
-        {/* Grid */}
         {isLoading ? (
            <div className="flex justify-center pt-20 text-gray-400">Loading services...</div>
         ) : (
@@ -128,8 +114,7 @@ const ServiceListing = () => {
               <div key={item._id}
                onClick={()=>{navigate(`/services/product/${item._id}`)}}
                className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group">
-                
-                {/* Image */}
+
                 <div className="relative h-44 w-full overflow-hidden bg-gray-100">
                   <img 
                     src={item.image?.[0] || "https://placehold.co/400x300?text=No+Image"} 
@@ -146,7 +131,6 @@ const ServiceListing = () => {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="p-5 flex flex-col flex-1">
                   <div>
                     <span className="inline-block px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold rounded uppercase tracking-wide mb-2">
@@ -158,7 +142,6 @@ const ServiceListing = () => {
                     </p>
                   </div>
                   
-                  {/* Footer */}
                   <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
                     <div>
                       <p className="text-[10px] text-gray-400 font-medium uppercase">
@@ -190,7 +173,6 @@ const ServiceListing = () => {
           </div>
         )}
 
-        {/* Modals */}
         <VariationModal 
           isOpen={isVarModalOpen}
           product={selectedProduct}

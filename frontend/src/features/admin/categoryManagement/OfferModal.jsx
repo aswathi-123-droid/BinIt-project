@@ -13,7 +13,7 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
   } = useForm({
     defaultValues: {
       title: '',
-      discountType: 'flat', // 'flat' or 'percent'
+      discountType: 'flat', 
       value: '',
       startDate: '',
       expiryDate: '',
@@ -27,11 +27,9 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
   const discountType = watch('discountType');
   const isActiveStatus = watch('isActive');
   console.log(initialData)
-  // Reset form when modal opens or initialData changes
   useEffect(() => {
     if (isOpen) {
       if (initialData) {
-        // Edit Mode: Populate with existing offer data
         reset({
           title: initialData.title || '',
           discountType: initialData.discountType || 'flat',
@@ -44,7 +42,6 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
           isActive: initialData.isActive !== undefined ? initialData.isActive : true,
         });
       } else {
-        // Add Mode: Reset to defaults
         reset({
           title: '',
           discountType: 'flat',
@@ -65,8 +62,7 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4 animate-in fade-in duration-200">
       <div className="bg-white rounded-2xl w-full max-w-2xl shadow-2xl flex flex-col max-h-[90vh] animate-in zoom-in-95 duration-200">
-        
-        {/* Header */}
+      
         <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100 shrink-0">
           <div>
             <h3 className="text-xl font-bold text-slate-800">
@@ -81,11 +77,9 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
           </button>
         </div>
 
-        {/* Scrollable Form Body */}
         <div className="overflow-y-auto px-6 py-6 custom-scrollbar">
           <form id="offer-form" onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             
-            {/* Offer Name / Title */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700">Offer Name / Title</label>
               <input 
@@ -99,9 +93,7 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
               {errors.title && <p className="text-[10px] text-red-500">{errors.title.message}</p>}
             </div>
 
-            {/* Row: Offer Type & Value */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {/* Offer Type Dropdown */}
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Offer Type</label>
                 <div className="relative">
@@ -118,7 +110,6 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
                 </div>
               </div>
 
-              {/* Value Input */}
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Value</label>
                 <div className="relative">
@@ -142,7 +133,6 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
               </div>
             </div>
 
-            {/* Row: Dates */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Start Date</label>
@@ -179,7 +169,6 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
               </div>
             </div>
 
-            {/* Row: Limits */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Max Redeemable Price</label>
@@ -209,7 +198,6 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
               </div>
             </div>
 
-            {/* Description */}
             <div className="space-y-1.5">
               <label className="text-xs font-bold text-slate-700">Offer Description / Conditions <span className="text-gray-400 font-normal">(Optional)</span></label>
               <textarea 
@@ -220,7 +208,6 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
               />
             </div>
 
-            {/* Status Toggle */}
             <div className="flex items-start gap-3 p-4 bg-gray-50/50 rounded-xl border border-gray-100 cursor-pointer" onClick={() => setValue('isActive', !isActiveStatus)}>
                <div className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${isActiveStatus ? 'bg-emerald-500 border-emerald-500' : 'bg-white border-gray-300'}`}>
                   {isActiveStatus && <Check size={14} className="text-white" strokeWidth={3} />}
@@ -229,14 +216,12 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
                   <span className="text-xs font-bold text-slate-800">Set as Active</span>
                   <span className="text-[10px] text-gray-500">This offer will be immediately available for the selected category.</span>
                </div>
-               {/* Hidden checkbox for form handling */}
                <input type="checkbox" {...register('isActive')} className="hidden" />
             </div>
 
           </form>
         </div>
 
-        {/* Footer Actions */}
         <div className="flex justify-end items-center gap-4 px-6 py-5 border-t border-gray-100 shrink-0">
           <button 
             type="button" 

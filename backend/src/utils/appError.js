@@ -132,7 +132,6 @@ export const getSortOption = (sortBy = "createdAt", sortOrder = "desc") => ({
 });
 
 export const getCategorySortOption = (sortBy = "newest") => {
-  // Define a mapping between frontend values and Mongoose field names
   switch (sortBy) {
     case "newest":
       return { createdAt: -1 };
@@ -143,7 +142,6 @@ export const getCategorySortOption = (sortBy = "newest") => {
     case "name_desc":
       return { name: -1 };
     case "items_asc":
-      // Note: Ensure 'itemCount' is a field or virtual in your schema
       return { itemCount: 1 }; 
     case "items_desc":
       return { itemCount: -1 };
@@ -152,7 +150,7 @@ export const getCategorySortOption = (sortBy = "newest") => {
     case "price_desc":
       return { price: -1}
     default:
-      return { createdAt: -1 }; // Default fallback
+      return { createdAt: -1 };
   }
 };
 

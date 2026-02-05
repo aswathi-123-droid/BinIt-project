@@ -16,27 +16,23 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
 import Pagination from "../../../components/common/Pagination";
-// You will need to create/import this modal later
-// import InventoryModal from "./InventoryModal"; 
 import ProductModal from "./ProductModal";
 
 const ProductManagement = () => {
   const queryClient = useQueryClient();
 
-  // --- State Management ---
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [type, setType] = useState("");         // Earn | Pay | Store
-  const [stockStatus, setStockStatus] = useState(""); // In Stock | Out of Stock
+  const [type, setType] = useState("");         
+  const [stockStatus, setStockStatus] = useState(""); 
   const [sortBy, setSortBy] = useState("newest");
-  const [sortOrder, setSortOrder] = useState("desc");
   const [searchInput, setSearchInput] = useState("");
   
-  // Modal State
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
 
-  // --- Debounce Search ---
+
   useEffect(() => {
     let id = setTimeout(() => {
       setSearchInput(search);
@@ -44,9 +40,9 @@ const ProductManagement = () => {
     return () => clearTimeout(id);
   }, [search]);
 
-  // --- Data Fetching ---
+ 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["products", searchInput, page, type, stockStatus, sortBy, sortOrder],
+    queryKey: ["products", searchInput, page, type, stockStatus, sortBy],
     queryFn: async () => {
       const res = await api.get("/admin/products", {
         params: { 
@@ -55,7 +51,6 @@ const ProductManagement = () => {
           type, 
           stockStatus, 
           sortBy, 
-          sortOrder, 
           limit: 2
         },
       });
@@ -85,7 +80,7 @@ const ProductManagement = () => {
         alert(message);
       }
     });
-  // --- Mutations ---
+
   const toggleStatusMutation = useMutation({
     mutationFn: async ({ itemId}) => {
       const res = await api.patch(`/admin/products/${itemId}/status`);
@@ -98,7 +93,7 @@ const ProductManagement = () => {
     onError: (err) => alert(err.response?.data?.message || "Failed to update status"),
   });
 
-  // --- Handlers ---
+
   const handleToggleStatus = (item) => {
     if (window.confirm(`Are you sure you want to ${item.isActive ? 'deactivate' : 'activate'} ${item.name}?`)) {
       toggleStatusMutation.mutate({ itemId: item._id });
@@ -125,7 +120,6 @@ const ProductManagement = () => {
     }
   }
 
-  // --- Stats Configuration ---
   const stats = [
     { label: "Total Items Listed", value: data?.stats?.totalCount || "0", icon: Package, color: "text-slate-600", bg: "bg-slate-50" },
     { label: "Recyclable Items", value: data?.stats?.recyclableCount || "0", icon: Recycle, color: "text-emerald-500", bg: "bg-emerald-50" },
@@ -137,8 +131,7 @@ const ProductManagement = () => {
 
   return (
     <div className="p-4 md:p-8 bg-gray-50 min-h-screen font-sans">
-      
-      {/* 1. Stats Grid (Aligned 4 in a row) */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat, index) => (
           <div key={index} className="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
@@ -154,15 +147,11 @@ const ProductManagement = () => {
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-        
-        {/* 2. Controls Bar */}
         <div className="p-6 border-b border-gray-50 space-y-4">
           <div className="flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
             
-            {/* Filters Group */}
             <div className="flex flex-wrap items-center gap-3 w-full xl:w-auto">
               
-              {/* Type Filter */}
               <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-40">
                 <span className="text-xs font-medium text-gray-500">
                   Type: <span className="text-slate-700">{!type ? "All Types" : type === 'store' ? 'Store' : type === 'recyclable' ? 'Earn' : 'Pay'}</span>
@@ -176,7 +165,6 @@ const ProductManagement = () => {
                 </select>
               </div>
 
-              {/* Stock Status Filter (New) */}
               <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-37.5">
                 <span className="text-xs font-medium text-gray-500">
                   Stock: <span className="text-slate-700">{!stockStatus ? "All" : stockStatus === 'in_stock' ? 'In Stock' : 'Out of Stock'}</span>
@@ -189,7 +177,7 @@ const ProductManagement = () => {
                 </select>
               </div>
 
-              {/* Sort By Filter */}
+
               <div className="relative border border-gray-200 rounded-lg px-3 py-2 flex items-center gap-2 bg-white min-w-42.5">
                 <span className="text-xs font-medium text-gray-500">Sort By</span>
                 <ChevronDown size={14} className="text-gray-400 ml-auto" />
@@ -204,7 +192,7 @@ const ProductManagement = () => {
               </div>
             </div>
 
-            {/* Search & Add Group */}
+ 
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto">
               <div className="relative w-full sm:w-72">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
@@ -231,7 +219,6 @@ const ProductManagement = () => {
           </div>
         </div>
 
-        {/* 3. Inventory List Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left whitespace-nowrap">
             <thead>
@@ -255,7 +242,6 @@ const ProductManagement = () => {
                      {(page - 1) * 2 + (index + 1)}
                   </td>
                   
-                  {/* Item Name */}
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       {/* {item.image && (
@@ -265,10 +251,8 @@ const ProductManagement = () => {
                     </div>
                   </td>
 
-                  {/* Category */}
                   <td className="px-6 py-4 text-gray-500">{item.categoryId?.name || "N/A"}</td>
                   
-                  {/* Type Badge */}
                   <td className="px-6 py-4">
                     <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${
                       item.type === 'recyclable' ? 'bg-emerald-50 text-emerald-600' 
@@ -279,12 +263,11 @@ const ProductManagement = () => {
                     </span>
                   </td>
 
-                  {/* Price/Unit Column */}
+  
                   <td className="px-6 py-4 font-bold text-slate-800">
                     ₹{item.price} <span className="text-gray-400 font-normal text-[10px]">/ {item.unit}</span>
                   </td>
 
-                  {/* Stock/Info Column (Contextual) */}
                   <td className="px-6 py-4">
                     {item.type === 'store' ? (
                        item.stock > 0 ? (
@@ -301,12 +284,10 @@ const ProductManagement = () => {
                     )}
                   </td>
 
-                  {/* Last Updated */}
                   <td className="px-6 py-4 text-gray-400">
                     {item.updatedAt ? new Date(item.updatedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : "-"}
                   </td>
 
-                  {/* Status Badge */}
                   <td className="px-6 py-4">
                     <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold w-fit ${
                         item.isActive ? "bg-emerald-50 text-emerald-600" : "bg-red-50 text-red-500"
@@ -316,7 +297,6 @@ const ProductManagement = () => {
                     </span>
                   </td>
 
-                  {/* Actions */}
                   <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-2">
                       <button 
@@ -341,7 +321,7 @@ const ProductManagement = () => {
           </table>
         </div>
 
-        {/* Modal Injection Placeholder */}
+
         {isModalOpen && (
            <ProductModal 
              isOpen={isModalOpen} 
@@ -351,7 +331,6 @@ const ProductManagement = () => {
            />
         )}
 
-        {/* Pagination */}
         <div className="p-4 border-t border-gray-50 flex flex-col sm:flex-row items-center justify-between gap-4">
            <p className="text-xs text-gray-400">
              Showing {data?.items?.length || 0} of {data?.pagination?.totalCount || 0} items

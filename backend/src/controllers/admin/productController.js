@@ -2,24 +2,21 @@ import * as inventoryService from "../../services/admin/productService.js";
 import { AppError, sendResponse } from "../../utils/appError.js";
 import { STATUS_CODES } from "../../utils/constants.js";
 import logger from "../../config/logger.js";
-import { uploadToCloudinary } from "../../utils/cloudinary.js"; // Assuming you have this
+import { uploadToCloudinary } from "../../utils/cloudinary.js"; 
 import Product from "../../models/product.model.js";
 
-/**
- * Get All Inventory Items
- */
+
 export const getAllInventoryController = async (req, res) => {
   console.log(req.query,"Looookk")
   const result = await inventoryService.getAllProducts(req.query);
   sendResponse(res, result, STATUS_CODES.OK);
 };
 
-/**
- * Create New Item
- */
+
 export const createInventoryController = async (req, res) => {
   logger.info(`Controller: Creating inventory item by Admin [${req.admin?._id}]`);
-  
+  console.log(req.files,"joyyyy")
+  console.log(req.body.image,"image")
   let imageUrls = [];
   if (req.files && req.files.length>0) {
     const uploadPromises = req.files.map(file => uploadToCloudinary(file.path));
@@ -38,14 +35,24 @@ export const createInventoryController = async (req, res) => {
               : req.body.variations;
       } catch (error) {
           logger.error("Error parsing variations JSON", error);
-          // Optional: Return 400 error here if parsing fails
       }
   }
+  
+  let finalPrice = req.body.price;
+  if (req.body.hasVariations === 'true' && parsedVariations.length > 0) {
+    // Calculate lowest price if variations are present
+    finalPrice = Math.min(...parsedVariations.map(v => Number(v.price)));
+  }
 
-  const productData = {
+ const productData = {
     ...req.body,
+    price: finalPrice || 0, // Ensure it's a number, not an empty string
     image: imageUrls,
-    variations: parsedVariations
+    variations: parsedVariations,
+    // Ensure Booleans are actual booleans (FormData sends them as strings)
+    hasVariations: req.body.hasVariations === 'true',
+    isEstimationEnabled: req.body.isEstimationEnabled === 'true',
+    isActive: req.body.isActive === 'true'
   };
 
   const newProduct = await inventoryService.createProduct(productData);
@@ -56,40 +63,52 @@ export const createInventoryController = async (req, res) => {
   }, STATUS_CODES.CREATED);
 };
 
-/**
- * Update Item
- */
 export const updateInventoryController = async (req, res) => {
   const { id } = req.params;
   
-  const existingProducts = await Product.findById(id)
-  if (!existingProducts) {
-      throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Item not found.");
+  let keptImages = [];
+  if (req.body.existingImages) {
+    keptImages = typeof req.body.existingImages === 'string' 
+      ? JSON.parse(req.body.existingImages) 
+      : req.body.existingImages;
   }
-  
-  let finalImages = existingProducts.image;
-  let imageUrls = []
+
+  let newImageUrls = [];
   if (req.files && req.files.length > 0) {
     const uploadPromises = req.files.map(file => uploadToCloudinary(file.path));
-    imageUrls = await Promise.all(uploadPromises);
-    finalImages = [...existingProducts.image,...imageUrls]
+    newImageUrls = await Promise.all(uploadPromises);
   }
+
+  const finalImages = [...keptImages, ...newImageUrls];
   
-  let parsedVariations = undefined;
+  let parsedVariations = [];
   if (req.body.variations) {
-      try {
-          parsedVariations = typeof req.body.variations === 'string' 
-              ? JSON.parse(req.body.variations) 
-              : req.body.variations;
-      } catch (error) {
-          logger.error("Error parsing variations JSON", error);
-      }
+    try {
+      parsedVariations = typeof req.body.variations === 'string'
+        ? JSON.parse(req.body.variations)
+        : req.body.variations;
+    } catch (error) {
+      parsedVariations = [];
+    }
+  }
+
+    let price = req.body.price;
+  if (req.body.hasVariations === 'true' && parsedVariations.length > 0) {
+    const prices = parsedVariations.map(v => Number(v.price));
+    price = Math.min(...prices);
+  } else {
+    price = req.body.price ? Number(req.body.price) : 0;
   }
 
   const updateData = {
-    ...req.body,
-    ...(imageUrls.length>0 && { image: finalImages }), // Only update image if a new one is provided
-    ...(parsedVariations !== undefined && { variations: parsedVariations })
+   ...req.body,
+    price: price,
+    image: finalImages,
+    variations: parsedVariations,
+    // Convert FormData strings back to actual Booleans
+    hasVariations: req.body.hasVariations === 'true',
+    isEstimationEnabled: req.body.isEstimationEnabled === 'true',
+    isActive: req.body.isActive === 'true'
   };
 
   const updatedProduct = await inventoryService.updateProduct(id, updateData);
@@ -100,9 +119,7 @@ export const updateInventoryController = async (req, res) => {
   }, STATUS_CODES.OK);
 };
 
-/**
- * Toggle Status
- */
+
 export const toggleInventoryStatusController = async (req, res) => {
   const { id } = req.params;
   const updatedProduct = await inventoryService.toggleProductStatus(id);
@@ -113,9 +130,7 @@ export const toggleInventoryStatusController = async (req, res) => {
   }, STATUS_CODES.OK);
 };
 
-/**
- * Delete Item
- */
+
 export const deleteInventoryController = async (req, res) => {
     const { id } = req.params;
     await inventoryService.deleteProduct(id);

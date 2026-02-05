@@ -3,7 +3,6 @@ import { Box, Container, ShoppingBag, X } from "lucide-react";
 const EstimationModal = ({ product, isOpen, onClose, onAddToCart }) => {
   if (!isOpen || !product) return null;
 
-  // Standard Bag Estimations (You can adjust weights as needed)
   const bagSizes = [
     { id: 'small', name: 'Small Bag', label: 'Grocery Bag', weight: 2, icon: ShoppingBag },
     { id: 'medium', name: 'Medium Bag', label: 'Garbage Bag', weight: 8, icon: Container },

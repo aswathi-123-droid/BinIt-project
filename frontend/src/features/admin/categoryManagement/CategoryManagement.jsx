@@ -17,7 +17,7 @@ import { api } from "../../../api/axiosInstance";
 import Pagination from "../../../components/common/Pagination";
 import CategoryModal from "./CategoryModal";
 import OfferModal from "./OfferModal";
-import { useCategories } from "./categoryHooks";
+// import { useCategories } from "./categoryHooks";
 import toast from "react-hot-toast";
 
 const CategoryManagement = () => {

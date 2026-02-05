@@ -17,14 +17,13 @@ const upload = multer({
 
 router.get("/",verifyAdminToken,getAllCategoriesContoller)
 
-// Create Category
 router.post(
   "/",
-  verifyAdminToken,           // 1. Security
-  upload.single("image"),     // 2. Handle File (Multer)
-  parseFormData,                  // 3. Fix Data Types (String -> Object)
-  validate(createCategorySchema), // 4. Validate (Joi checks the Object)
-  createCategoryController                 // 5. Success! (Controller)
+  verifyAdminToken,           
+  upload.single("image"),    
+  parseFormData,                 
+  validate(createCategorySchema),
+  createCategoryController              
 );
 
 router.patch("/:categoryId",
