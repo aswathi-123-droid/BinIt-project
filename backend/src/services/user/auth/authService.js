@@ -46,7 +46,7 @@ const registerUser = async (userData) =>{
 
 const loginUser = async(userData)=>{
   const {email,password} = userData
-  const user = await User.findOne({email}).select("_id name email +password imageId role phone")
+  const user = await User.findOne({email}).select("_id name email +password imageId role phone refreshToken")
   
 
   if(!user){
@@ -58,10 +58,11 @@ const loginUser = async(userData)=>{
   if(!isPasswordValid){
     throw new AppError(STATUS_CODES.UNAUTHORIZED,"INVALID_CREDENTIALS","Invalid email or password")
   }
-  
+
   const accessToken = generateAccessToken(user._id)
   const refreshToken = generateRefreshToken(user._id)
-  user.refreshToken = refreshToken
+  console.log(user)
+  user.refreshToken.push(refreshToken)
   await user.save()
 
   const userObj = user.toObject()
@@ -87,7 +88,8 @@ const logoutUser = async (userId, refreshToken) => {
     );
   }
 
-  user.refreshToken = null;
+  user.refreshToken.filter(token=>token!==refreshToken)
+  // user.refreshToken = null;
   await user.save();
 
   return { message: "User successfully logged out." };

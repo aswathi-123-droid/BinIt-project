@@ -9,14 +9,18 @@ import {
   Info,
   Plus,
   Layers,
+  Loader2,
 } from "lucide-react";
 import ImageDropzone from "../../../components/common/ImageDropZone";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
+import ImageCropModal from "../components/ImageCropModal";
 
-const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
+const ProductModal = ({ isOpen, onClose, onSubmit, initialData, isSubmitting }) => {
   const [existingImages, setExistingImages] = useState([]);
   const [newFiles, setNewFiles] = useState([]);
+  const [cropImage, setCropImage] = useState(null);
+  const [isCropModalOpen, setIsCropModalOpen] = useState(false);
   const {
     register,
     handleSubmit,
@@ -579,14 +583,20 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
                     const freshUploads = updatedList.filter(
                       (item) => item instanceof File,
                     );
-                    const remainingExisting = updatedList.filter(
-                      (item) => typeof item === "string",
-                    );
 
-                    setNewFiles(freshUploads);
-                    setExistingImages(remainingExisting);
-
-                    setValue("image", updatedList, { shouldValidate: true });
+                    if (freshUploads.length > newFiles.length) {
+                      // Open cropper for the latest file
+                      setCropImage(freshUploads[freshUploads.length - 1]);
+                      setIsCropModalOpen(true);
+                    } else {
+                      // It was a deletion
+                      const remainingExisting = updatedList.filter(
+                        (item) => typeof item === "string",
+                      );
+                      setNewFiles(freshUploads);
+                      setExistingImages(remainingExisting);
+                      setValue("image", updatedList, { shouldValidate: true });
+                    }
                   }}
                 />
               </div>
@@ -638,17 +648,40 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData }) => {
           <button
             form="inventory-form"
             type="submit"
-            disabled={imageList.length < 4}
+            disabled={imageList.length < 4 || isSubmitting}
             className={`px-6 py-2.5 text-white text-sm font-bold rounded-lg transition-all shadow-md flex items-center gap-2 ${
-              imageList.length < 4
+              imageList.length < 4 || isSubmitting
                 ? "bg-emerald-300 cursor-not-allowed"
                 : "bg-emerald-500 hover:bg-emerald-600 active:scale-95"
             }`}
           >
-            <Check size={16} />
-            {initialData ? "Update Item" : "Save New Item"}
+            {isSubmitting ? (
+              <>
+                <Loader2 className="animate-spin" size={16} />
+                {initialData ? "Updating Item.." : "Saving New Item..."}
+              </>
+            ) : (
+              <>
+                <Check size={16} />
+                {initialData ? "Update Item" : "Save New Item"}
+              </>
+            )}
           </button>
         </div>
+        {isCropModalOpen && (
+          <ImageCropModal
+            file={cropImage}
+            onCancel={() => setIsCropModalOpen(false)}
+            onComplete={(croppedFile) => {
+              const updatedFiles = [...newFiles, croppedFile];
+              setNewFiles(updatedFiles);
+              setValue("image", [...existingImages, ...updatedFiles], {
+                shouldValidate: true,
+              });
+              setIsCropModalOpen(false);
+            }}
+          />
+        )}
       </div>
     </div>
   );

@@ -7,8 +7,8 @@ import {
   Edit,
   Trash,
   Recycle,
-  Package, // For Total Items
-  ShoppingBag, // For Store Items
+  Package,
+  ShoppingBag,
   Lock,
   Unlock,
   AlertCircle
@@ -17,6 +17,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
 import Pagination from "../../../components/common/Pagination";
 import ProductModal from "./ProductModal";
+import toast from "react-hot-toast";
 
 const ProductManagement = () => {
   const queryClient = useQueryClient();
@@ -70,14 +71,14 @@ const ProductManagement = () => {
         }
       },
       onSuccess: () => {
-        alert(editingItem ? "Item Updated Successfully" : "Item Added Successfully");
+        toast.success(editingItem ? "Item Updated Successfully" : "Item Added Successfully");
         queryClient.invalidateQueries(["products"]);
         setIsModalOpen(false);
         setEditingItem(null);
       },
       onError: (error) => {
         const message = error.response?.data?.message || "Something went wrong";
-        alert(message);
+        toast.error(message);
       }
     });
 
@@ -87,10 +88,10 @@ const ProductManagement = () => {
       return res.data;
     },
     onSuccess: () => {
-      alert( "status updated Successfully");
+      toast.success( "status updated Successfully");
       queryClient.invalidateQueries(["products"]);
     },
-    onError: (err) => alert(err.response?.data?.message || "Failed to update status"),
+    onError: (err) => toast.error(err.response?.data?.message || "Failed to update status"),
   });
 
 
@@ -114,7 +115,6 @@ const ProductManagement = () => {
   const handleFormSubmit = async(data)=>{
     try {
       productMutation.mutate(data);
-      setIsModalOpen(false);
     } catch (err) {
       alert(err);
     }
@@ -328,6 +328,7 @@ const ProductManagement = () => {
              onClose={() => setIsModalOpen(false)} 
              initialData={editingItem}
              onSubmit={handleFormSubmit}
+             isSubmitting={productMutation.isPending}
            />
         )}
 

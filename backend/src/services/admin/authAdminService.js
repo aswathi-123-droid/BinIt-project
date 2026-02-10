@@ -5,8 +5,8 @@ import { STATUS_CODES } from "../../utils/constants.js";
 import { AppError } from "../../utils/appError.js";
 
 export const adminLogin = async({email,password}) => {
-    const user = await User.findOne({email}).select("+password role name email");
-
+    const user = await User.findOne({email}).select("+password role name email refreshToken");
+     
     if (!user || user.role !== "admin") {
     throw new AppError(STATUS_CODES.UNAUTHORIZED, "UNAUTHORIZED", "Invalid admin credentials.");
     }
@@ -18,8 +18,7 @@ export const adminLogin = async({email,password}) => {
 
     const accessToken = generateAccessToken(user._id);
     const refreshToken = generateRefreshToken(user._id);
-
-    user.refreshToken = refreshToken;
+    user?.refreshToken?.push(refreshToken)
     await user.save();
 
     const adminObj = user.toObject();
@@ -84,7 +83,7 @@ export const logoutAdmin = async(userId,adminRefreshToken) =>{
 
   const user = await User.findOne({
     _id: userId,
-    refreshToken:adminRefreshToken,
+    refreshToken: adminRefreshToken,
   });
 
   if (!user) {
@@ -94,8 +93,9 @@ export const logoutAdmin = async(userId,adminRefreshToken) =>{
       "Admin does not exist."
     );
   }
-
-  user.refreshToken = null;
+  console.log(user,"jyyyyy")
+  user.refreshToken.filter(token=>token!==adminRefreshToken)
+  // user.refreshToken = null;
   await user.save();
 
   return { message: "Admin successfully logged out." };

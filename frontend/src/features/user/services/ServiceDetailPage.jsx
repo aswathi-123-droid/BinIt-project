@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom"; 
-import { useQuery } from "@tanstack/react-query"; 
-import { api } from "../../../api/axiosInstance"; 
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "../../../api/axiosInstance";
 import {
   Heart,
   ZoomIn,
@@ -24,9 +24,21 @@ const ServiceDetailPage = () => {
   const [selectedVariation, setSelectedVariation] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState();
+  const [activeImage, setActiveImage] = useState(0);
+  const [zoomStyle, setZoomStyle] = useState({
+    display: "none",
+    transformOrigin: "center",
+  });
 
- 
-  const {data: product, isLoading, isError,} = useQuery({
+  useEffect(() => {
+    setActiveImage(0);
+  }, [id]);
+
+  const {
+    data: product,
+    isLoading,
+    isError,
+  } = useQuery({
     queryKey: ["product", id],
     queryFn: async () => {
       const res = await api.get(`/products/${id}`);
@@ -52,6 +64,12 @@ const ServiceDetailPage = () => {
     enabled: !!product?.categoryId?._id,
   });
 
+  useEffect(() => {
+    if (!isLoading && product && !product.isActive) {
+      navigate("/services");
+    }
+  }, [product, isLoading, navigate]);
+
   if (isLoading)
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -59,25 +77,47 @@ const ServiceDetailPage = () => {
       </div>
     );
 
-  if (isError || !product)
+  if (isError || !product || !product.isActive)
     return (
       <div className="text-center py-20 text-red-500 font-bold">
-        Product not found
+        Product not found or Unavailable
       </div>
     );
 
-console.log(product)
+  console.log(product);
+  const handleMouseMove = (e) => {
+    const { width, height } = e.currentTarget.getBoundingClientRect();
 
- return (
+    const x = (e.nativeEvent.offsetX / width) * 100;
+    const y = (e.nativeEvent.offsetY / height) * 100;
+
+    setZoomStyle({
+      display: "block",
+      transformOrigin: `${x}% ${y}%`,
+      transform: "scale(2)",
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setZoomStyle({
+      display: "none",
+      transformOrigin: "center",
+      transform: "scale(1)",
+    });
+  };
+
+  return (
     <div className="min-h-screen bg-white font-sans text-gray-900">
-
       <div className="max-w-7xl mx-auto px-6 md:px-8 py-6">
         <div className="flex items-center gap-2 text-xs font-medium text-gray-400">
           <Link className="hover:text-emerald-600 cursor-pointer">Home</Link>
 
           <ChevronRight size={14} />
 
-          <Link to="/services" className="hover:text-emerald-600 cursor-pointer">
+          <Link
+            to="/services"
+            className="hover:text-emerald-600 cursor-pointer"
+          >
             Services
           </Link>
 
@@ -100,17 +140,36 @@ console.log(product)
               <img
                 key={i}
                 src={img}
-                className="w-16 h-16 object-cover rounded-lg border border-gray-100 cursor-pointer"
+                onClick={() => setActiveImage(i)}
+                className={`w-16 h-16 object-cover rounded-lg border-2 cursor-pointer transition-all ${
+                  activeImage === i
+                    ? "border-emerald-500 shadow-md"
+                    : "border-gray-100 hover:border-emerald-200"
+                }`}
                 alt="thumb"
               />
             ))}
           </div>
-          <div className="relative flex-1">
-            <img
-              src={product.image?.[0]}
-              className="w-full aspect-square  rounded-2xl shadow-sm"
-              alt="main"
-            />
+          <div className="relative flex-1 group overflow-hidden rounded-2xl shadow-sm cursor-zoom-in bg-gray-50">
+            <div
+              className="w-full h-full relative"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+            >
+              <img
+                src={product.image?.[activeImage]}
+                style={{
+                  transform: zoomStyle.transform || "scale(1)",
+                  transformOrigin: zoomStyle.transformOrigin,
+                }}
+                className="w-full aspect-square object-cover transition-transform duration-150 ease-out"
+                alt="main"
+              />
+
+              <div className="absolute top-4 right-4 p-2 bg-white/80 backdrop-blur-sm rounded-full text-slate-600 group-hover:opacity-0 transition-opacity pointer-events-none">
+                <ZoomIn size={20} />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -133,8 +192,14 @@ console.log(product)
           </h1>
 
           <div className="flex items-center gap-3 mb-5">
-            <p className={`text-xl font-medium ${product.isEstimationEnabled? " text-emerald-600" : "text-gray-950"}`}>
-              {product.type == 'recyclable'? "Earn " : product.type == 'junk' ? "From " : ""} 
+            <p
+              className={`text-xl font-medium ${product.isEstimationEnabled ? " text-emerald-600" : "text-gray-950"}`}
+            >
+              {product.type == "recyclable"
+                ? "Earn "
+                : product.type == "junk"
+                  ? "From "
+                  : ""}
               <span className="text-xl font-bold">₹{product.price}</span>{" "}
               <span className=" text-sm text-gray-500">/ {product.unit}</span>
             </p>
@@ -150,19 +215,23 @@ console.log(product)
 
           <div className="bg-gray-50/50 p-4 rounded-2xl border border-gray-100">
             {product.isEstimationEnabled ? (
-              <EstimateView product={product} 
-              setSelectedBag={setSelectedBag} 
-              selectedBag={selectedBag} />
+              <EstimateView
+                product={product}
+                setSelectedBag={setSelectedBag}
+                selectedBag={selectedBag}
+              />
             ) : product.hasVariations ? (
-              <VariationView 
-              product={product}
-              selectedVariation={selectedVariation}
-              setSelectedVariation={setSelectedVariation}/>
+              <VariationView
+                product={product}
+                selectedVariation={selectedVariation}
+                setSelectedVariation={setSelectedVariation}
+              />
             ) : (
-              <DefaultView 
-              product={product}
-              quantity={quantity}
-              setQuantity={setQuantity}/>
+              <DefaultView
+                product={product}
+                quantity={quantity}
+                setQuantity={setQuantity}
+              />
             )}
 
             <div className="mt-8 flex items-center justify-between">

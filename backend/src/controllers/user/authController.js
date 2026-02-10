@@ -147,7 +147,6 @@ export const logoutController = async (req,res) => {
 export const googleAuthController = async (req, res) => {
   const { idToken } = req.body;
 
-  //  Verify Google Token
   const ticket = await client.verifyIdToken({
     idToken,
     audience: env.VITE_GOOGLE_CLIENT_ID,
@@ -167,7 +166,7 @@ export const googleAuthController = async (req, res) => {
 
   const accessToken = generateAccessToken(user._id);
   const refreshToken = generateRefreshToken(user._id);
-  user.refreshToken = refreshToken;
+  user.refreshToken.push(refreshToken);
   user.save();
   setAccessToken(res, accessToken);
   setRefreshToken(res, refreshToken);

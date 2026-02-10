@@ -30,7 +30,9 @@ const ServiceListing = () => {
       }); 
       return res.data; 
     }, 
-    staleTime: 5 * 60 * 1000, 
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: true, 
+    refetchOnMount: "always", 
   });
    console.log(data)
   const handleItemAction = (e, item) => {

@@ -142,7 +142,7 @@ const CategoryManagement = () => {
     console.log(data)
     try {
       categoryMutation.mutate(data);
-      setIsModalOpen(false);
+      // setIsModalOpen(false);
     } catch (err) {
       alert(err);
     }
@@ -354,6 +354,7 @@ const CategoryManagement = () => {
           onClose={() => setIsModalOpen(false)} 
           onSubmit={handleFormSubmit}
           initialData={editingCategory}
+          isSubmitting = {categoryMutation.isPending}
         />
 
         <OfferModal
