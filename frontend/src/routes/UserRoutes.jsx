@@ -79,6 +79,10 @@ export const router = createBrowserRouter([
             element: withSuspense(Pages.ServiceDetailPage),
           },
           {
+            path: "/cart",
+            element: withSuspense(Pages.CartPage)
+          },
+          {
             path: "/profile",
             element: withSuspense(Pages.UserProfile),
             children: [

@@ -1,7 +1,6 @@
 import { lazy } from "react";
 
 
-
 export const AdminLoginPage = lazy(() => 
   import("../features/admin/auth/adminLoginPage")
 )
@@ -41,6 +40,10 @@ export const ProductManagement = lazy(()=>
 
 export const ServiceDetailPage = lazy(() => 
   import("../features/user/services/ServiceDetailPage")
+);
+
+export const CartPage = lazy(() => 
+  import("../features/user/cart/CartPage")
 );
 
 

@@ -17,3 +17,4 @@ export const STATUS_CODES = {
   SERVICE_UNAVAILABLE: 503,
   GATEWAY_TIMEOUT: 504,
 };
+export const PLATFORM_FEE= 10

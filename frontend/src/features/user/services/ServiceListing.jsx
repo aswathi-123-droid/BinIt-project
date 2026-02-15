@@ -48,27 +48,32 @@ const ServiceListing = () => {
     }
   };
 
-  const handleAddToCart = (product, selection) => {
+  const handleAddToCart = async(product, selection) => {
     let finalItem = {
       productId: product._id,
       image: product.image?.[0],
       type: product.type,
-      unit: product.unit
+      unit: product.unit,
+      category: product.categoryId.name,
     };
-
+console.log(product,"chill")
 
     if (selection?.type === 'variation') {
       finalItem.name = `${product.name} (${selection.data.name})`;
       finalItem.price = selection.data.price;
+      finalItem.selectionType = selection.type;
+      finalItem.selectionName = selection.data.name;
     } else if (selection?.type === 'estimation') {
       finalItem.name = `${product.name} (${selection.data.name})`;
       finalItem.price = selection.data.price;
-      finalItem.estimatedWeight = selection.data.weight; // Optional: store estimated weight
+      finalItem.selectionType = selection.type
+      finalItem.selectionName = selection.data.name; // Optional: store estimated weight
     } else {
       finalItem.name = product.name;
       finalItem.price = product.price;
     }
-    
+    console.log(finalItem)
+    await api.post("/cart/add",finalItem)
     console.log("Adding to Cart:", finalItem);
     alert(`Added ${finalItem.name} - ₹${finalItem.price} to cart!`);
   };

@@ -49,11 +49,12 @@ const Navbar = () => {
         </div>
 
 
-        <button className="p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100">
+        <button onClick={()=>navigate("/cart")}
+        className="p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100">
           <ShoppingBag size={20} />
         </button>
 
-        <button onClick={()=>{console.log("Hiii");navigate("/profile/my-profile")}}>
+        <button onClick={()=>{navigate("/profile/my-profile")}}>
           <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-200 cursor-pointer hover:opacity-90 transition-opacity">
           <img 
             src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" 

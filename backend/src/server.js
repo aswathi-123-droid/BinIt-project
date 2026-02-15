@@ -2,13 +2,13 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cookieParser from 'cookie-parser'
 import cors from "cors"
-import { env } from './src/config/env.js'
-import userRouter from './src/routes/user/userRoutes.js';
-import adminRouter from "./src/routes/admin/adminRoutes.js"
+import { env } from './config/env.js'
+import userRouter from './routes/user/userRoutes.js';
+import adminRouter from "./routes/admin/adminRoutes.js"
 
-import { connectDB } from './src/config/db.js';
-import { errorHandler } from './src/middlewares/common/error.middleware.js'
-import logger from './src/config/logger.js';
+import { connectDB } from './config/db.js';
+import { errorHandler } from './middlewares/common/error.middleware.js'
+import logger from './config/logger.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000
