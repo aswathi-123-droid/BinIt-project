@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { 
   LayoutDashboard, 
-  Truck, 
+  Truck,
+  BaggageClaim, 
   Archive, 
   Layers, 
   Users, 
@@ -33,6 +34,7 @@ const AdminSidebar = () => {
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard },
     { name: 'Pickups', icon: Truck },
+    { name: 'Orders', icon: BaggageClaim },
     { name: 'Services', icon: Archive },
     { name: 'Categories', icon: Layers },
     { name: 'Users', icon: Users ,},

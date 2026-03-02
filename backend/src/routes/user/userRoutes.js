@@ -5,7 +5,7 @@ import addressRouter from "./addressRoutes.js"
 import categoryRouter from "./categoryRoutes.js"
 import productRouter from './productRoutes.js'
 import cartRouter from "./cartRoutes.js"
-import { getProductsController } from "../../controllers/user/productController.js"
+import orderRouter from "./orderRoutes.js"
 
 const userRouter = express.Router()
 
@@ -15,6 +15,7 @@ userRouter.use("/address",addressRouter)
 userRouter.use("/categories",categoryRouter)
 userRouter.use("/products",productRouter);
 userRouter.use("/cart",cartRouter)
+userRouter.use("/order",orderRouter)
 
 
 export default userRouter

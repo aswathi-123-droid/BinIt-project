@@ -36,3 +36,28 @@ export const uploadToCloudinary = async (localFilePath) => {
     throw new Error(`Image upload failed: ${error.message}`);
   }
 };
+
+export const deleteFromCloudinary = async (publicId) => {
+  try {
+    if (!publicId) return null;
+    // Destroy expects public_id
+    const response = await cloudinary.uploader.destroy(publicId);
+    
+    return response;
+  } catch (error) {
+    logger.error(`Cloudinary Delete Failed: ${error.message}`);
+    return null;
+  }
+};
+export const extractPublicIdFromUrl = (url) => {
+    // Example: https://res.cloudinary.com/demo/image/upload/v1234567890/binit-categories/image.jpg
+    // We want: binit-categories/image
+    try {
+        const regex = /\/upload\/(?:v\d+\/)?(.+)\.[^.]+$/;
+        const match = url.match(regex);
+        return match ? match[1] : null;
+    } catch (error) {
+        logger.error(`Error extracting public ID: ${error.message}`);
+        return null;
+    }
+}

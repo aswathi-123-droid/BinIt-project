@@ -5,7 +5,7 @@ export class AppError extends Error {
   constructor(
     status = STATUS_CODES.INTERNAL_SERVER_ERROR,
     code = "INTERNAL_SERVER_ERROR",
-    message = "An unexpected error occurred. We are investigating the issue."
+    message = "An unexpected error occurred. We are investigating the issue.",
   ) {
     super(message);
     this.status = status;
@@ -14,35 +14,32 @@ export class AppError extends Error {
   }
 }
 
-export const sendResponse = (res, data, statusCode =STATUS_CODES.OK) => {
+export const sendResponse = (res, data, statusCode = STATUS_CODES.OK) => {
   res.status(statusCode).json({
     success: true,
-    ...data
+    ...data,
   });
 };
 
-export const buildUserQuery = ({status,search}) => {
+export const buildUserQuery = ({ status, search }) => {
   const query = {};
-  
-  if(status){
-    if(status === "blocked") {
+
+  if (status) {
+    if (status === "blocked") {
       query.isBlocked = true;
-    }else if (status === "active") {
-      query.isBlocked = false
+    } else if (status === "active") {
+      query.isBlocked = false;
     }
   }
 
-  if(search && search.trim() !== ""){
-    const searchRegex = { $regex: search.trim() , $options: "i"}
+  if (search && search.trim() !== "") {
+    const searchRegex = { $regex: search.trim(), $options: "i" };
 
-    query.$or = [
-      { name: searchRegex },
-      { email: searchRegex }
-    ]
+    query.$or = [{ name: searchRegex }, { email: searchRegex }];
   }
 
-  return query
-}
+  return query;
+};
 
 export const buildCategoryQuery = ({ status, search, type }) => {
   const query = { isDeleted: false };
@@ -55,40 +52,46 @@ export const buildCategoryQuery = ({ status, search, type }) => {
   }
 
   if (type && type.trim() !== "") {
-    query.type = type.toLowerCase(); 
+    query.type = type.toLowerCase();
   }
-   return query;
+  return query;
 };
 
-export const buildProductQuery = ({search,type,stockStatus,isActive,categoryId}) => {
-  const query = {}
+export const buildProductQuery = ({
+  search,
+  type,
+  stockStatus,
+  isActive,
+  categoryId,
+}) => {
+  const query = {};
 
-  if(search){
-    query.name = {$regex: search.trim(),$options: "i"}
+  if (search) {
+    query.name = { $regex: search.trim(), $options: "i" };
   }
-  
+
   if (type && type.trim() !== "") {
-    query.type = type.toLowerCase(); 
-  }
-  
-  if(isActive){
-    query.isActive = true
+    query.type = type.toLowerCase();
   }
 
-  if(categoryId){
-    query.categoryId =categoryId
+  if (isActive) {
+    query.isActive = true;
+  }
+
+  if (categoryId) {
+    query.categoryId = categoryId;
   }
 
   if (stockStatus) {
-    if (stockStatus === 'in_stock') {
+    if (stockStatus === "in_stock") {
       // Show anything with stock > 0 (Store items) OR Service items (infinite)
       query.$or = [
-          { stock: { $gt: 0 } },
-          { type: { $ne: 'store' } } // Service items are technically "in stock"
+        { stock: { $gt: 0 } },
+        { type: { $ne: "store" } }, // Service items are technically "in stock"
       ];
-    } else if (stockStatus === 'out_of_stock') {
+    } else if (stockStatus === "out_of_stock") {
       // Strict: Only show Store items that have 0 stock
-      query.type = 'store';
+      query.type = "store";
       query.stock = { $lte: 0 };
     }
   }
@@ -114,18 +117,18 @@ export const buildProductQuery = ({search,type,stockStatus,isActive,categoryId})
   //     query.category = { $in: categoryIds };
   //   }
   // }
-   return query;
-}
+  return query;
+};
 
-export const getPagination = (page= 1, limit= 8, maxLimit= 25) => {
-  const pageNumber= parseInt(page);
-  
-  const pageSize= Math.min(parseInt(limit),maxLimit);
+export const getPagination = (page = 1, limit = 8, maxLimit = 25) => {
+  const pageNumber = parseInt(page);
 
-  const skip = (pageNumber-1) * pageSize;
+  const pageSize = Math.min(parseInt(limit), maxLimit);
 
-  return {pageNumber,pageSize,skip};
-}
+  const skip = (pageNumber - 1) * pageSize;
+
+  return { pageNumber, pageSize, skip };
+};
 
 export const getSortOption = (sortBy = "createdAt", sortOrder = "desc") => ({
   [sortBy]: sortOrder === "asc" ? 1 : -1,
@@ -142,16 +145,77 @@ export const getCategorySortOption = (sortBy = "newest") => {
     case "name_desc":
       return { name: -1 };
     case "items_asc":
-      return { itemCount: 1 }; 
+      return { itemCount: 1 };
     case "items_desc":
       return { itemCount: -1 };
     case "price_asc":
-      return { price: 1};
+      return { price: 1 };
     case "price_desc":
-      return { price: -1}
+      return { price: -1 };
     default:
       return { createdAt: -1 };
   }
 };
 
+export const buildOrderQuery = ({ search, statusFilter }, isPickup) => {
+  const matchStage = {};
+  if (statusFilter) {
+    matchStage.status = statusFilter;
+  }
 
+  const pipeline = [
+    { $match: matchStage },
+    {
+      $lookup: {
+        from: "users",
+        localField: "userId",
+        foreignField: "_id",
+        as: "userId",
+      },
+    },
+    {
+      $unwind: { path: "$userId", preserveNullAndEmptyArrays: true },
+    },
+    {
+      $lookup: {
+        from: "products",
+        localField: "items.productId",
+        foreignField: "_id",
+        as: "productDetails",
+      },
+    },
+            {
+            $match: {
+                "productDetails.type": isPickup ? { $in: ["junk", "recyclable"] } : "store"
+            }
+        }
+  ];
+
+  if(search){
+    pipeline.push({
+      $match: {
+        $or: [
+          { orderId: {$regex: search, $options: "i"}},
+                              { "userId.name": { $regex: search, $options: 'i' } },
+                               { "userId.email": { $regex: search, $options: 'i' } }
+        ]
+      }
+    })
+  }
+
+  return pipeline;
+};
+
+export const getOrderSortOption = (sortBy) => {
+    switch (sortBy) {
+        case "oldest":
+            return { createdAt: 1 };
+        case "amount_asc":
+            return { "pricing.totalAmount": 1 };
+        case "amount_desc":
+            return { "pricing.totalAmount": -1 };
+        case "newest":
+        default:
+            return { createdAt: -1 };
+    }
+};

@@ -23,10 +23,10 @@ const ProductManagement = () => {
   const queryClient = useQueryClient();
 
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
   const [type, setType] = useState("");         
   const [stockStatus, setStockStatus] = useState(""); 
   const [sortBy, setSortBy] = useState("newest");
+  const [page, setPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
   
 

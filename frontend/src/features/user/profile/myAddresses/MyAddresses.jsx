@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import AddressModal from './AddressModal';
 import { api } from '../../../../api/axiosInstance';
+import toast from 'react-hot-toast';
 
 
 
@@ -44,11 +45,11 @@ const MyAddresses = () => {
       return res.data
     },
     onSuccess:(data)=>{
-      alert("successfull")
+      toast.success("successfull")
       queryClient.invalidateQueries(["address"])
     },
     onError:(error)=>{
-      alert("printing this")
+      toast.error(error)
     }
   })
 

@@ -7,6 +7,7 @@ import VariationModal from './components/VariationModal';
 import EstimationModal from './components/EstimationModal';
 import Pagination from '../../../components/common/Pagination';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 
@@ -16,7 +17,7 @@ const ServiceListing = () => {
   const [sortBy,setSortBy] = useState("");
   const [filters, setFilters] = useState("")
   const [page, setPage] = useState(1)
-  console.log(filters)
+  // console.log(filters)
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isVarModalOpen, setIsVarModalOpen] = useState(false);
   const [isEstModalOpen, setIsEstModalOpen] = useState(false);
@@ -34,7 +35,7 @@ const ServiceListing = () => {
     refetchOnWindowFocus: true, 
     refetchOnMount: "always", 
   });
-   console.log(data)
+  //  console.log(data)
   const handleItemAction = (e, item) => {
     e.stopPropagation()
     if (item.hasVariations) {
@@ -55,8 +56,9 @@ const ServiceListing = () => {
       type: product.type,
       unit: product.unit,
       category: product.categoryId.name,
+      price:product.price 
     };
-console.log(product,"chill")
+// console.log(product,"chill")
 
     if (selection?.type === 'variation') {
       finalItem.name = `${product.name} (${selection.data.name})`;
@@ -72,10 +74,14 @@ console.log(product,"chill")
       finalItem.name = product.name;
       finalItem.price = product.price;
     }
-    console.log(finalItem)
-    await api.post("/cart/add",finalItem)
-    console.log("Adding to Cart:", finalItem);
-    alert(`Added ${finalItem.name} - ₹${finalItem.price} to cart!`);
+    // console.log(finalItem)
+    try{
+          await api.post("/cart/add",finalItem)
+          toast.success(`${finalItem.name} added to cart`)
+    }catch(error){
+      toast.error(error.response.data?.message)
+    }
+    //  toast.custom(`Are you sure you want ${finalItem.name} - ₹${finalItem.price} to cart!`);
   };
 
   return (

@@ -3,10 +3,10 @@ import React from 'react'
 function Pagination({data,setPage,page}) {
   return (
         <div className="p-6 border-t border-gray-50 flex items-center justify-between">
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-400 pr-4">
             Page {data.pagination.currentPage} of {data.pagination.totalPages}
           </p>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
             <button
               disabled={page === 1}
               onClick={() => setPage((p) => p - 1)}

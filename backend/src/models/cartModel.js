@@ -26,7 +26,8 @@ const cartSchema = new mongoose.Schema({
       default: 'default'
     },
     selectionName: String,
-    image: String
+    image: String,
+    userUploadedImages: [{type: String}]
   }]
 }, { timestamps: true });
 

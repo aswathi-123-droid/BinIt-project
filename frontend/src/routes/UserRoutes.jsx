@@ -15,6 +15,9 @@ import AdminLayout from "../layouts/AdminLayout";
 import Dashboard from "../features/admin/dashboard/AdminDashboard";
 import PublicRoute from "./guards/PublicRoutes";
 import AdminPublicRoute from "./guards/AdminPublicRoute";
+import CheckoutPage from "../features/user/checkout/CheckoutPage";
+import UploadTrash from "../features/user/checkout/component/UploadTrash";
+import AdminOrderDetails from "../features/admin/orderManagement/OrderDetails";
 
 
 const PageLoader = () => (
@@ -28,6 +31,13 @@ const withSuspense = (Component) => (
     <Component />
   </Suspense>
 );
+
+const MyPickupsPage = () => <Pages.MyOrders mode="pickup" />;
+const MyOrdersPage = () => <Pages.MyOrders mode="order" />;
+const AdminOrderManagement = () => <Pages.OrderManagement mode="order" />
+const AdminPickupManagement = () => <Pages.OrderManagement mode="pickup" />
+const AdminOrderDetail = () => <Pages.AdminOrderDetail mode="order" />
+const AdminPickupDetail = () => <Pages.AdminOrderDetail mode="pickup" />
 
 export const router = createBrowserRouter([
   {
@@ -83,6 +93,10 @@ export const router = createBrowserRouter([
             element: withSuspense(Pages.CartPage)
           },
           {
+            path: "/checkout",
+            element: <CheckoutPage/>
+          },
+          {
             path: "/profile",
             element: withSuspense(Pages.UserProfile),
             children: [
@@ -97,6 +111,22 @@ export const router = createBrowserRouter([
               {
                 path: "my-address",
                 element: withSuspense(Pages.MyAddresses),
+              },
+              {
+                path: "my-orders",
+                element: withSuspense(MyOrdersPage)
+              },
+              {
+                path: "order/:orderId",
+                element: withSuspense(Pages.OrderDetails)
+              },
+              {
+                path: "my-pickups",
+                element: withSuspense(MyPickupsPage)
+              },
+              {
+                 path: "pickup/:orderId",
+                element: withSuspense(Pages.OrderDetails)
               },
             ],
           },
@@ -126,6 +156,22 @@ export const router = createBrowserRouter([
           {
             path: "services",
             element: withSuspense(Pages.ProductManagement)
+          },
+          {
+            path: "orders",
+            element: withSuspense(AdminOrderManagement)
+          },
+          {
+            path: "orders/:id",
+            element: withSuspense(AdminOrderDetail)
+          },
+          {
+            path: "pickups",
+            element: withSuspense(AdminPickupManagement)
+          },
+          {
+            path: "pickups/:id",
+            element: withSuspense(AdminPickupDetail) 
           }
         ],
       },

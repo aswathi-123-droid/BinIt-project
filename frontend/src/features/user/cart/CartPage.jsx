@@ -13,9 +13,11 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const BinItCart = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ["cart"],
@@ -37,6 +39,34 @@ const BinItCart = () => {
     },
   });
 
+  const removeItemMutation = useMutation({
+    mutationFn: (itemId) => api.delete(`/cart/remove/${itemId}`),
+    onSuccess: () => {
+      toast.success("Item removed from the cart");
+      queryClient.invalidateQueries(["cart"]);
+    },
+    onError: (err) => {
+      toast.error(err?.response?.data?.message || "Could not remove item");
+    },
+  });
+
+  const handleCheckout = () => {
+    const cartItems = data?.cart?.items || [];
+
+    for (const item of cartItems) {
+      if (
+        item.productId.type == "store" &&
+        item.quantity > item.productId.stock
+      ) {
+        toast.error(
+          `Low stock for ${item.name}. Only ${item.productId.stock} left.`,
+        );
+        return;
+      }
+    }
+    navigate("/checkout");
+  };
+
   if (isLoading)
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -44,8 +74,8 @@ const BinItCart = () => {
       </div>
     );
 
-  let wasteItems =
-    data?.cart?.items.filter((x) => x.productId.type !== "store") || [];
+  const isPayout = data?.summary?.totalAmount < 0;
+  const displayAmount = Math.abs(data?.summary?.totalAmount || 0);
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans pb-10">
@@ -64,9 +94,7 @@ const BinItCart = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column: Items and Uploads */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Items Card */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-lg font-bold flex items-center gap-2">
@@ -152,57 +180,25 @@ const BinItCart = () => {
                         </div>
                         <div className="flex gap-4 text-xs font-semibold">
                           {/* <button className="text-emerald-500 flex items-center gap-1 hover:underline"><Edit2 size={14} /> Edit</button> */}
-                          <button className="text-red-500 flex items-center gap-1 hover:underline">
-                            <Trash2 size={14} /> Remove
+                          <button
+                            onClick={() => removeItemMutation.mutate(item._id)}
+                            disabled={removeItemMutation.isPending}
+                            className="text-red-500 flex items-center gap-1 hover:underline"
+                          >
+                            {removeItemMutation.isPending &&
+                            removeItemMutation.variables === item._id ? (
+                              "Removing..."
+                            ) : (
+                              <>
+                                <Trash2 size={14} /> Remove
+                              </>
+                            )}
                           </button>
                         </div>
                       </div>
                     </div>
                   </div>
                 ))}
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-              <h2 className="text-lg font-bold flex items-center gap-2 mb-2">
-                <Upload className="text-emerald-500 w-5 h-5" /> Upload Pictures
-                of Your Trash
-              </h2>
-              <p className="text-sm text-gray-500 mb-6">
-                Help our team prepare by uploading photos of the items.
-              </p>
-
-              <div className="space-y-4">
-                {wasteItems.length > 0 ? (
-                  wasteItems.map((item) => (
-                    <div
-                      key={item._id}
-                      className="flex items-center justify-between p-4 border border-dashed rounded-xl border-gray-200"
-                    >
-                      <div>
-                        <p className="font-bold text-sm text-gray-800">
-                          {item.name}
-                        </p>
-                        <p className="text-xs text-gray-400">
-                          Upload a photo of the {item.name.toLowerCase()}.
-                        </p>
-                      </div>
-                      <div className="flex gap-3">
-                        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-                          <Upload size={18} />
-                        </div>
-                        <button className="bg-emerald-50 text-emerald-600 px-4 py-2 rounded-lg text-xs font-bold hover:bg-emerald-100 transition-colors">
-                          Upload Photo for{" "}
-                          {item.name.split(" ")[0] || item.name}
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-sm text-gray-400 italic">
-                    No pickup items requiring photos.
-                  </p>
-                )}
               </div>
             </div>
           </div>
@@ -212,6 +208,22 @@ const BinItCart = () => {
               <h2 className="text-xl font-bold mb-6">Order Summary</h2>
 
               <div className="space-y-3 text-sm border-b pb-6 mb-6">
+                {data?.summary?.storeItems > 0 && (
+                  <div className="flex justify-between text-gray-500">
+                    <span>Store Items</span>
+                    <span className="font-bold text-gray-800">
+                      ₹{data?.summary?.storeItems}
+                    </span>
+                  </div>
+                )}
+                {data?.summary?.pickupServices > 0 && (
+                  <div className="flex justify-between text-gray-500">
+                    <span>PickupService</span>
+                    <span className="font-bold text-gray-800">
+                      ₹{data?.summary?.pickupServices}
+                    </span>
+                  </div>
+                )}
                 <div className="flex justify-between text-gray-500">
                   <span>Subtotal (Service Fees)</span>
                   <span className="font-bold text-gray-800">
@@ -221,12 +233,12 @@ const BinItCart = () => {
                 <div className="flex justify-between text-gray-500">
                   <span>Estimated Earnings</span>
                   <span className="font-bold text-emerald-500">
-                    ₹{data?.summary?.earnings}
+                    -₹{data?.summary?.earnings}
                   </span>
                 </div>
                 <div className="flex justify-between text-gray-500">
                   <span>Coupon</span>
-                  <span className="font-bold text-gray-800">₹0</span>
+                  <span className="font-bold text-emerald-500">-₹0</span>
                 </div>
                 <div className="flex justify-between text-gray-500">
                   <span>Total Discount</span>
@@ -261,17 +273,31 @@ const BinItCart = () => {
 
               <div className="flex justify-between items-end mb-6">
                 <div>
-                  <p className="text-xl font-black text-gray-800">TOTAL</p>
+                  <p className="text-xl font-black text-gray-800">
+                    {isPayout ? "TOTAL EARNINGS" : "TOTAL"}
+                  </p>
                   <p className="text-[10px] text-gray-400">
-                    Inclusive of all taxes & earnings
+                    {isPayout
+                      ? "Amount will be added to your Wallet"
+                      : "Inclusive of all taxes & earnings"}
                   </p>
                 </div>
-                <p className="text-2xl font-black text-gray-800">
-                  ₹{data?.summary?.total.toLocaleString()}.00
+                <p
+                  className={`text-2xl font-black ${isPayout ? "text-emerald-600" : "text-gray-800"}`}
+                >
+                  ₹{displayAmount.toLocaleString()}.00
                 </p>
               </div>
 
-              <button className="w-full bg-linear-to-r from-emerald-400 to-emerald-500 text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-emerald-100 hover:opacity-90 transition-opacity">
+              <button
+                onClick={handleCheckout}
+                className={`w-full bg-linear-to-r ${
+                  data?.cart?.items.length > 0
+                    ? "bg-emerald-500 hover:bg-emerald-600 shadow-emerald-200 hover:shadow-emerald-300 transform hover:-translate-y-0.5 active:scale-95"
+                    : "bg-gray-300 cursor-not-allowed shadow-none grayscale opacity-70"
+                } text-white py-4 rounded-xl font-bold text-lg shadow-lg shadow-emerald-100 hover:opacity-90 transition-opacity`}
+                disabled={data?.cart?.items.length == 0}
+              >
                 Proceed to Checkout
               </button>
               <p className="text-[10px] text-center text-gray-400 mt-4">
@@ -282,7 +308,6 @@ const BinItCart = () => {
               </p>
             </div>
 
-            {/* Price Guarantee Note */}
             <div className="bg-blue-50 rounded-xl p-4 flex gap-3 border border-blue-100">
               <div className="bg-blue-500 p-1 rounded-full h-fit mt-1">
                 <Info size={14} className="text-white" />
@@ -305,3 +330,79 @@ const BinItCart = () => {
 };
 
 export default BinItCart;
+
+//             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+//               <h2 className="text-lg font-bold flex items-center gap-2 mb-2">
+//                 <Upload className="text-emerald-500 w-5 h-5" /> Upload Pictures
+//                 of Your Trash
+//               </h2>
+//               <p className="text-sm text-gray-500 mb-6">
+//                 Help our team prepare by uploading photos of the items.
+//               </p>
+
+//               <div className="space-y-4">
+//                {wasteItems.length > 0 ? (
+//   wasteItems.map((item) => (
+//     <div
+//       key={item._id}
+//       className="flex items-center justify-between p-4 border border-dashed rounded-xl border-gray-200"
+//     >
+//       <div>
+//         <p className="font-bold text-sm text-gray-800">{item.name}</p>
+//         <p className="text-xs text-gray-400">
+//           Upload a photo of the {item.name.toLowerCase()}.
+//         </p>
+//         {/* Optional: Show how many images are currently uploaded */}
+//         {item.userUploadedImages?.length > 0 && (
+//           <div>
+//               <p className="text-[10px] text-emerald-600 font-bold mt-1">
+//             ✓ {item.userUploadedImages.length} images added
+//           </p>
+//           <div>
+//             {/* <img src={item.userUploadedImages[0]} alt="" /> */}
+//           </div>
+//           </div>
+
+//         )}
+//       </div>
+
+//       <div className="flex gap-3">
+//         {/* 1. Hidden File Input */}
+//         <input
+//           type="file"
+//           id={`file-upload-${item._id}`}
+//           className="hidden"
+//           multiple
+//           accept="image/*"
+//           onChange={(e) => handleFileChange(e, item.productId._id, item.selectionName)}
+//         />
+
+//         {/* 2. Visual Upload Button (UI Only) */}
+//         <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
+//           {uploadMutation.isPending && uploadMutation.variables?.get("productId") === item.productId._id ? (
+//             <Loader2 className="animate-spin" size={18} />
+//           ) : (
+//             <Upload size={18} />
+//           )}
+//         </div>
+
+//         {/* 3. Action Button linked to the Hidden Input */}
+//         <label
+//           htmlFor={`file-upload-${item._id}`}
+//           className={`px-4 py-2 rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center ${
+//             uploadMutation.isPending ? "bg-gray-100 text-gray-400" : "bg-emerald-50 text-emerald-600 hover:bg-emerald-100"
+//           }`}
+//         >
+//           {uploadMutation.isPending && uploadMutation.variables?.get("productId") === item.productId._id
+//             ? "Uploading..."
+//             : `Upload Photo for ${item.name.split(" ")[0]}`
+//           }
+//         </label>
+//       </div>
+//     </div>
+//   ))
+// ) : (
+//   <p className="text-sm text-gray-400 italic">No pickup items requiring photos.</p>
+// )}
+//               </div>
+//             </div>

@@ -1,4 +1,5 @@
 import { lazy } from "react";
+import AdminOrderDetails from "../features/admin/orderManagement/OrderDetails";
 
 
 export const AdminLoginPage = lazy(() => 
@@ -37,6 +38,9 @@ export const ProductManagement = lazy(()=>
   import("../features/admin/productManagement/productManagement")
 )
 
+export const OrderManagement = lazy(()=>
+  import("../features/admin/orderManagement/OrderManagement")
+)
 
 export const ServiceDetailPage = lazy(() => 
   import("../features/user/services/ServiceDetailPage")
@@ -45,6 +49,20 @@ export const ServiceDetailPage = lazy(() =>
 export const CartPage = lazy(() => 
   import("../features/user/cart/CartPage")
 );
+
+export const MyOrders = lazy(() => 
+  import("../features/user/profile/myOrders/MyOrders")
+)
+
+export const OrderDetails = lazy(() => 
+  import("../features/user/profile/myOrders/OrderDetails")
+)
+
+export const AdminOrderDetail = lazy(() => 
+  import("../features/admin/orderManagement/OrderDetails")
+)
+
+
 
 
 
