@@ -20,7 +20,7 @@ const CheckoutPage = () => {
   });
 
   const { mutate: placeOrder, isPending } = useMutation({
-    mutationFn: async(payload) => {
+  mutationFn: async(payload) => {
         const response = await api.post("/order/create", payload);
         return response.data
     },
@@ -29,9 +29,10 @@ const CheckoutPage = () => {
 
         const formattedOrder = {
           id: order.orderId,
-          date: new Date(order.pickupDate).toLocaleDateString(),
-          time: order.pickupTimeSlot,
-          address: `${order.pickupAddress.street}, ${order.pickupAddress.city} - ${order.pickupAddress.pincode}`
+          date: order.pickupDate ? new Date(order.pickupDate).toLocaleDateString() : new Date().toLocaleDateString(),
+          time: order.pickupTimeSlot || "N/A",
+          address: order.pickupAddress ? `${order.pickupAddress.street}, ${order.pickupAddress.city} - ${order.pickupAddress.pincode}` : "N/A",
+          fullOrder: order
         };
 
         setCheckoutData(prev => ({ ...prev, orderDetails: formattedOrder }));
@@ -71,7 +72,9 @@ const CheckoutPage = () => {
         addressId: checkoutData.addressId,
         pickupDate: checkoutData.pickupDate,
         pickupTimeSlot: checkoutData.pickupTimeSlot,
-        paymentMethod: paymentData.paymentMethod
+        paymentMethod: paymentData.paymentMethod,
+        useWallet: paymentData.useWallet,
+        couponCode: paymentData.couponCode
     };
     placeOrder(payload)
   };

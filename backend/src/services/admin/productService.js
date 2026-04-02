@@ -54,7 +54,7 @@ export const getAllProducts = async (queryParams) => {
       .sort(sort)
       .skip(skip)
       .limit(pageSize),
-    Product.countDocuments(),
+    Product.countDocuments(query),
     Product.countDocuments({ type: "recyclable" }),
     Product.countDocuments({ type: "junk" }),
     Product.countDocuments({ type: "store"}),
@@ -111,4 +111,100 @@ export const deleteProduct = async (productId) => {
 
     logger.info(`Product soft-deleted: ${product.name} [ID: ${productId}]`);
     return { message: "Item deleted successfully" };
+};
+
+
+export const createProductOffer = async (productId, offerData) => {
+    const { 
+        title, 
+        description, 
+        discountType, 
+        value, 
+        minTransactionalValue, 
+        maxRedeemableAmount, 
+        startDate, 
+        expiryDate, 
+        isActive 
+    } = offerData;
+    logger.info(`Service: Initiating create offer for product [ID: ${productId}]`);
+    const product = await Product.findById(productId);
+    
+    if (!product) {
+        logger.warn(`Service: Create offer failed. Product not found [ID: ${productId}]`);
+        throw new AppError(
+            STATUS_CODES.NOT_FOUND,
+            "NOT_FOUND",
+            "Product not found"
+        );
+    }
+    if (product.type !== 'store') {
+        logger.warn(`Service: Create offer rejected. Product is not a store item [ID: ${productId}, Type: ${product.type}]`);
+        throw new AppError(
+            STATUS_CODES.BAD_REQUEST,
+            "INVALID_ACTION",
+            "Discount offers can only be applied to 'store' items."
+        );
+    }
+    const start = new Date(startDate);
+    const expiry = new Date(expiryDate);
+    
+    if (start >= expiry) {
+        throw new AppError(
+            STATUS_CODES.BAD_REQUEST,
+            "INVALID_DATE",
+            "Expiry date must be after the start date"
+        );
+    }
+    const newOffer = {
+        title,
+        description: description || "",
+        discountType,
+        value,
+        minTransactionalValue: minTransactionalValue || 0,
+        maxRedeemableAmount: maxRedeemableAmount || null,
+        startDate: start,
+        expiryDate: expiry,
+        isActive: isActive !== undefined ? isActive : true
+    };
+    product.offer = newOffer;
+    await product.save();
+    logger.info(`Service: Offer created successfully for product: ${product.name} [Offer: ${title}]`);
+    return product;
+};
+
+export const updateProductOffer = async (productId, offerData) => {
+    logger.info(`Service: Initiating update offer for product [ID: ${productId}]`);
+    const product = await Product.findById(productId);
+    if (!product) {
+        logger.warn(`Service: Update offer failed. Product not found [ID: ${productId}]`);
+        throw new AppError(
+            STATUS_CODES.NOT_FOUND,
+            "PRODUCT_NOT_FOUND",
+            "The product with the specified ID could not be found."
+        );
+    }
+    if (product.type !== 'store') {
+        throw new AppError(
+            STATUS_CODES.BAD_REQUEST,
+            "INVALID_ACTION",
+            "Discount offers can only be applied to 'store' items."
+        );
+    }
+
+    product.offer = {
+        isActive: offerData.isActive !== undefined ? offerData.isActive : true,
+        title: offerData.title,
+        description: offerData.description || "",
+        discountType: offerData.discountType,
+        value: offerData.value,
+        minTransactionalValue: offerData.minTransactionalValue || 0,
+        maxRedeemableAmount: offerData.maxRedeemableAmount || 0, 
+        startDate: offerData.startDate,
+        expiryDate: offerData.expiryDate
+    };
+    const updatedProduct = await product.save();
+    
+    logger.info(`Service: Offer updated successfully for product '${product.name}'`);
+    
+    return updatedProduct;
 };

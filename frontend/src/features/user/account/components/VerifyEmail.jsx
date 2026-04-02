@@ -5,12 +5,15 @@ import { useDispatch } from 'react-redux';
 import { verifyEmail } from '../authSlice'; 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../../../../api/axiosInstance';
+import toast from 'react-hot-toast';
+
 
 const VerifyEmail = () => {
   const { handleSubmit } = useForm();
   const [otp, setOtp] = useState(new Array(6).fill(""));
   const [timer, setTimer] = useState(60); 
   const [canResend, setCanResend] = useState(false); 
+  const [isSubmitting, setIsSubmitting] = useState(false); 
   const inputRefs = useRef([]);
   
   const dispatch = useDispatch();
@@ -66,16 +69,22 @@ const VerifyEmail = () => {
   const onSubmit = async () => {
     const finalOtp = otp.join("");
     if (!email) {
-      alert("Email not found. Please register again.");
+      toast.error("Email not found. Please register again.");
       return;
     }
-    if (finalOtp.length < 6) return alert("Please enter the full code");
-
+    if (finalOtp.length < 6) return toast.error("Please enter the full code");
+    
+    setIsSubmitting(true);
     try {
       await dispatch(verifyEmail({ email, otp: finalOtp })).unwrap();
+      toast.success("Email verified successfully!");
       navigate("/auth/verifysuccess", { state: { message: "email" } });
     } catch (err) {
-      alert(err);
+      toast.error(err || "Invalid OTP, please try again");
+      setOtp(new Array(6).fill(""));
+      inputRefs.current[0].focus(); 
+    }finally{
+       setIsSubmitting(false); 
     }
   };
 

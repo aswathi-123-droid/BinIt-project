@@ -87,6 +87,8 @@ const UserSidebar = ({ onFilterChange }) => {
               <div className="flex flex-col gap-1">
                 {section.items.map((cat) => {
                   const isActive = activeId === cat.name;
+                  const hasOffer = cat.offer?.isActive && new Date(cat.offer.expiryDate) > new Date();
+
                   return (
                     <button
                       key={cat._id}
@@ -99,12 +101,19 @@ const UserSidebar = ({ onFilterChange }) => {
                     >
                       <ChevronsRight 
                         size={18} 
-                        className={isActive ? 'text-emerald-500' : 'text-slate-400 group-hover:text-emerald-400'} 
+                        className={isActive ? 'text-emerald-500 shrink-0' : 'text-slate-400 shrink-0 group-hover:text-emerald-400'} 
                       />
-                      <span className={`text-sm font-semibold ${isActive ? 'text-emerald-900' : 'text-slate-600'}`}>
+                      <span className={`text-sm font-semibold flex-1 text-left ${isActive ? 'text-emerald-900' : 'text-slate-600'}`}>
                         {cat.name}
                       </span>
-                      {isActive && <ChevronRight size={14} className="ml-auto opacity-50" />}
+                      
+                      {hasOffer && (
+                        <span className="text-[9px] font-bold bg-red-50 border border-red-100 text-red-600 px-1.5 py-0.5 rounded uppercase whitespace-nowrap shrink-0 animate-pulse">
+                          {cat.offer.discountType === 'percent' ? `${cat.offer.value}% OFF` : `₹${cat.offer.value} OFF`}
+                        </span>
+                      )}
+
+                      {isActive && <ChevronRight size={14} className="shrink-0 opacity-50" />}
                     </button>
                   );
                 })}

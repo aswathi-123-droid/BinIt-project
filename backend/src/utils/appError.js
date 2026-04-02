@@ -117,6 +117,7 @@ export const buildProductQuery = ({
   //     query.category = { $in: categoryIds };
   //   }
   // }
+  console.log(query,"viiiii")
   return query;
 };
 
@@ -160,6 +161,9 @@ export const getCategorySortOption = (sortBy = "newest") => {
 export const buildOrderQuery = ({ search, statusFilter }, isPickup) => {
   const matchStage = {};
   if (statusFilter) {
+    if(isPickup)
+    matchStage.pickupStatus = statusFilter;
+    else
     matchStage.status = statusFilter;
   }
 
@@ -219,3 +223,4 @@ export const getOrderSortOption = (sortBy) => {
             return { createdAt: -1 };
     }
 };
+

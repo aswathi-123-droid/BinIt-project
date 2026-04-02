@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import AdminOrderDetails from "../features/admin/orderManagement/OrderDetails";
+import MyCoupons from "../features/user/profile/MyCoupon";
 
 
 export const AdminLoginPage = lazy(() => 
@@ -20,6 +20,10 @@ export const UserProfile = lazy(()=>
 
 export const MyProfile = lazy(()=> 
   import("../features/user/profile/myProfile/MyProfile")
+)
+
+export const MyCoupon = lazy(()=> 
+  import("../features/user/profile/MyCoupon")
 )
 
 export const MyAddresses = lazy(()=> 
@@ -60,6 +64,22 @@ export const OrderDetails = lazy(() =>
 
 export const AdminOrderDetail = lazy(() => 
   import("../features/admin/orderManagement/OrderDetails")
+)
+
+export const CouponManagement = lazy(()=>
+  import("../features/admin/couponManagement/CouponManagement")
+)
+
+export const LandingPage = lazy(() => 
+  import("../features/user/main/LandingPage")
+)
+
+export const WishlistPage = lazy(() => 
+  import("../features/user/wishlist/WishlistPage")
+)
+
+export const MyWallet = lazy(() => 
+  import("../features/user/profile/myWallet/MyWallet")
 )
 
 

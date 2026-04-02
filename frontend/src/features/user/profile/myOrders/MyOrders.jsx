@@ -6,7 +6,6 @@ import { api } from '../../../../api/axiosInstance';
 import Pagination from '../../../../components/common/Pagination';
 import StatusBadge from './components/StatusBadge';
 
-// Mode can be 'order' (default) or 'pickup'
 const MyOrders = ({ mode = 'order' }) => {
   const isPickupMode = mode === 'pickup';
   const pageTitle = isPickupMode ? 'My Pickups' : 'My Orders';
@@ -16,7 +15,6 @@ const MyOrders = ({ mode = 'order' }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5; 
 
-  // Fetch orders (same endpoint)
   const { data: orders = [], isLoading, isError } = useQuery({
     queryKey: ['myOrders'],
     queryFn: async () => {
@@ -41,33 +39,27 @@ const MyOrders = ({ mode = 'order' }) => {
     );
   }
 
-  // --- FILTERING LOGIC --- //
 
-  // 1. Filter by Type (Store Order vs Pickup)
   const filteredByType = orders.filter(order => {
       const hasStoreItems = order.items?.some(item => item.productId?.type === 'store');
       const hasPickupItems = order.items?.some(item => item.productId?.type !== 'store');
-      // If pickup mode: show orders that have NO store items (or explicitly have junk/recyclable)
-      // If order mode: show orders that DO have store items
       return isPickupMode ? hasPickupItems : hasStoreItems;
   });
 
-  // 2. Filter by Tab Status
   const getStatusFilter = (status) => {
     switch (activeTab) {
       case 'Active': return ['Placed', 'Confirmed'].includes(status);
-      case 'Completed': return ['Completed', 'Delivered'].includes(status);
-      case 'Canceled': return ['Cancelled'].includes(status);
+      case 'Completed': return ['Completed'].includes(status);
+      case 'Delivered': return ['Delivered'].includes(status);
+      case 'Cancelled': return ['Cancelled'].includes(status);
       case 'Returned': return ['Returned'].includes(status);
       default: return true; 
     }
   };
 
-  // 3. Apply Filters (Tab + Search)
   const filteredOrders = filteredByType.filter(order => {
-    const matchesTab = getStatusFilter(order.status);
+    const matchesTab = getStatusFilter(isPickupMode? order.pickupStatus : order.status);
     
-    // Determine which items to search through based on mode
     const searchItems = order.items?.filter(item => 
         isPickupMode ? item.productId?.type !== 'store' : item.productId?.type === 'store'
     );
@@ -86,14 +78,13 @@ const MyOrders = ({ mode = 'order' }) => {
   const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
 
   const paginationData = { pagination: { currentPage, totalPages } };
-  const tabs = ['All Orders', 'Active', 'Completed', 'Canceled', isPickupMode ? null : 'Returned'].filter(Boolean);
+  const tabs = ['All Orders', 'Active', isPickupMode ? 'Completed' : 'Delivered', 'Cancelled', isPickupMode ? null : 'Returned'].filter(Boolean);
   
   const isPayout = orders?.pricing?.totalAmount < 0;
   const displayAmount = Math.abs(orders?.pricing?.totalAmount || 0);
   return (
     <div className="w-full max-w-5xl mx-auto p-4 sm:p-6 font-sans text-gray-800">
       
-      {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
           <Link to="/" className="hover:text-emerald-600">Home</Link>
@@ -103,7 +94,6 @@ const MyOrders = ({ mode = 'order' }) => {
         <h1 className="text-2xl font-bold text-gray-900">{pageTitle}</h1>
       </div>
 
-      {/* Search & Tabs */}
       <div className="relative mb-8">
         <input 
           type="text" 
@@ -154,7 +144,6 @@ const MyOrders = ({ mode = 'order' }) => {
                         </span>
                       </div>
                       
-                      {/* PICKUP SPECIFIC: Show Time Slot */}
                       {isPickupMode && (
                           <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
                               <div className="flex items-center gap-1.5 bg-blue-50 text-blue-700 px-2 py-1 rounded-md">
@@ -171,10 +160,9 @@ const MyOrders = ({ mode = 'order' }) => {
                       )}
                   </div>
 
-                  <StatusBadge status={order.status} />
+                  <StatusBadge status={isPickupMode? order.pickupStatus : order.status} />
                 </div>
  
-                {/* Items */}
                 <div className="space-y-4">
                   {displayItems.map((item, idx) => {
                      const imgSrc = item.image || (item.productId?.image && item.productId.image[0]);
@@ -227,7 +215,6 @@ const MyOrders = ({ mode = 'order' }) => {
 
                   <div className="flex items-center gap-4">
                     <Link 
-                      // Pass mode in URL query or use separate route
                       to={`/profile/${isPickupMode ? 'pickup' : 'order'}/${encodeURIComponent(order.orderId)}`}
                       className="bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block"
                     >

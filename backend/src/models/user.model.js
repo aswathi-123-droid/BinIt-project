@@ -87,7 +87,9 @@ const userSchema = new mongoose.Schema(
     //   count: { type: Number, default: 0 },
     //   amount: { type: Number, default: 0 },
     // },
-
+    referralCode: { type: String, unique: true }, 
+    referredBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }, 
+    hasMadeFirstPurchase: { type: Boolean, default: false },
     resetPasswordToken: { type: String },
     resetPasswordExpire: { type: Date },
   },

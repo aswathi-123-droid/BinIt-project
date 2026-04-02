@@ -11,14 +11,23 @@ import { sendVerificationOTP } from "./emailVerificationService.js";
 
 
 const registerUser = async (userData) =>{
-  const {fullName:name,email,phone,password} = userData
+  const {fullName:name, email, phone, password, friendReferralCode} = userData
 
   const existingUser = await User.findOne({email})
 
   if(existingUser){
-    
     throw new AppError(STATUS_CODES.CONFLICT,"EMAIL_ALREADY_EXISTS","User already exists.")
   }
+
+  let referrerId = null;
+  if (friendReferralCode) {
+      const parentUser = await User.findOne({ referralCode: friendReferralCode });
+      if (parentUser) {
+          referrerId = parentUser._id;
+      }
+  }
+
+  const generatedCode = `BINIT-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 
   const hashedPassword = await bcrypt.hash(password,10)
   const newUser = new User({
@@ -26,17 +35,11 @@ const registerUser = async (userData) =>{
     email,
     phone,
     password:hashedPassword,
+    referralCode: generatedCode,
+    referredBy: referrerId 
   })
  
   await newUser.save()
-  // const user = await User.findById(newUser._id)
-  //   .select("_id name email imageId")
-  //   .lean()
-  
-  // const accessToken = generateAccessToken(user._id)
-  // const refreshToken = generateRefreshToken(user._id)
-  // newUser.refreshToken = refreshToken;
-  // await newUser.save();
 
   let result = await sendVerificationOTP(email)
 

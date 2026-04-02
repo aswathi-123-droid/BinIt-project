@@ -15,9 +15,10 @@ import {
 import { api } from "../../../../api/axiosInstance";
 import AddressModal from "../../profile/myAddresses/AddressModal";
 import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 const CheckoutAddress = ({ onNext, onBack }) => {
-  const [selectedAddressId, setSelectedAddressId] = useState(null);
+  const [selectedAddressId, setSelectedAddressId] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
 
@@ -46,9 +47,9 @@ const CheckoutAddress = ({ onNext, onBack }) => {
       const d = new Date(today);
       d.setDate(today.getDate() + i);
       dates.push({
-        day: d.toLocaleDateString("en-US", { weekday: "short" }), // Mon
-        date: d.getDate(), // 12
-        fullDate: d.toISOString(), // useful for backend
+        day: d.toLocaleDateString("en-US", { weekday: "short" }), 
+        date: d.getDate(), 
+        fullDate: d.toISOString(), 
       });
     }
     return dates;
@@ -68,6 +69,12 @@ const CheckoutAddress = ({ onNext, onBack }) => {
       return res.data.data;
     },
   });
+
+  useEffect(() => {
+  if (addresses && addresses.length > 0 && !selectedAddressId) {
+    setSelectedAddressId(addresses[0]._id);
+  }
+}, [addresses, selectedAddressId]);
 
   const addressMutation = useMutation({
     mutationFn: async (data) => {
@@ -146,7 +153,6 @@ const CheckoutAddress = ({ onNext, onBack }) => {
 
   return (
     <div className="w-full max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
-      {/* SECTION 1: ADDRESS SELECTION */}
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-900">
           Step 2: Select Pickup Address

@@ -65,13 +65,49 @@ const productSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
+        // ===== NEW: ADDED OFFER OBJECT IDENTICAL TO CATEGORY =====
+        offer: {
+            isActive: {
+                type: Boolean,
+                default: false
+            },
+            title: {
+                type: String,
+                trim: true
+            },
+            description: {
+                type: String,
+            },
+            discountType: {
+                type: String,
+                enum: ["flat", "percent"],
+            },
+            value: {
+                type: Number,
+                min: [0, "Discount value cannot be negative"]
+            },
+            minTransactionalValue: {
+                type: Number,
+                default: 0
+            },
+            maxRedeemableAmount: {
+                type: Number,
+                default: 0,
+            },
+            startDate: {
+                type: Date
+            },
+            expiryDate: {
+                type: Date
+            },
+        }
     },
     {
         timestamps: true,
     }
 );
 
-productSchema.pre("save",function() {
+productSchema.pre("save", function() {
     if(this.isModified("name") && !this.slug) {
         this.slug = this.name.toLowerCase().split(" ").join("-");
     }
@@ -80,8 +116,8 @@ productSchema.pre("save",function() {
         const lowestPrice = Math.min(...this.variations.map(v => v.price));
         this.price = lowestPrice;
     }
-})
+});
 
-const Product = mongoose.model("Product",productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 export default Product;

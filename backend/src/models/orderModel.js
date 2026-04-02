@@ -17,27 +17,49 @@ const orderSchema = new mongoose.Schema({
         productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
         name: String,
         quantity: Number,
-        price: Number, // Price at the time of purchase
+        price: Number, 
         image: String,
-        selectionType: String, // 'variation', 'estimation', etc.
+        selectionType: String,
         selectionName: String,
+        offerDiscount: { type: Number, default: 0 },
         userUploadedImages: [{ type: String }],
         itemStatus: {
             type: String,
-            enum: ["Active", "Cancelled", "Returned"],
+            enum: ["Active", "Cancelled", "Returned","Return Pending"],
             default: "Active"
-        }
+        },
+        cancellationReason: {
+            type: String,
+            default: null
+        },
+        returnReason: {
+        type: String,
+        default: null
+    }
     }],
 
     // Pricing Breakdown
     pricing: {
-        subtotal: Number,
-        platformFee: Number,
-        couponDiscount: Number,
-        totalAmount: Number ,
-        storeItems: Number , 
-        pickupServices: Number ,
-        earnings: Number// Final amount to be paid/received
+        // subtotal: Number,
+        // platformFee: Number,
+        // couponDiscount: Number,
+        // totalAmount: Number ,
+        // walletAmountUsed: { type: Number, default: 0 },
+        // amountToPayOnline: { type: Number, default: 0 }, 
+        // offerDiscount: { type: Number, default: 0 },
+        // storeItems: Number , 
+        // pickupServices: Number ,
+        // earnings: Number// Final amount to be paid/received
+        subtotal: { type: Number, required: true },
+        storeItems: { type: Number, default: 0 },
+        pickupServices: { type: Number, default: 0 },
+        earnings: { type: Number, default: 0 },
+        platformFee: { type: Number, default: 0 },
+        offerDiscount: { type: Number, default: 0 },
+        couponDiscount: { type: Number, default: 0 },
+        totalAmount: { type: Number, required: true },
+        walletAmountUsed: { type: Number, default: 0 },
+        amountToPayOnline: { type: Number, default: 0 }
     },
 
     // SNAPSHOT of Address
@@ -53,13 +75,13 @@ const orderSchema = new mongoose.Schema({
     },
 
     // Scheduling
-    pickupDate: { type: Date, required: true },
-    pickupTimeSlot: { type: String, required: true },
+    pickupDate: { type: Date },
+    pickupTimeSlot: { type: String},
 
     // Payment Logic
     paymentMethod: {
         type: String,
-        enum: ["COD", "Razorpay", "Wallet"],
+        enum: ["COD", "Razorpay", "Wallet" , "Wallet_and_Razorpay","Wallet_and_Online"],
         required: true
     },
     paymentStatus: {
@@ -67,17 +89,21 @@ const orderSchema = new mongoose.Schema({
         enum: ["Pending", "Completed", "Failed", "Refunded"],
         default: "Pending"
     },
-    transactionId: String, // For Razorpay/Online payments
-
-     status: {
+    transactionId: String, 
+    status: {
         type: String,
         enum: ["Placed", "Confirmed", "Shipped", "Delivered", "Completed", "Cancelled", "Returned"],
         default: "Placed"
     },
-       cancellation: {
+    pickupStatus: {
+    type: String,
+    enum: ["Pending", "Agent Assigned", "Out for Pickup", "Completed", "Cancelled", null],
+    default: "Pending" 
+    },
+    cancellation: {
         reason: { type: String, default: null },
         timestamp: { type: Date, default: null },
-        cancelledBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } // Optional: to track if user or admin cancelled
+        cancelledBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } 
     },
     return: {
         reason: { type: String, default: null },
@@ -87,8 +113,9 @@ const orderSchema = new mongoose.Schema({
             default: 'Pending'
         },
         timestamp: { type: Date, default: null }
-    }
-    
+    },
+    couponCode: { type: String, default: null },
+    couponDiscount: { type: Number, default: 0 },
     // assignedAgentId: { type: mongoose.Schema.Types.ObjectId, ref: "Agent" }, 
 
 }, { timestamps: true });

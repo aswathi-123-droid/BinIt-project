@@ -1,119 +1,333 @@
 import logger from "../../config/logger.js";
 import Order from "../../models/orderModel.js";
-import { AppError, buildOrderQuery, getOrderSortOption, getPagination } from "../../utils/appError.js";
+import Product from "../../models/product.model.js";
+import User from "../../models/user.model.js";
+import {
+  AppError,
+  buildOrderQuery,
+  getOrderSortOption,
+  getPagination,
+} from "../../utils/appError.js";
 import { STATUS_CODES } from "../../utils/constants.js";
+import { creditWallet } from "../../utils/walletHelper.js";
 
-export const getAllOrders = async(queryParams, isPickup=false) => {
-      const { 
-        page, 
-        limit, 
-        statusFilter, 
-        search, 
-        sortBy = "createdAt",
-        sortOrder = "desc" 
-    } = queryParams;
+export const getAllOrders = async (queryParams, isPickup = false) => {
+  const {
+    page,
+    limit,
+    statusFilter,
+    search,
+    sortBy = "createdAt",
+    sortOrder = "desc",
+  } = queryParams;
 
-    const { pageSize, skip, pageNumber} = getPagination(page,limit);
+  const { pageSize, skip, pageNumber } = getPagination(page, limit);
 
-    const basePipeline = buildOrderQuery({search, statusFilter}, isPickup);
+  const basePipeline = buildOrderQuery({ search, statusFilter }, isPickup);
 
-    const sort = getOrderSortOption(sortBy);
+  const sort = getOrderSortOption(sortBy);
 
-    try{
-        const itemsPipeline = [...basePipeline,{$sort: sort},{$skip: skip},{$limit: pageSize}];
-         
-        const countPipeline = [...basePipeline,{$count:"totalCount"}];
+  try {
+    const itemsPipeline = [
+      ...basePipeline,
+      { $sort: sort },
+      { $skip: skip },
+      { $limit: pageSize },
+    ];
 
-        const statsPipeline = [
-            ...basePipeline,
-            {
-               $group: {
-                _id: null,
-                totalOrders: {$sum: 1},
-                placed: {$sum: { $cond: [{ $eq: ["$status", "Placed"]}, 1, 0] } },
-                inTransit: {$sum: {$cond: [{ $eq: ["$status", "Shipped"]}, 1, 0] } },
-                delivered: { $sum: { $cond: [{ $in: ["$status", ["Delivered", "Completed"]] }, 1, 0] } }
-               }
-            }
-        ]
+    const countPipeline = [...basePipeline, { $count: "totalCount" }];
 
-        const [items, countResult, statsResult] = await Promise.all([
-            Order.aggregate(itemsPipeline),
-            Order.aggregate(countPipeline),
-            Order.aggregate(statsPipeline)
-        ])
-
-        const totalCount = countResult.length > 0 ? countResult[0].totalCount : 0;
-        const stats = statsResult.length > 0 ? statsResult[0] : { totalOrders: 0, placed: 0, inTransit: 0, delivered: 0 };
-        
-        console.log(stats,"kijjj")
-        if(stats._id === null) delete stats._id;
-
-        logger.info(`Fetched admin ${isPickup ? 'pickups' : 'orders'} successfully. Page: ${pageNumber}`);
-
-                return {
-            items,
-            stats: {
-                totalCount: stats.totalOrders,
-                placedCount: stats.placed,
-                inTransitCount: stats.inTransit,
-                deliveredCount: stats.delivered
+    const statsPipeline = [
+      ...basePipeline,
+      {
+        $group: {
+          _id: null,
+          totalOrders: { $sum: 1 },
+          placed: { $sum: { $cond: [{ $eq: ["$status", "Placed"] }, 1, 0] } },
+          inTransit: {
+            $sum: { $cond: [{ $eq: ["$status", "Shipped"] }, 1, 0] },
+          },
+          delivered: {
+            $sum: {
+              $cond: [{ $in: ["$status", ["Delivered", "Completed"]] }, 1, 0],
             },
-            pagination: {
-                totalCount,
-                currentPage: pageNumber,
-                totalPages: Math.ceil(totalCount / pageSize),
-                pageSize,
-            }
-        };
-    }catch(error){
-        logger.error(`Error fetching admin ${isPickup ? 'pickups' : 'orders'}: ${error.message}`)
-        throw new AppError(STATUS_CODES.INTERNAL_SERVER_ERROR, "DB_ERROR", "Failed to fetch orders");
-    }
-}
+          },
+        },
+      },
+    ];
 
-export const getOrderById = async (orderId) => {
-    const order = await Order.findOne({ 
-       $or: [{ _id: orderId }, { orderId: orderId }]
-    })
-    .populate("userId", "name email phone")
-    .populate({
-        path: "items.productId",
-        select: "name type price image unit"
-    });
+    const [items, countResult, statsResult] = await Promise.all([
+      Order.aggregate(itemsPipeline),
+      Order.aggregate(countPipeline),
+      Order.aggregate(statsPipeline),
+    ]);
 
-    if (!order) {
-        logger.warn(`Admin attempt to view non-existent order. Order: ${orderId}`);
-        throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Order not found");
-    }
+    const totalCount = countResult.length > 0 ? countResult[0].totalCount : 0;
+    const stats =
+      statsResult.length > 0
+        ? statsResult[0]
+        : { totalOrders: 0, placed: 0, inTransit: 0, delivered: 0 };
 
-    logger.info(`Successfully fetched details for order ${orderId} by Admin`);
+    console.log(stats, "kijjj");
+    if (stats._id === null) delete stats._id;
 
-    return order;
+    logger.info(
+      `Fetched admin ${isPickup ? "pickups" : "orders"} successfully. Page: ${pageNumber}`,
+    );
+
+    return {
+      items,
+      stats: {
+        totalCount: stats.totalOrders,
+        placedCount: stats.placed,
+        inTransitCount: stats.inTransit,
+        deliveredCount: stats.delivered,
+      },
+      pagination: {
+        totalCount,
+        currentPage: pageNumber,
+        totalPages: Math.ceil(totalCount / pageSize),
+        pageSize,
+      },
+    };
+  } catch (error) {
+    logger.error(
+      `Error fetching admin ${isPickup ? "pickups" : "orders"}: ${error.message}`,
+    );
+    throw new AppError(
+      STATUS_CODES.INTERNAL_SERVER_ERROR,
+      "DB_ERROR",
+      "Failed to fetch orders",
+    );
+  }
 };
 
+export const getOrderById = async (orderId) => {
+  const order = await Order.findOne({
+    $or: [{ _id: orderId }, { orderId: orderId }],
+  })
+    .populate("userId", "name email phone")
+    .populate({
+      path: "items.productId",
+      select: "name type price image unit",
+    });
 
-export const updateOrderStatusService = async (orderId, newStatus) => {
-    const validStatuses = ["Placed", "Confirmed", "Shipped", "Delivered", "Cancelled", "Returned"];
-    if (!validStatuses.includes(newStatus)) {
-        throw new AppError(STATUS_CODES.BAD_REQUEST, "INVALID_STATUS", "Invalid order status");
+  if (!order) {
+    logger.warn(`Admin attempt to view non-existent order. Order: ${orderId}`);
+    throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Order not found");
+  }
+
+  logger.info(`Successfully fetched details for order ${orderId} by Admin`);
+
+  return order;
+};
+
+export const updateOrderStatusService = async (
+  orderId,
+  newStatus,
+  isPickupUpdate = false,
+) => {
+  let validStatuses;
+
+  if (isPickupUpdate) {
+    validStatuses = [
+      "Pending",
+      "Agent Assigned",
+      "Out for Pickup",
+      "Completed",
+      "Cancelled",
+    ];
+  } else {
+    validStatuses = [
+      "Placed",
+      "Confirmed",
+      "Shipped",
+      "Delivered",
+      "Cancelled",
+      "Returned",
+    ];
+  }
+
+  if (!validStatuses.includes(newStatus)) {
+    throw new AppError(
+      STATUS_CODES.BAD_REQUEST,
+      "INVALID_STATUS",
+      "Invalid order status",
+    );
+  }
+
+  const order = await Order.findOne({
+    $or: [{ _id: orderId }, { orderId: orderId }],
+  });
+
+  if (!order) {
+    throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Order not found");
+  }
+
+  if (isPickupUpdate) {
+    order.pickupStatus = newStatus;
+  } else {
+    order.status = newStatus;
+    if (newStatus === "Cancelled" || newStatus === "Returned") {
+      order.items.forEach((item) => {
+        if (item.productId?.type === "store" || !item.productId?.type) {
+          item.itemStatus = newStatus;
+        }
+      });
     }
-  
-    // const order = await Order.findOneAndUpdate(
-    //     { $or: [{ _id: orderId }, { orderId: orderId }] },
-    //     { status: newStatus },
-    //     { new: true }
-    // );
-    const order = await Order.findOne({
-        $or: [{ _id: orderId }, { orderId: orderId }]
-    })
-    if (!order) {
-        throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Order not found");
+  }
+
+  await order.save();
+
+  if (newStatus === "Delivered" || newStatus === "Completed") {
+    const user = await User.findById(order.userId);
+    console.log(user,"juuuuuu")
+    if (user && user.referredBy && user.hasMadeFirstPurchase === false) {
+      user.hasMadeFirstPurchase = true;
+      await user.save();
+      await creditWallet(
+        user.referredBy,
+        50,
+        "REFERRAL_BONUS",
+        `Your friend ${user.name} completed their first order!`,
+      );
+      await creditWallet(
+        user._id,
+        50,
+        "WELCOME_BONUS",
+        `Welcome to BinIt! Here is your reward for completing your first order.`,
+      );
     }
-    order.status = 'Cancelled';
-    order.items.forEach(item => {
-    item.itemStatus = 'Cancelled'});
-    await order.save();
-    logger.info(`Admin updated order ${orderId} status to ${newStatus}`);
-    return order;
+  }
+  logger.info(
+    `Admin updated order ${orderId} ${isPickupUpdate ? "pickup" : "delivery"} status to ${newStatus}`,
+  );
+  return order;
+};
+
+export const updateReturnStatusService = async (orderId, newReturnStatus) => {
+  const order = await Order.findById(orderId).populate("items.productId");
+  if (!order) {
+    throw new AppError("Order not found", STATUS_CODES.NOT_FOUND);
+  }
+
+  if (!order.return || !order.return.status) {
+    throw new AppError(
+      "This order does not have an active return request",
+      STATUS_CODES.BAD_REQUEST,
+    );
+  }
+
+  if (
+    order.return.status === "Completed" ||
+    order.return.status === "Rejected"
+  ) {
+    throw new AppError(
+      `Cannot change status of a return request that is already ${order.return.status}`,
+      STATUS_CODES.BAD_REQUEST,
+    );
+  }
+
+  order.return.status = newReturnStatus;
+
+  if (newReturnStatus === "Completed") {
+    order.status = "Returned";
+
+    for (const item of order.items) {
+      if (item.productId && item.productId.type === "store") {
+        item.itemStatus = "Returned";
+
+        await Product.findByIdAndUpdate(item.productId._id, {
+          $inc: { stock: item.quantity },
+        });
+      }
+    }
+    // order.items.forEach(item => {
+    //     if (item.productId && item.productId.type === 'store') {
+    //         item.itemStatus = "Returned";
+    //     }
+    // });
+    if (order.paymentStatus === "PAID" || order.paymentMethod === "COD") {
+      await creditWallet(
+        order.userId,
+        order.pricing.totalAmount,
+        "ORDER_RETURN_REFUND",
+        `Refund for returned order #${orderId}`,
+        order._id,
+      );
+      logger.info(
+        `Refunded ₹${order.pricing.totalAmount} to user wallet for returned order ${orderId}`,
+      );
+    }
+  }
+
+  await order.save();
+  logger.info(
+    `Order ${orderId} return status securely updated to ${newReturnStatus}`,
+  );
+
+  return order;
+};
+
+export const updateOrderItemReturnStatusService = async (
+  orderId,
+  itemId,
+  status,
+) => {
+  const order = await Order.findById(orderId).populate("items.productId");
+
+  if (!order) {
+    throw new AppError(
+      STATUS_CODES.NOT_FOUND,
+      "ORDER_NOT_FOUND",
+      "Order not found",
+    );
+  }
+  const item = order.items.id(itemId);
+
+  if (!item) {
+    throw new AppError(
+      STATUS_CODES.NOT_FOUND,
+      "ITEM_NOT_FOUND",
+      "Item not found in this order",
+    );
+  }
+
+  item.itemStatus = status;
+  if (status === "Returned") {
+    if (item.productId) {
+      await Product.findByIdAndUpdate(item.productId._id || item.productId, {
+        $inc: { stock: item.quantity },
+      });
+    }
+
+    if (order.paymentStatus === "PAID" || order.paymentMethod === "COD") {
+      const refundAmount = item.price * item.quantity;
+      await creditWallet(
+        order.userId,
+        refundAmount,
+        "ORDER_RETURN_REFUND",
+        `Refund for returned item in order #${orderId}`,
+        order._id,
+      );
+      logger.info(
+        `Refunded ₹${refundAmount} to user wallet for returned item in order ${orderId}`,
+      );
+    }
+
+    const storeItems = order.items.filter(
+      (i) => !i.productId || i.productId.type === "store",
+    );
+    const allItemsReturned = storeItems.every(
+      (i) => i.itemStatus === "Returned" || i.itemStatus === "Cancelled",
+    );
+    if (allItemsReturned && storeItems.length > 0) {
+      order.status = "Returned";
+
+      if (!order.return) order.return = {};
+      order.return.status = "Completed";
+    }
+  }
+  await order.save();
+  return order;
 };

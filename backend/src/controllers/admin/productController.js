@@ -137,3 +137,33 @@ export const deleteInventoryController = async (req, res) => {
     
     sendResponse(res, { message: "Item deleted successfully" }, STATUS_CODES.OK);
 };
+
+export const createProductOfferController = async (req, res) => {
+    const { productId } = req.params;
+    const offerData = req.body;
+    
+    logger.info(`Controller: Received request to create offer for product ID: ${productId}`);
+    
+    const updatedProduct = await inventoryService.createProductOffer(productId, offerData);
+    
+    sendResponse(res, {
+        success: true,
+        message: "Product offer created successfully",
+        product: updatedProduct
+    }, STATUS_CODES.CREATED);
+};
+
+export const updateProductOfferController = async (req, res) => {
+    const { productId } = req.params;
+    const offerData = req.body;
+    
+    logger.info(`Controller: Received request to update offer for product ID: ${productId}`);
+    
+    const updatedProduct = await inventoryService.updateProductOffer(productId, offerData);
+    
+    sendResponse(res, {
+        success: true,
+        message: "Product offer updated successfully",
+        product: updatedProduct
+    }, STATUS_CODES.OK);
+};

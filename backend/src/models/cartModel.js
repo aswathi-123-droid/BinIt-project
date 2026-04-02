@@ -1,35 +1,49 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const cartSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-    unique: true
-  },
-  items: [{
-    productId: {
+const cartSchema = new mongoose.Schema(
+  {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product',
-      required: true
+      ref: "User",
+      required: true,
+      unique: true,
     },
-    name: String,
-    price: Number,
-    quantity: {
+    items: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          required: true,
+        },
+        name: String,
+        price: Number,
+        quantity: {
+          type: Number,
+          default: 1,
+          min: 1,
+        },
+        selectionType: {
+          type: String,
+          enum: ["default", "variation", "estimation"],
+          default: "default",
+        },
+        selectionName: String,
+        image: String,
+        userUploadedImages: [{ type: String }],
+      },
+    ],
+    appliedCoupon: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Coupon",
+      default: null,
+    },
+    couponDiscount: {
       type: Number,
-      default: 1,
-      min: 1
+      default: 0,
     },
-    selectionType: {
-      type: String,
-      enum: ['default', 'variation', 'estimation'],
-      default: 'default'
-    },
-    selectionName: String,
-    image: String,
-    userUploadedImages: [{type: String}]
-  }]
-}, { timestamps: true });
+  },
+  { timestamps: true },
+);
 
-const Cart = mongoose.model('Cart', cartSchema);
+const Cart = mongoose.model("Cart", cartSchema);
 export default Cart;

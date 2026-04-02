@@ -54,6 +54,8 @@ export const registerSchema = Joi.object({
       "any.only": "Passwords do not match",
       "any.required": "Confirm password is required",
     }),
+  friendReferralCode: Joi.string().trim().allow("").optional(),
+  terms: Joi.boolean().optional() 
 });
 
 export const loginSchema = Joi.object({

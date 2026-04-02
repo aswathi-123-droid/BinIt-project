@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
+import toast from "react-hot-toast";
+import { calculateOfferPrice } from "../../../utils/helpers";
 import {
   Heart,
   ZoomIn,
@@ -23,7 +25,6 @@ const ServiceDetailPage = () => {
   const [selectedBag, setSelectedBag] = useState("medium");
   const [selectedVariation, setSelectedVariation] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [isWishlisted, setIsWishlisted] = useState();
   const [activeImage, setActiveImage] = useState(0);
   const [zoomStyle, setZoomStyle] = useState({
     display: "none",
@@ -69,6 +70,82 @@ const ServiceDetailPage = () => {
       navigate("/services");
     }
   }, [product, isLoading, navigate]);
+
+  const queryClient = useQueryClient();
+  const { data: wishlistData } = useQuery({
+    queryKey: ["user-wishlist"],
+    queryFn: async () => {
+      const res = await api.get("/wishlist");
+      return res.data.wishlist;
+    },
+  });
+
+  const wishlistedItemIds =
+    wishlistData?.items?.map((item) => item.productId._id) || [];
+
+  const toggleWishlistMutation = useMutation({
+    mutationFn: async (productId) => {
+      const res = await api.post("/wishlist/toggle", { productId });
+      return res.data;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["user-wishlist"] });
+
+      if (data.isWishlisted) {
+        toast.success("Added to wishlist");
+      } else {
+        toast.success("Removed from wishlist");
+      }
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "Failed to update wishlist");
+    },
+  });
+
+  const handleWishlistToggle = () => {
+    if (!product) return;
+    toggleWishlistMutation.mutate(product._id);
+  };
+
+  const isWishlisted = product ? wishlistedItemIds.includes(product._id) : false;
+
+  const handleAddToCart = async () => {
+    if (!product) return;
+
+    let finalItem = {
+      productId: product._id,
+      image: product.image?.[0],
+      type: product.type,
+      unit: product.unit,
+      category: product.categoryId.name,
+      price: product.price,
+    };
+
+    if (product.hasVariations && selectedVariation) {
+      finalItem.name = `${product.name} (${selectedVariation.name})`;
+      finalItem.price = selectedVariation.price;
+      finalItem.selectionType = "variation";
+      finalItem.selectionName = selectedVariation.name;
+    } else if (product.isEstimationEnabled && selectedBag) {
+      finalItem.name = `${product.name} (${selectedBag.name})`;
+      finalItem.price = selectedBag.price;
+      finalItem.selectionType = "estimation";
+      finalItem.selectionName = selectedBag.name;
+    } else {
+      finalItem.name = product.name;
+      finalItem.price = product.price;
+      if (!product.hasVariations && !product.isEstimationEnabled) {
+          finalItem.quantity = quantity;
+      }
+    }
+
+    try {
+      await api.post("/cart/add", finalItem);
+      toast.success(`${finalItem.name} added to cart`);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to add to cart");
+    }
+  };
 
   if (isLoading)
     return (
@@ -179,12 +256,14 @@ const ServiceDetailPage = () => {
               {product?.categoryId?.name}
             </span>
 
-            <button
-              onClick={() => setIsWishlisted(!isWishlisted)}
-              className={`p-2 rounded-full transition-colors ${isWishlisted ? "text-red-500 bg-red-50" : "text-gray-400 hover:bg-gray-50"}`}
-            >
-              <Heart size={20} fill={isWishlisted ? "currentColor" : "none"} />
-            </button>
+            {product?.type === "store" && (
+              <button
+                onClick={handleWishlistToggle}
+                className={`p-2 rounded-full transition-colors ${isWishlisted ? "text-red-500 bg-red-50" : "text-gray-400 hover:bg-gray-50"}`}
+              >
+                <Heart size={20} fill={isWishlisted ? "currentColor" : "none"} />
+              </button>
+            )}
           </div>
 
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
@@ -192,17 +271,31 @@ const ServiceDetailPage = () => {
           </h1>
 
           <div className="flex items-center gap-3 mb-5">
-            <p
-              className={`text-xl font-medium ${product.isEstimationEnabled ? " text-emerald-600" : "text-gray-950"}`}
-            >
-              {product.type == "recyclable"
-                ? "Earn "
-                : product.type == "junk"
-                  ? "From "
-                  : ""}
-              <span className="text-xl font-bold">₹{product.price}</span>{" "}
-              <span className=" text-sm text-gray-500">/ {product.unit}</span>
-            </p>
+            {product?.offer?.isActive && new Date(product.offer.expiryDate) > new Date() ? (
+              <div className="flex flex-col">
+                <span className="text-sm text-gray-400 line-through font-semibold leading-tight">
+                  ₹{product.price}
+                  <span className="text-xs font-normal"> / {product.unit}</span>
+                </span>
+                <p className={`text-xl font-medium ${product.isEstimationEnabled ? " text-emerald-600" : "text-gray-950"}`}>
+                  {product.type === "recyclable" ? "Earn " : product.type === "junk" ? "From " : ""}
+                  <span className="text-xl font-bold">₹{calculateOfferPrice(product.price, product.offer).toFixed(2)}</span>
+                  <span className="text-sm text-gray-500 ml-1">/ {product.unit}</span>
+                </p>
+              </div>
+            ) : (
+                <p
+                  className={`text-xl font-medium ${product.isEstimationEnabled ? " text-emerald-600" : "text-gray-950"}`}
+                >
+                  {product.type === "recyclable"
+                    ? "Earn "
+                    : product.type === "junk"
+                      ? "From "
+                      : ""}
+                  <span className="text-xl font-bold">₹{product.price}</span>{" "}
+                  <span className=" text-sm text-gray-500">/ {product.unit}</span>
+                </p>
+            )}
 
             <span className="px-2 py-1 bg-emerald-50 text-emerald-700 text-[9px] font-bold uppercase rounded">
               Best Price
@@ -235,7 +328,9 @@ const ServiceDetailPage = () => {
             )}
 
             <div className="mt-8 flex items-center justify-between">
-              <button className="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2">
+              <button 
+                onClick={handleAddToCart}
+                className="bg-emerald-500 hover:bg-emerald-600 text-white w-full py-4 rounded-xl font-bold flex items-center justify-center gap-2">
                 <ShoppingBasket size={18} /> Add to Bin
               </button>
             </div>

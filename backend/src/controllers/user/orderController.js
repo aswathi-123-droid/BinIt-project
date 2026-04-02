@@ -1,5 +1,5 @@
 import logger from "../../config/logger.js";
-import { cancelOrderItemService, cancelOrderService, createOrder, getOrderById, getUserOrders, returnOrderService } from "../../services/user/orderServices.js";
+import { cancelOrderItemService, cancelOrderService, createOrder, getOrderById, getUserOrders, returnOrderItemService, returnOrderService } from "../../services/user/orderServices.js";
 import { AppError, sendResponse } from "../../utils/appError.js";
 import { STATUS_CODES } from "../../utils/constants.js";
 
@@ -84,7 +84,7 @@ export const cancelOrderItemController = async (req, res) => {
 export const returnOrderController = async (req, res) => {
     const userId = req.user._id;
     const { orderId } = req.params;
-    const  reason  = req.body;
+    const  {reason}  = req.body;
     logger.info(`Request received: Return order ${orderId} for user ${userId}`);
     if (!reason) {
         throw new AppError(STATUS_CODES.BAD_REQUEST, "MISSING_FIELD", "Return reason is required");
@@ -95,3 +95,23 @@ export const returnOrderController = async (req, res) => {
         order
     }, STATUS_CODES.OK);
 };
+
+export const returnOrderItemController = async (req, res) => {
+        const userId = req.user._id;
+        const { orderId, itemId } = req.params;
+        const { reason } = req.body;
+
+        logger.info(`Request received: Return item ${itemId} from order ${orderId} for user ${userId}`);
+
+        if (!reason) {
+            throw new AppError(STATUS_CODES.BAD_REQUEST, "MISSING_FIELD", "Return reason is required");
+        }
+
+        const order = await returnOrderItemService(userId, orderId, itemId, reason);
+
+        sendResponse(res, {
+            message: "Item return request submitted successfully",
+            order
+        }, STATUS_CODES.OK);
+};
+

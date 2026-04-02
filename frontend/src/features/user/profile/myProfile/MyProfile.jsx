@@ -14,6 +14,8 @@ const MyProfile = () => {
   const [newEmail,setNewEmail] = useState("")
   const [otpModal,setOtpModal] = useState(false)
   const [loading,setLoading] = useState(false)
+  const [copied, setCopied] = useState(false); 
+
   const {
     register,
     handleSubmit,
@@ -61,13 +63,21 @@ const MyProfile = () => {
     }
     
     }catch(err){
-     toast.error(err?.message || "Update failed");
+     toast.error(err?.response?.data?.message || "Update failed");
+     setOtpModal(false)
     }
   };
 
   const handleCopyReferral = () => {
+    if (!user.referralCode) {
+        toast.error("Referral code not generated yet!");
+        return;
+    }
     navigator.clipboard.writeText(user.referralCode);
-    alert('Referral code copied!');
+    setCopied(true);
+    toast.success('Referral code copied to clipboard!');
+    
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
@@ -82,7 +92,7 @@ const MyProfile = () => {
 
         <div className="relative px-8 pb-6 flex flex-col items-center -mt-16">
           <div className="w-32 h-32 rounded-full border-4 border-white bg-gray-100 flex items-center justify-center text-3xl font-bold text-gray-400">
-            {user.name?.split(' ').map(n => n[0]).join('')} {/* Dynamic Initials */}
+            {user.name?.split(' ').map(n => n[0]).join('')} 
           </div>
           <h2 className="text-xl font-bold text-slate-900 mt-4">{user.name}</h2>
         </div>
@@ -117,8 +127,8 @@ const MyProfile = () => {
             </div>
 
             <div className="bg-emerald-50/50 rounded-xl p-5 flex items-center justify-between border border-emerald-100/50">
-              <p className="text-xs font-bold">Your Referral Code: <span className="text-emerald-600 ml-2">{user.referralCode}</span></p>
-              <button type="button" onClick={handleCopyReferral} className="text-gray-400 hover:text-emerald-500"><Copy size={18}/></button>
+              <p className=" text-l font-bold">Your Referral Code: <span className="text-emerald-600 ml-2 ">{user.referralCode}</span></p>
+              <button type="button" onClick={handleCopyReferral}  className={`transition-all ${copied ? 'text-emerald-500' : 'text-gray-400 hover:text-emerald-500'}`}>  {copied ? <CheckCircle2 size={20} /> : <Copy size={18} />}</button>
             </div>
           </div>
 

@@ -1,8 +1,9 @@
-import { addItemToCart, deleteWasteImage, getCartWithSummary, removeItemFromCart, updateCartItemQuantity, uploadWasteImages } from "../../services/user/cartServices.js";
+import { addItemToCart, applyCouponCode, deleteWasteImage, getCartWithSummary, removeCouponCode, removeItemFromCart, updateCartItemQuantity, uploadWasteImages } from "../../services/user/cartServices.js";
 import { sendResponse } from "../../utils/appError.js";
 import { STATUS_CODES } from "../../utils/constants.js";
 import logger from "../../config/logger.js";
 import Cart from "../../models/cartModel.js";
+import Coupon from "../../models/couponModel.js";
 
 
 export const getCartController = async(req,res) =>{
@@ -77,5 +78,41 @@ export const removeItemController = async(req,res) => {
     }, STATUS_CODES.OK);
 }
 
+export const getAvailableCoupons = async (req, res) => {
+    // Only fetch coupons that are active AND haven't expired
+    const activeCoupons = await Coupon.find({ 
+        isActive: true,
+        expiryDate: { $gte: new Date() }
+    }).sort({ minPurchaseAmount: 1 }); // Sort by lowest cart value required
+    sendResponse(res, { data: activeCoupons }, 200);
+};
+
+export const applyCouponController = async (req, res) => {
+    const userId = req.user._id; 
+    const { code } = req.body;
+    
+    if (!code) {
+        throw new AppError(400, "MISSING_CODE", "Please provide a coupon code");
+    }
+    const updatedCart = await applyCouponCode(userId, code);
+    
+    logger.info(`Coupon ${code} applied successfully to cart for user ${userId}`);
+    sendResponse(res, { 
+        message: "Coupon applied successfully", 
+        data: updatedCart 
+    }, STATUS_CODES.OK);
+};
+
+export const removeCouponController = async (req, res) => {
+    const userId = req.user._id;
+    
+    const updatedCart = await removeCouponCode(userId);
+    
+    logger.info(`Coupon removed from cart successfully for user ${userId}`);
+    sendResponse(res, { 
+        message: "Coupon removed successfully", 
+        data: updatedCart 
+    }, STATUS_CODES.OK);
+};
 
 

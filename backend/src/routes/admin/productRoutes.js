@@ -7,8 +7,12 @@ import {
     createInventoryController, 
     updateInventoryController, 
     toggleInventoryStatusController,
-    deleteInventoryController
+    deleteInventoryController,
+    createProductOfferController,
+    updateProductOfferController
 } from "../../controllers/admin/productController.js";
+import { validate } from "../../middlewares/common/validate.middleware.js";
+import { offerSchema } from "../../validators/admin/offerValidators.js";
 
 // Setup Multer for Image Uploads
 const upload = multer({ 
@@ -39,5 +43,8 @@ router.patch(
 router.patch("/:id/status", toggleInventoryStatusController);
 
 router.delete("/:id", deleteInventoryController);
+
+router.post("/:productId/offer", validate(offerSchema), createProductOfferController);
+router.put("/:productId/offer", validate(offerSchema), updateProductOfferController);
 
 export default router;

@@ -156,7 +156,18 @@ const RegisterForm = () => {
               />
               {errors.confirmPassword && <p className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</p>}
             </div>
-
+              
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Referral Code <span className="text-gray-400 font-normal">(Optional)</span>
+              </label>
+              <input
+                type="text"
+                placeholder="e.g. BINIT-XYZ123"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 uppercase placeholder:normal-case font-medium"
+                {...register("friendReferralCode")}
+              />
+            </div>
             
             <div className="flex items-start">
               <input

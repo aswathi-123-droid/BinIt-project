@@ -1,5 +1,7 @@
+import { calculateBestDiscount } from "../../../../frontend/src/utils/helpers.js";
 import logger from "../../config/logger.js";
 import Cart from "../../models/cartModel.js";
+import Coupon from "../../models/couponModel.js";
 import Product from "../../models/product.model.js";
 import { AppError } from "../../utils/appError.js";
 import { deleteFromCloudinary, extractPublicIdFromUrl, uploadToCloudinary } from "../../utils/cloudinary.js";
@@ -9,12 +11,36 @@ import { PLATFORM_FEE, STATUS_CODES } from "../../utils/constants.js";
 export const getCartWithSummary = async (userId) => {
     const cart = await Cart.findOne({ userId }).populate({
         path: "items.productId",
-        select: "name type description unit image price",
+        select: "name type description unit image price isActive stock offer",
         populate: {
             path: "categoryId",
-            select: "name"
+            select: "name offer isActive"
         }
     });
+
+    // Helper to calculate the highest discount possible
+    // const calculateBestDiscount = (totalPrice, productOffer, categoryOffer) => {
+    //     const getDiscount = (price, offer) => {
+    //         if (!offer || !offer.isActive || new Date(offer.expiryDate) < new Date()) return 0;
+    //         if (offer.minTransactionalValue && price < offer.minTransactionalValue) return 0;
+            
+    //         if (offer.discountType === 'flat') {
+    //             return offer.value;
+    //         } else if (offer.discountType === 'percent') {
+    //             let discountAmount = price * (offer.value / 100);
+    //             if (offer.maxRedeemableAmount > 0) {
+    //                 return Math.min(discountAmount, offer.maxRedeemableAmount);
+    //             }
+    //             return discountAmount;
+    //         }
+    //         return 0;
+    //     };
+
+    //     const pDiscount = getDiscount(totalPrice, productOffer);
+    //     const cDiscount = getDiscount(totalPrice, categoryOffer);
+        
+    //     return Math.max(pDiscount, cDiscount);
+    // };
 
     
     if (!cart || cart.items.length === 0) {
@@ -27,32 +53,70 @@ export const getCartWithSummary = async (userId) => {
     let subtotal = 0;
     let earnings = 0;
     let storeItems = 0;
-    let pickupServices = 0
+    let pickupServices = 0;
+    let totalOfferDiscount = 0;
 
     cart.items.forEach(item => {
-        const itemType = item.productId.type;
+        const product = item.productId;
+        const category = product?.categoryId;
+        const itemType = product?.type;
       
         if (itemType === 'recyclable') {
             earnings += item.price;
         } else if (itemType === "store"){
-            storeItems +=item.price;
-            // subtotal += item.price;
-        }else{
-            pickupServices+=item.price
+            storeItems += item.price;
+            
+            // Calculate best discount comparing Product vs Category offer
+            const bestDiscount = calculateBestDiscount(item.price, product.offer, category?.offer);
+            totalOfferDiscount += bestDiscount;
+        } else {
+            pickupServices += item.price;
         }
     });
+    
     subtotal = storeItems + pickupServices;
-    const platformFee = PLATFORM_FEE;
-    const total = subtotal - earnings + platformFee;
+
+     let couponDiscount = 0;
+    if (cart.appliedCoupon) {
+        const coupon = await Coupon.findById(cart.appliedCoupon);
+        
+        // Safety check again in case it expired while sitting in the cart
+        if (coupon && coupon.isActive && new Date() <= new Date(coupon.expiryDate)) {
+           // Only apply discount to the subtotal amount AFTER standard product offers are taken off
+           let payableAmount = subtotal - totalOfferDiscount;
+           
+           if (payableAmount >= coupon.minPurchaseAmount) {
+               if (coupon.discountType === 'flat') {
+                   couponDiscount = coupon.discountValue;
+               } else if (coupon.discountType === 'percent') {
+                   let percentDiscount = payableAmount * (coupon.discountValue / 100);
+                   couponDiscount = coupon.maxDiscountAmount > 0 
+                       ? Math.min(percentDiscount, coupon.maxDiscountAmount) 
+                       : percentDiscount;
+               }
+           } else {
+               // Invalidated due to user removing items from cart
+               cart.appliedCoupon = null;
+               await cart.save();
+           }
+        }
+    }
+    // 3. Ensure discounts don't exceed the subtotal
+    couponDiscount = Math.min(couponDiscount, (subtotal - totalOfferDiscount));
+    // 4. FINAL CALCULATION: Total subtracts earnings AND both discounts
+    const total = subtotal - totalOfferDiscount - couponDiscount - earnings + PLATFORM_FEE;
+    // // Total subtracts earnings AND the new calculated offer discounts
+    // const total = subtotal - totalOfferDiscount - earnings + PLATFORM_FEE;
 
     const summary = {
         storeItems,
         pickupServices,
         subtotal,
         earnings,
-        couponDiscount: 0, 
-        platformFee,
-        totalAmount: total // Prevent negative totals
+        offerDiscount: totalOfferDiscount,
+        couponDiscount: couponDiscount , 
+        platformFee: PLATFORM_FEE,
+        totalAmount: Math.max(0, total) // Prevent negative totals
     };
 
     logger.info(`Cart and summary calculated for user: ${userId}`);
@@ -247,3 +311,39 @@ export const removeItemFromCart = async(userId, itemId)=>{
     }
     return cart;
 }
+
+
+export const applyCouponCode = async (userId, code) => {
+    const cart = await Cart.findOne({ userId });
+    if (!cart || cart.items.length === 0) throw new AppError(400, "EMPTY_CART", "Cart is empty");
+    // 1. Find the active coupon
+    const coupon = await Coupon.findOne({ code: code.toUpperCase(), isActive: true });
+    if (!coupon) throw new AppError(404, "INVALID_COUPON", "Invalid or expired coupon code");
+    // 2. Validate dates
+    const now = new Date();
+    if (now < coupon.startDate || now > coupon.expiryDate) {
+        throw new AppError(400, "EXPIRED_COUPON", "This coupon is expired or not active yet");
+    }
+    // 3. Validate usage limit
+    if (coupon.usageLimit !== null && coupon.usedCount >= coupon.usageLimit) {
+        throw new AppError(400, "COUPON_DEPLETED", "This coupon has reached its usage limit");
+    }
+    // 4. Temporarily calculate subtotal to check Minimum Purchase Amount
+    // Use your existing logic to add up StoreItems + PickupItems
+    let subtotal = cart.items.reduce((sum, item) => item.productId.type !== 'recyclable' ? sum + item.price : sum, 0);
+    if (subtotal < coupon.minPurchaseAmount) {
+        throw new AppError(400, "MIN_PURCHASE", `Minimum purchase of ₹${coupon.minPurchaseAmount} required`);
+    }
+    // 5. Apply it to the cart
+    cart.appliedCoupon = coupon._id;
+    await cart.save();
+    return cart;
+};
+
+export const removeCouponCode = async (userId) => {
+    const cart = await Cart.findOne({ userId });
+    if (!cart) throw new AppError(404, "NOT_FOUND", "Cart not found");
+    cart.appliedCoupon = null;
+    await cart.save();
+    return cart;
+};

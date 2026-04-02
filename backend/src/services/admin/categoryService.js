@@ -140,7 +140,7 @@ export const getAllCategories = async(queryParams) => {
 
   const [categories, totalCount, recyclableCount, junkCount, storeCount] = await Promise.all([
     categoriesPromise,
-    Category.countDocuments({ isDeleted: false }),
+    Category.countDocuments(query),
     Category.countDocuments({ type: "recyclable", isDeleted: false }),
     Category.countDocuments({ type: "junk", isDeleted: false }),
     Category.countDocuments({ type: "store", isDeleted: false }),

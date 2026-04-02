@@ -81,12 +81,20 @@ export const router = createBrowserRouter([
         element: withSuspense(Pages.UserDashboardPage),
         children: [
           {
+            path: "/home",
+            element: withSuspense(Pages.LandingPage)
+          },
+          {
             path: "/services",
             element: withSuspense(Pages.ServiceListing),
           },
           {
             path: "/services/product/:id",
             element: withSuspense(Pages.ServiceDetailPage),
+          },
+          {
+            path: "/wishlist",
+            element: withSuspense(Pages.WishlistPage)
           },
           {
             path: "/cart",
@@ -109,6 +117,10 @@ export const router = createBrowserRouter([
                 element: <ChangePassword />,
               },
               {
+                path: "my-coupon",
+                element: withSuspense(Pages.MyCoupon),
+              },
+              {
                 path: "my-address",
                 element: withSuspense(Pages.MyAddresses),
               },
@@ -126,7 +138,11 @@ export const router = createBrowserRouter([
               },
               {
                  path: "pickup/:orderId",
-                element: withSuspense(Pages.OrderDetails)
+                 element: withSuspense(Pages.OrderDetails)
+              },
+              {
+                 path: "my-wallet",
+                 element: withSuspense(Pages.MyWallet)
               },
             ],
           },
@@ -172,7 +188,11 @@ export const router = createBrowserRouter([
           {
             path: "pickups/:id",
             element: withSuspense(AdminPickupDetail) 
-          }
+          },
+          {
+            path: "coupons",
+            element: withSuspense(Pages.CouponManagement)
+          },
         ],
       },
     ],

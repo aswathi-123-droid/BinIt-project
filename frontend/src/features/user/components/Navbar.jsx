@@ -1,14 +1,26 @@
-import { Leaf, Wallet, ShoppingBag } from 'lucide-react';
+import { Leaf, Wallet, ShoppingBag, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '../../../api/axiosInstance';
+import { useQuery } from '@tanstack/react-query';
 
 const Navbar = () => {
   const navigate = useNavigate()
   const navLinks = [
-    { name: 'Home', href: '#' },
+    { name: 'Home', href: '/home' },
     { name: 'Services', href: '/services', active: true },
     { name: 'Recycling Info', href: '#' },
     { name: 'Pricing', href: '#' },
   ];
+
+    const { data: walletData } = useQuery({
+      queryKey: ['myWallet'],
+      queryFn: async () => {
+        const res = await api.get('/wallet/balance');
+        return res.data;
+      }
+    });
+
+    const balance = walletData?.balance || 0;
 
   return (
     <nav className="w-full bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between sticky top-0 z-50">
@@ -45,9 +57,16 @@ const Navbar = () => {
 
         <div className="flex items-center gap-2 bg-emerald-50 px-3 py-1.5 rounded-full border border-emerald-100 cursor-pointer hover:bg-emerald-100 transition-colors">
           <Wallet size={18} className="text-emerald-600" />
-          <span className="text-sm font-bold text-emerald-700">₹200</span>
+          <span className="text-sm font-bold text-emerald-700">₹{balance}</span>
         </div>
 
+         <button 
+          onClick={() => navigate("/wishlist")}
+          className="p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100"
+          title="Wishlist"
+        >
+          <Heart size={20} />
+        </button>
 
         <button onClick={()=>navigate("/cart")}
         className="p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100">

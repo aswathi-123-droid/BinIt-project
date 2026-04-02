@@ -146,17 +146,14 @@ const authSlice = createSlice({
       })
 
       .addCase(verifyEmail.pending, (state) =>{
-        state.loading = true;
         state.error = null;
         state.message = null;
       })
       .addCase(verifyEmail.fulfilled,(state,action)=>{
-        state.loading = false;
         state.message = action.payload;
         state.success = true;
       })
       .addCase(verifyEmail.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.payload;
       })
 

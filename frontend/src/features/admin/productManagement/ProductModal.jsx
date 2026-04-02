@@ -93,7 +93,7 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData, isSubmitting }) 
         setNewFiles([]);
         reset({
           name: initialData.name || "",
-          categoryId: initialData.category?._id || initialData.categoryId || "",
+          categoryId: initialData.categoryId?._id || (typeof initialData.categoryId === "string" ? initialData.categoryId : "") || "",
           description: initialData.description || "",
           type: initialData.type || "recyclable",
           price: initialData.price || "",
@@ -127,7 +127,7 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData, isSubmitting }) 
       setVarName("");
       setVarPrice("");
     }
-  }, [isOpen, reset]);
+  }, [isOpen, reset ,initialData, isCategoriesLoading]);
 
   const addVariation = () => {
     clearErrors("variations");

@@ -24,7 +24,7 @@ export const getAllProducts = async(queryParams) => {
 
  const [products, totalProducts, currentCategory] =await  Promise.all([
    Product.find(filter)
-   .populate("categoryId","name slug type image isActive")
+   .populate("categoryId","name slug type image isActive offer")
    .sort(sort)
    .skip(skip)
    .limit(pageSize),

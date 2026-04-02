@@ -3,7 +3,7 @@ import Category from "../../models/category.model.js";
 export const getActiveCategories = async()=> {
     const categories = await Category.aggregate([
     { 
-      $match: { isActive: true } // Only active categories
+      $match: { isActive: true } 
     },
     {
       $lookup: {

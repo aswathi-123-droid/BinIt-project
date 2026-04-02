@@ -10,20 +10,19 @@ import {
   Trash,
   Lock,
   Unlock,
-  ShoppingBag 
+  ShoppingBag,
+  Tag 
 } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
 import Pagination from "../../../components/common/Pagination";
 import CategoryModal from "./CategoryModal";
 import OfferModal from "./OfferModal";
-// import { useCategories } from "./categoryHooks";
 import toast from "react-hot-toast";
 
 const CategoryManagement = () => {
   const queryClient = useQueryClient();
 
- 
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [type, setType] = useState(""); 
@@ -31,14 +30,13 @@ const CategoryManagement = () => {
   const [sortBy, setSortBy] = useState("newest");
   const [searchInput, setSearchInput] = useState("");
   
- 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState(null);
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
   const [editingOffer, setEditingOffer] = useState(null);
   const [categoryName, setCategoryName] = useState(null);
 
-  // Debounce Search Logic
+
   useEffect(() => {
     let id = setTimeout(() => {
       setSearch(searchInput);
@@ -46,7 +44,6 @@ const CategoryManagement = () => {
     return () => clearTimeout(id);
   }, [searchInput]);
 
- 
   const { data, isLoading, isError, error } = useQuery({
         queryKey: ["categories",  search, page, status, type, sortBy ],
         queryFn: async () => {
@@ -109,7 +106,6 @@ const CategoryManagement = () => {
     onError: ()=>toast.error("Failed to update status")
   });
 
-  
   const handleToggleStatus = (category) => {
     if (window.confirm(`Are you sure you want to ${category.isActive ? 'deactivate' : 'activate'} ${category.name}?`)) {
       toggleStatusMutation.mutate({ categoryId: category._id });
@@ -139,10 +135,8 @@ const CategoryManagement = () => {
   };
 
   const handleFormSubmit = async (data) => {
-    console.log(data)
     try {
       categoryMutation.mutate(data);
-      // setIsModalOpen(false);
     } catch (err) {
       alert(err);
     }
@@ -153,7 +147,6 @@ const CategoryManagement = () => {
         offerMutation.mutate({ categoryId: categoryName._id, data });
      }
   };
-
   
   const stats = [
     { label: "Total Categories", value: data?.stats?.totalCount || "0", icon: Layers, color: "text-slate-400" },
@@ -264,7 +257,6 @@ const CategoryManagement = () => {
                 <th className="px-6 py-4">Created At</th>
                 <th className="px-6 py-4">Status</th>
                 <th className="px-6 py-4 text-center">Action</th>
-                <th className="px-6 py-4 text-center">Offer</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50 text-xs font-medium text-slate-700">
@@ -295,8 +287,22 @@ const CategoryManagement = () => {
                       {category.isActive ? "Active" : "Inactive"}
                     </span>
                   </td>
-                  <td className="px-6 py-4">
+                                    <td className="px-6 py-4">
                     <div className="flex items-center justify-center gap-2">
+                       {(category.type === 'junk' || category.type === 'store') && (
+                         <button 
+                          onClick={() => category.offer && category.offer.isActive ? handleEditOffer(category) : handleAddNewOffer(category)}
+                          className={`p-2 rounded-lg transition-all ${
+                             category.offer?.isActive 
+                             ? 'text-emerald-500 bg-emerald-50 hover:bg-emerald-100' 
+                             : 'text-slate-400 hover:text-blue-500 hover:bg-blue-50'
+                          }`}
+                          title={category.offer?.isActive ? "Edit Active Offer" : "Add Offer"}
+                        >
+                          <Tag size={16} />
+                        </button>
+                       )}
+
                       <button 
                         onClick={() => handleEditClick(category)}
                         className="p-2 text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 rounded-lg transition-all" 
@@ -304,6 +310,7 @@ const CategoryManagement = () => {
                       >
                         <Edit size={16} />
                       </button>
+
                       <button 
                         onClick={() => handleToggleStatus(category)}
                         className={`p-2 rounded-lg transition-all ${category.isActive ? 'text-slate-400 hover:text-red-500 hover:bg-red-50' : 'text-emerald-600 hover:bg-emerald-50'}`}
@@ -313,36 +320,7 @@ const CategoryManagement = () => {
                       </button>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-center">
-                    {category.offer && category.offer.isActive ? (
-                        <div className="relative flex items-center justify-center min-w-20">
-                          <span className="text-sm font-bold text-slate-800">
-                             {category.offer.value}{category.offer.discountType === 'percent' ? '%' : 'rs'} Off
-                          </span>
-                          <button 
-                            onClick={() => handleEditOffer(category)}
-                            className="absolute -top-3 right-3 text-[11px] font-bold text-emerald-500 hover:text-emerald-600 transition-colors"
-                          >
-                             Edit
-                          </button>
-                        </div>
-                    ) : (
-                       <div className="flex items-center justify-center gap-2">
-                          <button 
-                            onClick={() => handleAddNewOffer(category)}
-                            className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-bold hover:bg-emerald-100 transition-colors"
-                          >
-                             Add
-                          </button>
-                          <button 
-                            onClick={() => handleEditOffer(category)}
-                            className="px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] font-bold hover:bg-emerald-100 transition-colors"
-                          >
-                             Edit
-                          </button>
-                       </div>
-                    )}
-                  </td>
+
                 </tr>
               ))}
             </tbody>
@@ -377,6 +355,3 @@ const CategoryManagement = () => {
 };
 
 export default CategoryManagement;
-
-
-

@@ -13,7 +13,7 @@ export const offerSchema = Joi.object({
     expiryDate: Joi.date().required().greater(Joi.ref('startDate')).messages({
         "date.greater": "Expiry date must be after start date"
     }),
-    maxRedeemablePrice: Joi.number().allow(null, "").optional(),
+    maxRedeemableAmount: Joi.number().allow(null, "").optional(),
     minTransactionalValue: Joi.number().allow(null, "").optional(),
     description: Joi.string().allow("", null).optional(),
     isActive: Joi.boolean().optional()
