@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { X, Recycle, Trash2, Check, ShoppingBag } from "lucide-react"; // Added ShoppingBag
+import { X, Recycle, Trash2, Check, ShoppingBag } from "lucide-react"; 
 import ImageDropzone from "../../../components/common/ImageDropZone";
 import ImageCropModal from "../components/ImageCropModal";
 

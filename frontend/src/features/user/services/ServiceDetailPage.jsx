@@ -198,12 +198,6 @@ const ServiceDetailPage = () => {
             Services
           </Link>
 
-          {/* <ChevronRight size={14} />
-
-          <span className="hover:text-emerald-600 cursor-pointer">
-            {product.type[0].toUpperCase() + product.type.slice(1)}
-          </span> */}
-
           <ChevronRight size={14} />
 
           <span className="text-slate-800 font-bold">{product.name}</span>

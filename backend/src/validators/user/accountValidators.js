@@ -14,7 +14,7 @@ export const updatePasswordSchema = Joi.object({
     .pattern(
       new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])")
     )
-    .invalid(Joi.ref("currentPassword")) // Prevents new password from being the same as current
+    .invalid(Joi.ref("currentPassword")) 
     .required()
     .messages({
       "string.pattern.base":

@@ -92,7 +92,6 @@ const logoutUser = async (userId, refreshToken) => {
   }
 
   user.refreshToken.filter(token=>token!==refreshToken)
-  // user.refreshToken = null;
   await user.save();
 
   return { message: "User successfully logged out." };

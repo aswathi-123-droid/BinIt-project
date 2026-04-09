@@ -508,7 +508,7 @@ const BinItCart = () => {
         <AvailableCouponsModal
           isOpen={isCouponModalOpen}
           onClose={() => setIsCouponModalOpen(false)}
-          cartSubtotal={data?.summary?.subtotal || 0}
+          cartSubtotal={(data?.summary?.subtotal || 0) - (data?.summary?.offerDiscount || 0)}
           onApply={(code) => {
             setCouponCode(code);
             applyCouponMutation.mutate(code);

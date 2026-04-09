@@ -66,7 +66,7 @@ const MyOrders = ({ mode = 'order' }) => {
 
     const searchLower = searchQuery.toLowerCase();
     const matchesSearch = 
-      order.orderId?.toLowerCase().includes(searchLower) ||
+      order.orderId?.toString().toLowerCase().includes(searchLower) ||
       searchItems?.some(item => item.name?.toLowerCase().includes(searchLower));
 
     return matchesTab && matchesSearch;
@@ -99,7 +99,7 @@ const MyOrders = ({ mode = 'order' }) => {
           type="text" 
           placeholder={`Search ${isPickupMode ? 'Pickups' : 'Orders'}...`}
           value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          onChange={(e) =>{ setSearchQuery(e.target.value); setCurrentPage(1)}}
           className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm"
         />
         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -109,7 +109,7 @@ const MyOrders = ({ mode = 'order' }) => {
         {tabs.map(tab => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => {setActiveTab(tab); setCurrentPage(1)}}
             className={`pb-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
               activeTab === tab ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-gray-500 hover:text-gray-700'
             }`}
@@ -127,8 +127,6 @@ const MyOrders = ({ mode = 'order' }) => {
             const displayItems = order.items.filter(item => 
                 isPickupMode ? item.productId?.type !== 'store' : item.productId?.type === 'store'
             );
-    
-            // const orderTotal = displayItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
             return (
               <div key={order._id} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow">
@@ -194,7 +192,7 @@ const MyOrders = ({ mode = 'order' }) => {
                         </div>
 
                         <div className="text-sm font-bold text-gray-900">
-                           {isPickupMode ? item.productId?.type == "recyclable" ?`Est. ₹${item.price}` : `Fee. ₹${item.price}`:`₹${item.price * item.quantity}`}
+                           {isPickupMode ? item.productId?.type == "recyclable" ?`Est. ₹${item.price}` : `Fee. ₹${item.price}`:`₹${item.price}`}
                         </div>
                       </div>
                      );

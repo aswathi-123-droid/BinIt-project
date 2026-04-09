@@ -10,6 +10,7 @@ const StatusBadge = ({ status }) => {
     'Shipped': 'bg-blue-50 text-blue-600',
     'Pending': 'bg-orange-50 text-orange-600',
     'Return Pending': 'bg-orange-50 text-orange-600',
+    'Cancel Pending':  'bg-orange-50 text-orange-600',
     'Agent Assigned': 'bg-blue-50 text-blue-600',
     'Out for Pickup': 'bg-purple-50 text-purple-600'
   };

@@ -1,6 +1,6 @@
 export const calculateOfferPrice = (originalPrice, offer) => {
   if (!offer || !offer.isActive || new Date(offer.expiryDate) < new Date()) {
-    return originalPrice; // No active offer
+    return originalPrice; 
   }
 
   let discountedPrice = originalPrice;
@@ -8,7 +8,6 @@ export const calculateOfferPrice = (originalPrice, offer) => {
     discountedPrice -= offer.value;
   } else if (offer.discountType === 'percent') {
     const discountAmount = originalPrice * (offer.value / 100);
-    // If there is a max redeemable cap (e.g., Max ₹500 off)
     if (offer.maxRedeemableAmount > 0) {
       discountedPrice -= Math.min(discountAmount, offer.maxRedeemableAmount);
     } else {
@@ -16,7 +15,7 @@ export const calculateOfferPrice = (originalPrice, offer) => {
     }
   }
 
-  return Math.max(0, discountedPrice); // Prevent negative prices
+  return Math.max(0, discountedPrice); 
 };
 
 

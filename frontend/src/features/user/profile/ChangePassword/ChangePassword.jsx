@@ -25,7 +25,6 @@ const ChangePassword = () => {
     mode: "onChange" 
   });
 
-  // Watch the new password field to validate the confirm password field against it
   const newPasswordValue = watch("newPassword");
 
   const onSubmit = async (data) => {
@@ -39,7 +38,6 @@ const ChangePassword = () => {
     }
   };
 
-  // Helper function for input styling based on error state
   const getInputStyle = (error) => `
     w-full pl-12 pr-12 py-3 bg-gray-50/50 border rounded-xl text-sm font-semibold transition-all outline-none
     ${error 

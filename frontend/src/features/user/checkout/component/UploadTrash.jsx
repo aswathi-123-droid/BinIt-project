@@ -25,26 +25,6 @@ const UploadTrash = ({ onNext }) => {
     },
   });
 
-  // const uploadMutation = useMutation({
-  //     mutationFn: (formData) => api.patch("/cart/upload-images", formData),
-  //     onSuccess: () => {
-  //       toast.success("Image uploaded successfully");
-  //       queryClient.invalidateQueries(["cart"]);
-  //     },
-  //   });
-
-  // const handleFileChange = (e, productId, selectionName) => {
-  //     const files = Array.from(e.target.files);
-  //     if (files.length === 0) return;
-
-  //     const formData = new FormData();
-  //     formData.append("productId", productId);
-  //     formData.append("selectionName", selectionName);
-  //     files.forEach((file) => formData.append("wasteImages", file));
-
-  //     uploadMutation.mutate(formData);
-  //   };
-
   const uploadMutation = useMutation({
     mutationFn: (formData) =>
       api.patch("/cart/upload-images", formData, {
@@ -53,6 +33,9 @@ const UploadTrash = ({ onNext }) => {
     onSuccess: () => {
       toast.success("Photos uploaded for verification");
       queryClient.invalidateQueries(["cart"]);
+    },
+    onError: (error) => {
+      toast.error(error.response?.data?.message || "Failed to delete image");
     },
   });
 
@@ -101,8 +84,6 @@ const UploadTrash = ({ onNext }) => {
     formData.append("productId", productId);
     formData.append("selectionName", selectionName);
     files.forEach((file) => formData.append("wasteImages", file));
-    //   const formObject = Object.fromEntries(formData.entries());
-    // console.log("Form Data as Object:", formObject);
     uploadMutation.mutate(formData);
   };
 
@@ -138,7 +119,6 @@ const UploadTrash = ({ onNext }) => {
                     type="file"
                     id={`file-upload-${item._id}`}
                     className="hidden"
-                    // disabled={(item.userUploadedImages?.length || 0) >= 3}
                     multiple
                     accept="image/*"
                     onChange={(e) =>
@@ -217,13 +197,6 @@ const UploadTrash = ({ onNext }) => {
                   </div>
                 ))}
 
-                {/* 5. Dynamic Upload Boxes */}
-                {/* We show "Add Photo" slots. If they have 0 images, we show multiple slots. */}
-                {/* <UploadBox 
-                  id={item._id} 
-                  onChange={(e) => handleFileChange(e, item.productId._id, item.selectionName)}
-                  isPending={uploadMutation.isPending}
-                /> */}
               </div>
             </div>
           )})

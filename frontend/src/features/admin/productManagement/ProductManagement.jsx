@@ -338,15 +338,11 @@ const ProductManagement = () => {
                     className="hover:bg-gray-50/50 transition-colors"
                   >
                     <td className="px-6 py-4 font-bold text-slate-900">
-                      {/* #{item.itemId || `INV-${String(index + 1).padStart(3, '0')}`} */}
                       {(page - 1) * 2 + (index + 1)}
                     </td>
 
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        {/* {item.image && (
-                         <img src={item.image} alt="" className="w-8 h-8 rounded-lg object-cover bg-gray-100" />
-                      )} */}
                         <span className="font-semibold">{item.name}</span>
                       </div>
                     </td>
@@ -372,13 +368,6 @@ const ProductManagement = () => {
                             : "Pay"}
                       </span>
                     </td>
-
-                    {/* <td className="px-6 py-4 font-bold text-slate-800">
-                      ₹{item.price}{" "}
-                      <span className="text-gray-400 font-normal text-[10px]">
-                        / {item.unit}
-                      </span>
-                    </td> */}
                     <td className="px-6 py-4">
                       {item.offer &&
                       item.offer.isActive &&

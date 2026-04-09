@@ -16,7 +16,6 @@ import Pagination from "../../../components/common/Pagination";
 import AdminNavbar from "../components/AdminNavbar";
 
 const UserManagement = () => {
-  // Stat data from provided UI
   const queryClient = useQueryClient();
 
   const [search, setSearch] = useState("");

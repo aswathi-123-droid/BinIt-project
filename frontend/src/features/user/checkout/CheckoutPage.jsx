@@ -5,12 +5,14 @@ import CheckoutAddress from "./component/CheckoutAddress";
 import CheckoutPayment from "./component/CheckoutPayment";
 import PickupConfirmed from "./component/PickupConfirmed";
 import { CheckCircle } from 'lucide-react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../../api/axiosInstance';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutPage = () => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [checkoutData, setCheckoutData] = useState({
       addressId: null,
@@ -18,6 +20,17 @@ const CheckoutPage = () => {
       pickupTimeSlot: null,
       paymentMethod: null
   });
+
+const { data: cartData, isLoading } = useQuery({
+    queryKey: ["cart"],
+    queryFn: async () => {
+      const res = await api.get("/cart");
+      return res.data;
+    },
+  });
+  const cartItems = cartData?.cart?.items || [];
+
+  const needsPickup = cartItems.some(item => item.productId?.type !== "store");
 
   const { mutate: placeOrder, isPending } = useMutation({
   mutationFn: async(payload) => {
@@ -41,7 +54,7 @@ const CheckoutPage = () => {
 
         toast.success("Order Placed Successfully!");
         window.scrollTo(0, 0);
-        setCurrentStep(4);
+        setCurrentStep(prev => prev + 1);
     },
     onError: (error) => {
         console.error("Order placement failed", error);
@@ -51,23 +64,18 @@ const CheckoutPage = () => {
 
   const handleImagesUploaded = () => {
       window.scrollTo(0, 0);
-      setCurrentStep(2);
+      setCurrentStep(prev => prev + 1);
   };
 
 
   const handleAddressSelected = (data) => {
       setCheckoutData(prev => ({ ...prev, ...data }));
       window.scrollTo(0, 0);
-      setCurrentStep(3);
+      setCurrentStep(prev => prev + 1);
   };
 
 
   const handleOrderConfirmed = (paymentData) => {
-    //   console.log("Final Order Data:", { ...checkoutData, ...paymentData });
-
-    //   setCheckoutData(prev => ({ ...prev, ...paymentData }));
-    //   window.scrollTo(0, 0);
-    //   setCurrentStep(4);
     const payload = {
         addressId: checkoutData.addressId,
         pickupDate: checkoutData.pickupDate,
@@ -83,15 +91,23 @@ const CheckoutPage = () => {
       if(currentStep > 1) {
         window.scrollTo(0, 0);
         setCurrentStep(prev => prev - 1);
+      }else{
+        navigate("/cart");
       }
   };
 
-  const steps = [
-      { id: 1, label: "Images" },
-      { id: 2, label: "Address" },
-      { id: 3, label: "Payment" },
-      { id: 4, label: "Confirm" },
-  ];
+ const steps = needsPickup 
+    ? [
+        { id: 1, label: "Images" },
+        { id: 2, label: "Address" },
+        { id: 3, label: "Payment" },
+        { id: 4, label: "Confirm" },
+      ]
+    : [
+        { id: 1, label: "Address" },
+        { id: 2, label: "Payment" },
+        { id: 3, label: "Confirm" },
+      ];
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-800 flex flex-col">
@@ -130,25 +146,25 @@ const CheckoutPage = () => {
         )}
 
         <div className="mt-8">
-            {currentStep === 1 && (
+            {needsPickup && currentStep === 1 && (
                 <UploadTrash onNext={handleImagesUploaded} />
             )}
 
-            {currentStep === 2 && (
+            {(needsPickup ? currentStep === 2 : currentStep === 1) && (
                 <CheckoutAddress 
                     onNext={handleAddressSelected} 
                     onBack={handlePrevStep} 
                 />
             )}
 
-            {currentStep === 3 && (
+            {(needsPickup ? currentStep === 3 : currentStep === 2) && (
                 <CheckoutPayment 
                     onConfirm={handleOrderConfirmed}
                     onBack={handlePrevStep}
                 />
             )}
 
-            {currentStep === 4 && (
+            {(needsPickup ? currentStep === 4 : currentStep === 3) && (
                 <PickupConfirmed orderDetails={checkoutData.orderDetails}/>
             )}
         </div>

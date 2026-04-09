@@ -8,8 +8,9 @@ import {
     updateCouponController
 } from "../../controllers/admin/couponController.js";
 const router = express.Router();
-// All routes protected by Admin token
+
 router.use(verifyAdminToken);
+
 router.post("/", createCouponController);
 router.put("/:id", updateCouponController);
 router.get("/", getAllCouponsController);

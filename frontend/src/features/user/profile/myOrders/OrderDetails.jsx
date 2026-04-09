@@ -58,12 +58,14 @@ const OrderDetails = () => {
           `/order/${encodeURIComponent(order.orderId)}/item/${cancellingItemId}/cancel`,
           {
             reason: reason,
+            isPickupMode: isPickupMode
           },
         );
         toast.success("Item cancelled successfully");
       } else {
         await api.post(`/order/${encodeURIComponent(order.orderId)}/cancel`, {
           reason: reason,
+          isPickupMode: isPickupMode
         });
         toast.success(
           isPickupMode
@@ -219,8 +221,11 @@ const OrderDetails = () => {
     isPickupMode ? order.pickupStatus : order.status,
   );
   const isAllitemCancelled = displayItems.every(
-    (item) => item.itemStatus == "Cancelled",
+    (item) => item.itemStatus === "Cancelled" || item.itemStatus === "Cancel Pending"
   );
+  const currentCancellation = isPickupMode 
+    ? order.pickupCancellation 
+    : order.orderCancellation;
   console.log(displayItems);
   return (
     <div className="min-h-screen bg-gray-50/50 p-4 md:p-8 font-sans">
@@ -240,19 +245,23 @@ const OrderDetails = () => {
               </Link>{" "}
               /
               <span className="text-gray-900 font-medium">
-                #{order.orderId}
+                {order.orderId}
               </span>
             </div>
             <div className="flex items-center gap-4">
               <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
                 {isPickupMode ? "Pickup Details" : "Order Details"}{" "}
                 <span className="text-gray-400 font-medium text-xl">
-                  #{order.orderId}
+                  {order.orderId}
                 </span>
               </h1>
-              <StatusBadge
-                status={isPickupMode ? order.pickupStatus : order.status}
-              />
+            <StatusBadge
+             status={
+                (currentCancellation?.status === 'Pending' && currentCancellation?.timestamp)
+                  ? "Cancel Pending" 
+                  : (isPickupMode ? order.pickupStatus : order.status)
+             }
+    />
               {!isPickupMode && order.return?.timestamp && (
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-bold border ${
@@ -270,6 +279,20 @@ const OrderDetails = () => {
               )}
             </div>
           </div>
+                 
+        {currentCancellation?.status === 'Rejected' && (
+          <div className="p-4 rounded-xl border flex items-start gap-3 shadow-sm bg-orange-50 border-orange-100 text-orange-800 mt-6 box-border">
+            <AlertCircle size={20} className="shrink-0 mt-0.5 text-orange-600" />
+            <div>
+              <h4 className="font-bold text-sm">Cancellation Request Denied</h4>
+              <p className="text-xs mt-1 opacity-90">
+                Your request to cancel this {isPickupMode ? "pickup" : "order"} was reviewed and denied by our administration team. 
+                The process will continue as normally scheduled. If you have questions, please contact support.
+              </p>
+            </div>
+          </div>
+        )}
+
         </div>
 
         {isPickupMode && (
@@ -330,6 +353,38 @@ const OrderDetails = () => {
             </div>
           </div>
         )}
+
+         {currentCancellation?.status === 'Rejected' && (
+          <div className="p-4 rounded-xl border flex items-start gap-3 shadow-sm bg-orange-50 border-orange-100 text-orange-800 mt-6 box-border">
+            <AlertCircle size={20} className="shrink-0 mt-0.5 text-orange-600" />
+            <div>
+              <h4 className="font-bold text-sm">Cancellation Request Denied</h4>
+              <p className="text-xs mt-1 opacity-90">
+                Your request to cancel this {isPickupMode ? "pickup" : "order"} was reviewed and denied by our administration team. 
+                The process will continue as normally scheduled. If you have questions, please contact support.
+              </p>
+            </div>
+          </div>
+        )}
+        
+        {((isPickupMode && order.pickupStatus === 'Cancelled') || (!isPickupMode && order.status === 'Cancelled')) && (
+          <div className="p-4 rounded-xl border flex items-start gap-3 shadow-sm bg-red-50 border-red-100 text-red-800 mt-6 mb-6">
+            <AlertCircle size={20} className="shrink-0 mt-0.5 text-red-600" />
+            <div>
+              <h4 className="font-bold text-sm">
+                {currentCancellation?.status === 'Approved' || currentCancellation?.cancelledBy
+                  ? "You Cancelled This Request" 
+                  : "Cancelled By Administration"}
+              </h4>
+              <p className="text-xs mt-1 opacity-90 leading-relaxed">
+                {currentCancellation?.status === 'Approved' || currentCancellation?.cancelledBy 
+                  ? "Your cancellation request has been successfully approved and processed by our team."
+                  : `We're sorry, but the administration had to cancel your ${isPickupMode ? "pickup" : "order"}. This is usually due to items being unexpectedly out of stock, or your address being outside our serviceable radius. Any paid amount has been refunded to your wallet.`}
+              </p>
+            </div>
+          </div>
+        )}
+
         <div className="bg-white rounded-2xl border border-gray-100 p-8 shadow-sm overflow-x-auto">
           <h3 className="font-bold text-gray-900 mb-8">
             {isPickupMode ? "Pickup Timeline" : "Order Timeline"}
@@ -341,7 +396,8 @@ const OrderDetails = () => {
               style={{
                 width: `${(currentStatusIndex / (statusOrder.length - 1)) * 100}%`,
               }}
-            ></div>
+            >
+          </div>
 
             {timelineSteps.map((step, index) => {
               const isCompleted = index <= currentStatusIndex;
@@ -400,7 +456,9 @@ const OrderDetails = () => {
               : !["Cancelled", "Shipped", "Delivered", "Returned"].includes(
                   order.status,
                 )) &&
-              !isAllitemCancelled && (
+              !isAllitemCancelled && 
+               !(currentCancellation?.status === 'Pending' && currentCancellation?.timestamp)&& 
+               (
                 <button
                   className="text-red-500 text-xs font-bold hover:underline"
                   onClick={() => setIsCancelModalOpen(true)}
@@ -481,7 +539,7 @@ const OrderDetails = () => {
                         Total
                       </span>
                       <span className="font-bold text-gray-900">
-                        ₹{item.productId.price * item.quantity}
+                        ₹{item.price }
                       </span>
                     </div>
                     <div className="text-right min-w-20">
@@ -496,18 +554,6 @@ const OrderDetails = () => {
                       <span className="block text-[10px] text-gray-400 font-bold uppercase tracking-wider md:hidden mb-1">
                         Action
                       </span>
-                      {/* <button
-                        // onClick={() => handleCancelItem(item._id)}
-                        // onClick={() => setIsCancelModalOpen(true)}
-                      onClick={() => {
-                       setCancellingItemId(item._id);
-                       setIsCancelModalOpen(true);
-                      }}
-                        disabled={ (isPickupMode ? order.pickupStatus == 'Cancelled' : order.status == 'Cancelled') || item.itemStatus == "Cancelled" || (isPickupMode ? ["Cancelled", "Out for Pickup", "Completed"].includes(order.pickupStatus) : ["Cancelled", "Shipped", "Delivered", "Returned"].includes(order.status))}
-                        className="text-red-500 text-xs font-bold hover:underline disabled:text-gray-400 disabled:no-underline"
-                      >
-                       Cancel Item
-                      </button> */}
                       {isPickupMode ? (
                         <button
                           onClick={() => {
@@ -517,6 +563,8 @@ const OrderDetails = () => {
                           disabled={
                             order.pickupStatus === "Cancelled" ||
                             item.itemStatus === "Cancelled" ||
+                            item.itemStatus === "Cancel Pending" ||
+                          (currentCancellation?.status === 'Pending' && currentCancellation?.timestamp) ||
                             [
                               "Cancelled",
                               "Out for Pickup",
@@ -551,6 +599,8 @@ const OrderDetails = () => {
                           disabled={
                             order.status === "Cancelled" ||
                             item.itemStatus === "Cancelled" ||
+                            item.itemStatus === "Cancel Pending" || 
+                             (currentCancellation?.status === 'Pending' && currentCancellation?.timestamp) || 
                             ["Cancelled", "Shipped", "Returned"].includes(
                               order.status,
                             )

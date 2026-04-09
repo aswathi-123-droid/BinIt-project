@@ -1,4 +1,4 @@
-/* frontend/src/features/user/checkout/component/PickupConfirmed.jsx */
+
 import React, { useState } from 'react';
 import { CheckCircle, Download, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';

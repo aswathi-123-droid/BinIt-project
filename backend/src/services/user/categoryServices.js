@@ -1,29 +1,29 @@
 import Category from "../../models/category.model.js";
 
-export const getActiveCategories = async()=> {
-    const categories = await Category.aggregate([
-    { 
-      $match: { isActive: true } 
+export const getActiveCategories = async () => {
+  const categories = await Category.aggregate([
+    {
+      $match: { isActive: true },
     },
     {
       $lookup: {
-        from: 'products',          // The collection name in MongoDB
-        localField: '_id',
-        foreignField: 'categoryId',
-        as: 'products'
-      }
+        from: "products",
+        localField: "_id",
+        foreignField: "categoryId",
+        as: "products",
+      },
     },
     {
       $addFields: {
-        itemCount: { $size: '$products' } // Count the products
-      }
+        itemCount: { $size: "$products" },
+      },
     },
-    { 
-      $match: { itemCount: { $gt: 0 } } // ONLY keep categories with items > 0
+    {
+      $match: { itemCount: { $gt: 0 } },
     },
-    { 
-      $project: { products: 0, __v: 0 } // Clean up the response
-    }
+    {
+      $project: { products: 0, __v: 0 },
+    },
   ]);
-  return categories  
-}
+  return categories;
+};

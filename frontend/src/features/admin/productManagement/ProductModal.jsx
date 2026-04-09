@@ -15,6 +15,7 @@ import ImageDropzone from "../../../components/common/ImageDropZone";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../../api/axiosInstance";
 import ImageCropModal from "../components/ImageCropModal";
+import toast from "react-hot-toast";
 
 const ProductModal = ({ isOpen, onClose, onSubmit, initialData, isSubmitting }) => {
   const [existingImages, setExistingImages] = useState([]);
@@ -155,7 +156,7 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData, isSubmitting }) 
   const handleModalSubmit = (data) => {
     const formData = new FormData();
 
-    // Prepare Data Copy to handle Price
+
     let submitData = { ...data };
 
     if (submitData.hasVariations) {
@@ -566,7 +567,6 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData, isSubmitting }) 
               <div className="flex justify-between items-center">
                 <label className="text-xs font-bold text-slate-700">
                   Item Images
-                  {/* <span className="text-red-500">*</span> */}
                 </label>
                 <span
                   className={`text-[10px] font-bold ${imageList.length >= 4 ? "text-emerald-600" : "text-red-500"}`}
@@ -585,11 +585,9 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData, isSubmitting }) 
                     );
 
                     if (freshUploads.length > newFiles.length) {
-                      // Open cropper for the latest file
                       setCropImage(freshUploads[freshUploads.length - 1]);
                       setIsCropModalOpen(true);
                     } else {
-                      // It was a deletion
                       const remainingExisting = updatedList.filter(
                         (item) => typeof item === "string",
                       );
@@ -600,11 +598,6 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData, isSubmitting }) 
                   }}
                 />
               </div>
-              {/* {errors.image && (
-                  <p className="text-[10px] text-red-500 flex items-center gap-1 mt-1">
-                      <Info size={12} /> {errors.image.message}
-                  </p>
-              )} */}
               <p className="text-[10px] text-gray-400">
                 Upload minimum 4 images representing the item.
               </p>
@@ -679,6 +672,7 @@ const ProductModal = ({ isOpen, onClose, onSubmit, initialData, isSubmitting }) 
                 shouldValidate: true,
               });
               setIsCropModalOpen(false);
+              toast.success("Image cropped and added successfully!");
             }}
           />
         )}

@@ -112,7 +112,6 @@ const ServiceListing = () => {
     } catch (error) {
       toast.error(error.response.data?.message);
     }
-    //  toast.custom(`Are you sure you want ${finalItem.name} - ₹${finalItem.price} to cart!`);
   };
 
   return (
@@ -274,13 +273,13 @@ const ServiceListing = () => {
                     </div>
 
                     <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
-                      <div>
-                        <p className="text-[10px] text-gray-400 font-medium uppercase">
+                      <div > 
+                        <p className="text-[10px] text-gray-400 font-medium uppercase ">
                           {item.type === "recyclable" ? "You Earn" : "Fees"}
                         </p>
                         {item.offer?.isActive &&
                         new Date(item.offer.expiryDate) > new Date() ? (
-                          <div className="flex flex-col">
+                          <div className="flex items-center gap-1.5">
                             <span className="text-[11px] text-gray-400 line-through font-semibold leading-tight">
                               ₹{item.price}{" "}
                               <span className="text-[9px] font-normal">

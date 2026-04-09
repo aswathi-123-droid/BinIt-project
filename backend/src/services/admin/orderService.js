@@ -1,4 +1,5 @@
 import logger from "../../config/logger.js";
+import Coupon from "../../models/couponModel.js";
 import Order from "../../models/orderModel.js";
 import Product from "../../models/product.model.js";
 import User from "../../models/user.model.js";
@@ -242,17 +243,13 @@ export const updateReturnStatusService = async (orderId, newReturnStatus) => {
         });
       }
     }
-    // order.items.forEach(item => {
-    //     if (item.productId && item.productId.type === 'store') {
-    //         item.itemStatus = "Returned";
-    //     }
-    // });
+  
     if (order.paymentStatus === "PAID" || order.paymentMethod === "COD") {
       await creditWallet(
         order.userId,
         order.pricing.totalAmount,
         "ORDER_RETURN_REFUND",
-        `Refund for returned order #${orderId}`,
+        `Refund for returned order ${order.orderId}`,
         order._id,
       );
       logger.info(
@@ -307,7 +304,7 @@ export const updateOrderItemReturnStatusService = async (
         order.userId,
         refundAmount,
         "ORDER_RETURN_REFUND",
-        `Refund for returned item in order #${orderId}`,
+        `Refund for returned item in order ${order.orderId}`,
         order._id,
       );
       logger.info(
@@ -329,5 +326,205 @@ export const updateOrderItemReturnStatusService = async (
     }
   }
   await order.save();
+  return order;
+};
+
+export const adminApproveCancelOrderService = async (orderId, isPickupMode, isApproved) => {
+  const order = await Order.findById(orderId).populate("items.productId");
+  if (!order) throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Order not found");
+  
+   const currentCancellation = isPickupMode ? order.pickupCancellation : order.orderCancellation;
+    if (!currentCancellation || currentCancellation.status !== 'Pending') {
+      throw new AppError(STATUS_CODES.BAD_REQUEST, "INVALID_ACTION", "No pending cancellation request found");
+  }
+
+  if (!isApproved) {
+      if (isPickupMode) order.pickupCancellation.status = 'Rejected';
+     else order.orderCancellation.status = 'Rejected';
+     order.items.forEach((item) => {
+      if (item.itemStatus === 'Cancel Pending') {
+            const isStoreItem = !item.productId || item.productId.type === 'store';
+            if (isPickupMode && !isStoreItem) item.itemStatus = 'Active';
+            if (!isPickupMode && isStoreItem) item.itemStatus = 'Active';
+        }
+     });
+     
+     await order.save();
+     logger.info(`Admin rejected cancellation for Order ${orderId}`);
+     return order;
+  }
+
+  if (isPickupMode) order.pickupCancellation.status = 'Approved';
+  else order.orderCancellation.status = 'Approved';
+  const oldTotalPaid = order.pricing.totalAmount;
+
+  if (isPickupMode) {
+      order.pickupStatus = 'Cancelled';
+      order.items.forEach((item) => {
+          const isStoreItem = !item.productId || item.productId.type === 'store';
+          if (item.itemStatus === 'Cancel Pending'&& !isStoreItem) {
+            item.itemStatus = 'Cancelled'
+          };
+      });
+  } else {
+      order.status = 'Cancelled';
+      for (const item of order.items) {
+          if (item.itemStatus === 'Cancel Pending') {
+              item.itemStatus = 'Cancelled';
+              if (item.productId && item.productId.type === 'store') {
+                  await Product.findByIdAndUpdate(item.productId._id, { $inc: { stock: item.quantity } });
+              }
+          }
+      }
+  }
+
+  const activeItems = order.items.filter((i) => i.itemStatus !== "Cancelled");
+  if (activeItems.length === 0) {
+      order.status = "Cancelled";
+      order.pickupStatus = "Cancelled";
+      order.pricing.subtotal = 0; order.pricing.storeItems = 0; order.pricing.pickupServices = 0;
+      order.pricing.earnings = 0; order.pricing.offerDiscount = 0; order.pricing.couponDiscount = 0;
+      order.pricing.totalAmount = 0;
+    
+        if (["Completed", "PAID"].includes(order.paymentStatus) && order.paymentMethod !== "COD" && oldTotalPaid > 0) {
+           await creditWallet(order.userId, oldTotalPaid, "ORDER_CANCEL_REFUND", `Refund for complete cancellation of ${order.orderId}`, order._id);
+        }
+      
+  } else {
+      let storeItems = 0, pickupServices = 0, earnings = 0, newOfferDiscount = 0;
+      
+      activeItems.forEach((i) => {
+          const itemTotal = i.price * i.quantity;
+          newOfferDiscount += (i.offerDiscount || 0) * i.quantity;
+          if (i.productId?.type === "recyclable") earnings += itemTotal;
+          else if (i.productId?.type === "store") storeItems += itemTotal;
+          else pickupServices += itemTotal;
+      });
+      const newSubtotal = storeItems + pickupServices;
+      const payableAmount = newSubtotal - newOfferDiscount
+      let newCouponDiscount = 0;
+      if (order.couponCode) {
+        const coupon = await Coupon.findOne({ code: order.couponCode });
+        if (coupon && payableAmount >= (coupon.minPurchaseAmount || 0)) {
+          if (coupon.discountType === "flat") newCouponDiscount = coupon.discountValue; 
+          else if (coupon.discountType === "percent") {
+            let calc = payableAmount * (coupon.discountValue / 100);
+            newCouponDiscount = coupon.maxDiscountAmount > 0 ? Math.min(calc, coupon.maxDiscountAmount) : calc; 
+          }
+        }
+      }
+      const platformFee = order.pricing.platformFee || 0;
+      const newTotalOwed = newSubtotal - earnings + platformFee - newOfferDiscount - newCouponDiscount;
+      const refundAmount = oldTotalPaid - newTotalOwed;
+      order.pricing.storeItems = storeItems; order.pricing.pickupServices = pickupServices; order.pricing.earnings = earnings;
+      order.pricing.subtotal = newSubtotal; order.pricing.offerDiscount = newOfferDiscount;
+      order.pricing.couponDiscount = newCouponDiscount; order.pricing.totalAmount = newTotalOwed;
+        if (["Completed", "PAID"].includes(order.paymentStatus) && order.paymentMethod !== "COD" && refundAmount > 0) {
+           await creditWallet(order.userId, refundAmount, "ORDER_CANCEL_REFUND", `Refund for cancelled items in order ${order.orderId}`, order._id);
+        }
+
+  }
+  await order.save();
+  logger.info(`Admin successfully approved and processed cancellation for Order ${orderId}`);
+  return order;
+};
+
+export const adminApproveCancelItemService = async (orderId, itemId, isApproved) => {
+  const order = await Order.findById(orderId).populate("items.productId");
+  if (!order) throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Order not found");
+
+  const item = order.items.find((i) => i._id.toString() === itemId);
+  if (!item) throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Item not found");
+
+  if (item.itemStatus !== 'Cancel Pending') {
+      throw new AppError(STATUS_CODES.BAD_REQUEST, "INVALID_ACTION", "Item is not pending cancellation");
+  }
+  console.log(order,"11");
+  console.log(item,"12");
+  
+  if (!isApproved) {
+     item.itemStatus = 'Active'; 
+     
+     
+     const otherPending = order.items.some(i => i.itemStatus === 'Cancel Pending');
+     if (!otherPending && order.cancellation) order.cancellation.status = 'Rejected';
+     
+     await order.save();
+     logger.info(`Admin rejected cancellation for Item ${itemId} in Order ${orderId}`);
+     return order;
+  }
+
+  
+  item.itemStatus = "Cancelled"; 
+  const oldTotalPaid = order.pricing.totalAmount;
+
+  if (item.productId && item.productId.type === "store") {
+    await Product.findByIdAndUpdate(item.productId._id, { $inc: { stock: item.quantity } });
+  }
+
+  const activeItems = order.items.filter((i) => i.itemStatus !== "Cancelled");
+
+  const activeStoreItems = activeItems.filter(i => i.productId?.type === 'store');
+  const activePickupItems = activeItems.filter(i => i.productId?.type !== 'store');
+  
+  if (activeStoreItems.length === 0) order.status = "Cancelled";
+  if (activePickupItems.length === 0) order.pickupStatus = "Cancelled";
+
+  if (activeItems.length === 0) {
+    order.status = "Cancelled";
+    order.pickupStatus = "Cancelled";
+    if (order?.cancellation) order.cancellation.status = 'Approved';
+    
+    order.pricing.subtotal = 0; order.pricing.storeItems = 0; order.pricing.pickupServices = 0;
+    order.pricing.earnings = 0; order.pricing.offerDiscount = 0; order.pricing.couponDiscount = 0;
+    order.pricing.totalAmount = 0;
+   
+ 
+      if (["Completed", "PAID"].includes(order.paymentStatus) && order.paymentMethod !== "COD" && oldTotalPaid > 0) {
+        await creditWallet(order.userId, oldTotalPaid, "ORDER_CANCEL_REFUND", `Refund for complete cancellation of ${order.orderId}`, order._id);
+      }
+  
+  } else {
+    let storeItems = 0, pickupServices = 0, earnings = 0, newOfferDiscount = 0;
+    console.log(activeItems,"13")
+    activeItems.forEach((i) => {
+      const itemTotal = i.price ;
+      newOfferDiscount += (i.offerDiscount || 0) * i.quantity;
+      if (i.productId?.type === "recyclable") earnings += itemTotal;
+      else if (i.productId?.type === "store") storeItems += itemTotal;
+      else pickupServices += itemTotal;
+    });
+
+    const newSubtotal = storeItems + pickupServices;
+    const payableAmount = newSubtotal - newOfferDiscount
+
+    let newCouponDiscount = 0;
+    if (order.couponCode) {
+      const coupon = await Coupon.findOne({ code: order.couponCode });
+      if (coupon && payableAmount >= (coupon.minPurchaseAmount || 0)) {
+        if (coupon.discountType === "flat") newCouponDiscount = coupon.discountValue; 
+        else if (coupon.discountType === "percent") {
+          let calc = payableAmount * (coupon.discountValue / 100);
+          newCouponDiscount = coupon.maxDiscountAmount > 0 ? Math.min(calc, coupon.maxDiscountAmount) : calc; 
+        }
+      }
+    }
+
+    const platformFee = order.pricing.platformFee || 0;
+    const newTotalOwed = newSubtotal - earnings + platformFee - newOfferDiscount - newCouponDiscount;
+    const refundAmount = oldTotalPaid - newTotalOwed;
+
+    order.pricing.storeItems = storeItems; order.pricing.pickupServices = pickupServices; order.pricing.earnings = earnings;
+    order.pricing.subtotal = newSubtotal; order.pricing.offerDiscount = newOfferDiscount;
+    order.pricing.couponDiscount = newCouponDiscount; order.pricing.totalAmount = newTotalOwed;
+
+      if (["Completed", "PAID"].includes(order.paymentStatus) && order.paymentMethod !== "COD" && refundAmount > 0) {
+        await creditWallet(order.userId, refundAmount, "ORDER_CANCEL_REFUND", `Refund for cancelling item (${item.name}) in order ${order.orderId}`, order._id);
+      }
+  }
+  
+  await order.save();
+  console.log(order,"14")
+  logger.info(`Admin approved item cancellation for ${itemId}`);
   return order;
 };

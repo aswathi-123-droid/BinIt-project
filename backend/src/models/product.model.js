@@ -23,9 +23,9 @@ const productSchema = new mongoose.Schema(
             default: false
         },
         variations: [{
-            name: { type: String, required: true }, // e.g., "3-Seater", "King Size"
+            name: { type: String, required: true },
             price: { type: Number, required: true },
-            _id: { type: mongoose.Schema.Types.ObjectId, auto: true } // Auto-generate ID for cart logic
+            _id: { type: mongoose.Schema.Types.ObjectId, auto: true } 
         }],
         description: {
             type: String,
@@ -65,7 +65,6 @@ const productSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
-        // ===== NEW: ADDED OFFER OBJECT IDENTICAL TO CATEGORY =====
         offer: {
             isActive: {
                 type: Boolean,

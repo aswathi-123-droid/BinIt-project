@@ -334,7 +334,19 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
 
             <div className="space-y-4 mb-6 text-sm">
               <div className="flex justify-between text-gray-600">
-                <span>Service Fees</span>
+                <span>Store Items</span>
+                <span className="font-semibold text-gray-900">
+                  ₹{summary.storeItems.toFixed(2)}
+                </span>
+              </div>
+              <div className="flex justify-between text-gray-600">
+                <span>Pickup Services</span>
+                <span className="font-semibold text-gray-900">
+                  ₹{summary.pickupServices.toFixed(2)}
+                </span>
+              </div>
+              <div className="flex justify-between text-gray-600">
+                <span>Subtotal (Service Fees)</span>
                 <span className="font-semibold text-gray-900">
                   ₹{summary.subtotal.toFixed(2)}
                 </span>
@@ -350,6 +362,14 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
                   <span>Coupon Discount</span>
                   <span className="font-medium">
                     - ₹{summary.couponDiscount.toFixed(2)}
+                  </span>
+                </div>
+              )}
+              {summary.offerDiscount > 0 && (
+                <div className="flex justify-between text-emerald-600">
+                  <span>Offer Discount</span>
+                  <span className="font-medium">
+                    - ₹{summary.offerDiscount.toFixed(2)}
                   </span>
                 </div>
               )}
@@ -400,7 +420,7 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
           onClick={onBack}
           className="flex items-center gap-2 text-gray-500 hover:text-gray-900 font-bold px-6 py-3.5 rounded-xl hover:bg-gray-100 transition-all w-full sm:w-auto justify-center"
         >
-          <ArrowLeft size={20} /> Back to Step 2
+          <ArrowLeft size={20} /> Back 
         </button>
 
         <button

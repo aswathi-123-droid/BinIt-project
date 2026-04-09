@@ -51,14 +51,11 @@ export const getOrderByIdController = async (req, res) => {
 export const cancelOrderController = async (req, res) => {
     const userId = req.user._id;
     const { orderId } = req.params;
-    const  {reason}  = req.body;
-    console.log(reason,"wooooo")
-    console.log(req.body,"liiiii")
+    const  {reason, isPickupMode}  = req.body;
+
     logger.info(`Request received: Cancel order ${orderId} for user ${userId}`);
-    // if (!reason) {
-    //     throw new AppError(STATUS_CODES.BAD_REQUEST, "MISSING_FIELD", "Cancellation reason is required");
-    // }
-    const order = await cancelOrderService(userId, orderId, reason);
+
+    const order = await cancelOrderService(userId, orderId, reason, isPickupMode);
     sendResponse(res, {
         message: "Order cancelled successfully",
         order

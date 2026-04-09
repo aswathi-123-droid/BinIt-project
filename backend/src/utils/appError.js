@@ -84,40 +84,12 @@ export const buildProductQuery = ({
 
   if (stockStatus) {
     if (stockStatus === "in_stock") {
-      // Show anything with stock > 0 (Store items) OR Service items (infinite)
-      query.$or = [
-        { stock: { $gt: 0 } },
-        { type: { $ne: "store" } }, // Service items are technically "in stock"
-      ];
+      query.$or = [{ stock: { $gt: 0 } }, { type: { $ne: "store" } }];
     } else if (stockStatus === "out_of_stock") {
-      // Strict: Only show Store items that have 0 stock
       query.type = "store";
       query.stock = { $lte: 0 };
     }
   }
-
-  // if(category){
-  //   const categoryDoc = await Category.findOne({slug:category}).select("_id");
-
-  //   if(categoryDoc){
-  //     query.category = categoryDoc._id
-  //   }else{
-  //     query.category = null;
-  //   }
-  // }
-
-  // if(type){
-  //   const matchingCategories = await Category.find({ type: type }).select("_id");
-  //   const categoryIds = matchingCategories.map(cat => cat._id);
-
-  //   if(query.category){
-  //     const isTypeMatch = categoryIds.some(id => id.toString() === query.category.toString())
-  //     if (!isTypeMatch) query.category = null;
-  //   }else{
-  //     query.category = { $in: categoryIds };
-  //   }
-  // }
-  console.log(query,"viiiii")
   return query;
 };
 
@@ -161,10 +133,8 @@ export const getCategorySortOption = (sortBy = "newest") => {
 export const buildOrderQuery = ({ search, statusFilter }, isPickup) => {
   const matchStage = {};
   if (statusFilter) {
-    if(isPickup)
-    matchStage.pickupStatus = statusFilter;
-    else
-    matchStage.status = statusFilter;
+    if (isPickup) matchStage.pickupStatus = statusFilter;
+    else matchStage.status = statusFilter;
   }
 
   const pipeline = [
@@ -188,39 +158,40 @@ export const buildOrderQuery = ({ search, statusFilter }, isPickup) => {
         as: "productDetails",
       },
     },
-            {
-            $match: {
-                "productDetails.type": isPickup ? { $in: ["junk", "recyclable"] } : "store"
-            }
-        }
+    {
+      $match: {
+        "productDetails.type": isPickup
+          ? { $in: ["junk", "recyclable"] }
+          : "store",
+      },
+    },
   ];
 
-  if(search){
+  if (search) {
     pipeline.push({
       $match: {
         $or: [
-          { orderId: {$regex: search, $options: "i"}},
-                              { "userId.name": { $regex: search, $options: 'i' } },
-                               { "userId.email": { $regex: search, $options: 'i' } }
-        ]
-      }
-    })
+          { orderId: { $regex: search, $options: "i" } },
+          { "userId.name": { $regex: search, $options: "i" } },
+          { "userId.email": { $regex: search, $options: "i" } },
+        ],
+      },
+    });
   }
 
   return pipeline;
 };
 
 export const getOrderSortOption = (sortBy) => {
-    switch (sortBy) {
-        case "oldest":
-            return { createdAt: 1 };
-        case "amount_asc":
-            return { "pricing.totalAmount": 1 };
-        case "amount_desc":
-            return { "pricing.totalAmount": -1 };
-        case "newest":
-        default:
-            return { createdAt: -1 };
-    }
+  switch (sortBy) {
+    case "oldest":
+      return { createdAt: 1 };
+    case "amount_asc":
+      return { "pricing.totalAmount": 1 };
+    case "amount_desc":
+      return { "pricing.totalAmount": -1 };
+    case "newest":
+    default:
+      return { createdAt: -1 };
+  }
 };
-

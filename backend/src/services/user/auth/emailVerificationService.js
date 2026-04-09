@@ -44,7 +44,7 @@ export const sendVerificationOTP = async(email)=>{
     type: "verification",
     expiresAt: Date.now() + 10 * 60 * 1000, 
     });
-    // console.log("SAVED OTP LIST =", await Otp.find().lean());
+
     await sendEmail({
     to: normEmail,
     subject: "Verify your email",

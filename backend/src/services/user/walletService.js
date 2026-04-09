@@ -21,6 +21,6 @@ export const getWalletHistoryService = async (userId) => {
     const transactions = await WalletTransaction.find({ walletId: wallet._id })
         .sort({ createdAt: -1 })
         .populate('orderId', 'orderId');
-        
+    console.log(transactions)  
     return { transactions };
 };

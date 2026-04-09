@@ -3,7 +3,6 @@ import fs from 'fs';
 import logger from '../config/logger.js';
 import { env } from '../config/env.js';
 
-// Configure Cloudinary with keys from your .env file
 cloudinary.config({
   cloud_name: env.CLOUDINARY_CLOUD_NAME,
   api_key: env.CLOUDINARY_API_KEY,

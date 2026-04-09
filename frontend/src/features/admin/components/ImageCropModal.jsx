@@ -30,7 +30,6 @@ const ImageCropModal = ({ file, onComplete, onCancel, aspect = 1 }) => {
   };
 
   const handleApply = async () => {
-  // Use completedCrop instead of crop
   if (imgRef.current && completedCrop && completedCrop.width > 0) {
     const croppedFile = await getCroppedImg(
       imgRef.current, 

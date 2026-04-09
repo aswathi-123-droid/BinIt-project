@@ -2,8 +2,7 @@ export const getCroppedImg = (image, crop, fileName) => {
   const canvas = document.createElement('canvas');
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
-  
-  // Set desired resize dimensions (e.g., 800x800)
+
   canvas.width = 800; 
   canvas.height = 800;
   const ctx = canvas.getContext('2d');

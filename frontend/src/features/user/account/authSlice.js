@@ -9,7 +9,6 @@ export const registerUser = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       const res = await api.post("/auth/register", formData);
-      // { success: true, message: "...", data: { ... } }
       return res.data.message;
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Signup failed");
@@ -23,7 +22,6 @@ export const loginUser = createAsyncThunk(
   async (credentials, { rejectWithValue }) => {
     try {
       const res = await api.post("/auth/login", credentials);
-      // { success: true, data: { user: {...}, token: "..." } }
       console.log(res)
       return res.data.user;
     } catch (err) {
@@ -72,7 +70,7 @@ export const googleLogin = createAsyncThunk(
   async (idToken, { rejectWithValue }) => {
     try {
       const res = await api.post("/auth/google", { idToken });
-      return res.data.user; // backend returns { data: { user } }
+      return res.data.user; 
     } catch (err) {
       return rejectWithValue(err.response?.data?.message || "Google login failed");
     }

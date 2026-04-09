@@ -12,7 +12,7 @@ const router = express.Router();
 
 const upload = multer({ 
   dest: os.tmpdir(),
-  limits: { fileSize: 5 * 1024 * 1024 } // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 } 
 });
 
 router.get("/",verifyAdminToken,getAllCategoriesContoller)

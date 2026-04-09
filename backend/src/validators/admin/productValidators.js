@@ -19,11 +19,10 @@ export const createProductSchema = Joi.object({
   isActive: Joi.boolean().optional(),
   inStock: Joi.boolean().optional(),
   isEstimationEnabled: Joi.boolean().optional(),
-  // Image validation is handled by Multer, but we allow it in body for updates
   image: Joi.string().optional().allow(""), 
   hasVariations: Joi.boolean().optional(),
   variations: Joi.alternatives().try(
-      Joi.string(), // Allow stringified JSON
+      Joi.string(), 
       Joi.array().items(
           Joi.object({
               name: Joi.string().required(),
@@ -49,7 +48,7 @@ export const updateProductSchema = Joi.object({
           Joi.object({
               name: Joi.string().required(),
               price: Joi.number().required().min(0),
-              _id: Joi.string().optional() // Allow ID for updates
+              _id: Joi.string().optional() 
           })
       )
   ).optional()

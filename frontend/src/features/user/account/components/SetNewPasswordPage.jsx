@@ -18,7 +18,6 @@ const SetNewPasswordPage = () => {
     formState: { errors },
   } = useForm();
 
-  // Watch the 'password' field to validate the confirmation field
   const password = watch("password");
 
   const onSubmit = async(data) => {

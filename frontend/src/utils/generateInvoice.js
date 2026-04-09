@@ -57,19 +57,13 @@ export const generateInvoice = (order) => {
   const tableColumn = ["Product", "Type", "Quantity", "Unit Price", "Total"];
   const tableRows = [];
 
-  // const displayItems = order.items.filter((item) =>
-  //   isPickupMode
-  //     ? item.productId?.type !== "store"
-  //     : item.productId?.type === "store",
-  // );
-
  order.items.forEach((item) => {
     const itemData = [
       item.name,
       item.productId?.type === "junk"? "Junk / Scrap": item.productId?.type === "recyclable" ? "Recyclable": "Store Item",
       item.quantity,
-      `Rs. ${item.price}`,
-      `Rs. ${item.price * item.quantity}`,
+      `Rs. ${item.productId.price}`,
+      `Rs. ${item.price }`,
     ];
     tableRows.push(itemData);
   });

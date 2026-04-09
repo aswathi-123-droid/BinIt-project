@@ -14,12 +14,6 @@ import { getCartWithSummary } from "./cartServices.js";
 export const createOrder = async (userId, orderData) => {
   const { addressId, paymentMethod, pickupDate, pickupTimeSlot, useWallet } =
     orderData;
-
-  // const cart = await Cart.findOne({userId}).populate("items.productId")
-  // console.log(cart,"check")
-  // if (!cart || cart.items.length === 0) {
-  //     throw new AppError("Cart is empty", STATUS_CODES.BAD_REQUEST);
-  // }
   const { cart, summary } = await getCartWithSummary(userId);
   if (!cart || cart.items.length === 0) {
     throw new AppError("Cart is empty", STATUS_CODES.BAD_REQUEST);
@@ -35,7 +29,7 @@ export const createOrder = async (userId, orderData) => {
       }
     }
   }
-  console.log(cart.items, "lets see itemsss");
+
   let isPickupRequired = false;
 
   for (const item of cart.items) {
@@ -68,7 +62,7 @@ export const createOrder = async (userId, orderData) => {
       finalPickupDate = new Date();
     }
   }
-  console.log(finalPickupDate, finalPickupTimeSlot, "check");
+
   const address = await Address.findById(addressId);
   if (!address) {
     throw new AppError("Address not found", STATUS_CODES.NOT_FOUND);
@@ -77,14 +71,13 @@ export const createOrder = async (userId, orderData) => {
   let amountToPayOnline = summary ? summary.totalAmount : 0;
   let walletMoneyDeducted = 0;
   let finalPaymentMethod = paymentMethod;
-  // We only deduct from wallet if they check the box AND it's not a COD order
+
   if (useWallet && paymentMethod !== "COD") {
     const wallet = await Wallet.findOne({ user: userId });
     const currentBalance = wallet ? wallet.balance : 0;
 
     if (currentBalance > 0) {
       if (currentBalance >= amountToPayOnline) {
-        // SCENARIO A: Wallet has enough to pay 100% of the order
         walletMoneyDeducted = amountToPayOnline;
         amountToPayOnline = 0;
 
@@ -94,11 +87,10 @@ export const createOrder = async (userId, orderData) => {
           "ORDER_PURCHASE",
           "Paid fully using Wallet",
         );
-        finalPaymentMethod = "Wallet"; // Override the payment method so you know they paid entirely by wallet
+        finalPaymentMethod = "Wallet";
       } else {
-        // SCENARIO B: Wallet covers a partial amount, Razorpay covers the rest
         walletMoneyDeducted = currentBalance;
-        amountToPayOnline -= currentBalance; // Reduce what they owe online
+        amountToPayOnline -= currentBalance;
 
         await debitWallet(
           userId,
@@ -106,14 +98,14 @@ export const createOrder = async (userId, orderData) => {
           "ORDER_PURCHASE",
           "Partial payment for Order",
         );
-        finalPaymentMethod = "Wallet_and_Online"; // Track that it was a split payment
+        finalPaymentMethod = "Wallet_and_Online";
       }
     }
   }
-  // Attach these new tracking fields onto your summary object
+
   if (summary) {
     summary.walletAmountUsed = walletMoneyDeducted;
-    summary.amountToPayOnline = amountToPayOnline; // Use this variable when you generate the Razorpay Order later!
+    summary.amountToPayOnline = amountToPayOnline;
   }
 
   let appliedCouponCode = null;
@@ -130,6 +122,7 @@ export const createOrder = async (userId, orderData) => {
   const newOrder = new Order({
     userId,
     orderId: `#ORD-${Date.now().toString().slice(-6)}`,
+    couponCode: appliedCouponCode,
     items: cart.items.map((item) => {
       const product = item.productId;
       const category = product?.categoryId;
@@ -147,7 +140,7 @@ export const createOrder = async (userId, orderData) => {
         name: item.name,
         quantity: item.quantity,
         price: item.price,
-        offerDiscount: itemDiscount, 
+        offerDiscount: itemDiscount,
         image: product.image[0],
         selectionType: item.selectionType,
         selectionName: item.selectionName,
@@ -246,18 +239,30 @@ export const getOrderById = async (userId, orderId) => {
   return order;
 };
 
-export const cancelOrderService = async (userId, orderId, reason) => {
-  const order = await Order.findOne({ orderId, userId });
+export const cancelOrderService = async (
+  userId,
+  orderId,
+  reason,
+  isPickupMode,
+) => {
+  const order = await Order.findOne({ orderId, userId }).populate(
+    "items.productId",
+  );
   if (!order) {
     logger.warn(
       `Cancel failed: Order not found. User: ${userId}, Order: ${orderId}`,
     );
     throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Order not found");
   }
-
-  const nonCancellableStatuses = ["Completed", "Cancelled", "Delivered"];
-
-  if (nonCancellableStatuses.includes(order.status)) {
+  const nonCancellableStatuses = [
+    "Cancelled",
+    isPickupMode ? "Completed" : "Delivered",
+  ];
+  if (
+    nonCancellableStatuses.includes(
+      isPickupMode ? order.pickupStatus : order.status,
+    )
+  ) {
     logger.warn(
       `Cancel failed: Invalid status ${order.status}. User: ${userId}, Order: ${orderId}`,
     );
@@ -268,32 +273,42 @@ export const cancelOrderService = async (userId, orderId, reason) => {
     );
   }
 
-  order.status = "Cancelled";
-  order.items.forEach((item) => {
-    item.itemStatus = "Cancelled";
-  });
-  order.cancellation = {
-    reason: reason,
-    timestamp: new Date(),
-    cancelledBy: userId,
-  };
-
-  for (const item of order.items) {
-    if (item.productId && item.productId.type === "store") {
-      await Product.findByIdAndUpdate(item.productId._id, {
-        $inc: { stock: item.quantity },
-      });
-    }
+  if (isPickupMode) {
+    order.items.forEach((item) => {
+      if (
+        item.productId &&
+        (item.productId.type === "junk" ||
+          item.productId.type === "recyclable") &&
+        item.itemStatus !== "Cancelled"
+      ) {
+        item.itemStatus = "Cancel Pending";
+      }
+    });
+  } else {
+    order.items.forEach((item) => {
+      if (
+        (!item.productId || item.productId.type === "store") &&
+        item.itemStatus !== "Cancelled"
+      ) {
+        item.itemStatus = "Cancel Pending";
+      }
+    });
   }
 
-  if (order.paymentStatus === "Completed" && order.paymentMethod !== "COD") {
-    await creditWallet(
-      userId,
-      order.pricing.totalAmount,
-      "ORDER_CANCEL_REFUND",
-      `Refund for cancelling order #${orderId}`,
-      order._id,
-    );
+  if (isPickupMode) {
+    order.pickupCancellation = {
+      status: "Pending",
+      reason: reason,
+      timestamp: new Date(),
+      cancelledBy: userId,
+    };
+  } else {
+    order.orderCancellation = {
+      status: "Pending",
+      reason: reason,
+      timestamp: new Date(),
+      cancelledBy: userId,
+    };
   }
 
   await order.save();
@@ -348,6 +363,7 @@ export const cancelOrderItemService = async (
   orderId,
   itemId,
   reason,
+  isPickupMode,
 ) => {
   const order = await Order.findOne({ orderId, userId }).populate(
     "items.productId",
@@ -360,9 +376,16 @@ export const cancelOrderItemService = async (
     throw new AppError(STATUS_CODES.NOT_FOUND, "NOT_FOUND", "Order not found");
   }
 
-  const nonCancellableStatuses = ["Completed", "Cancelled", "Delivered"];
+  const nonCancellableStatuses = [
+    "Cancelled",
+    isPickupMode ? "Completed" : "Delivered",
+  ];
 
-  if (nonCancellableStatuses.includes(order.status)) {
+  if (
+    nonCancellableStatuses.includes(
+      isPickupMode ? order.pickupStatus : order.status,
+    )
+  ) {
     logger.warn(
       `Cancel item failed: Invalid status ${order.status}. User: ${userId}, Order: ${orderId}`,
     );
@@ -383,118 +406,17 @@ export const cancelOrderItemService = async (
     );
   }
 
-  if (item.itemStatus === "Cancelled") {
+  if (item.itemStatus === "Cancelled" || item.itemStatus === "Cancel Pending") {
     throw new AppError(
       STATUS_CODES.BAD_REQUEST,
       "BAD_REQUEST",
-      "Item is already cancelled",
+      "Item is already cancelled or pending",
     );
   }
 
-  item.itemStatus = "Cancelled";
+  item.itemStatus = "Cancel Pending";
   item.cancellationReason = reason;
-  const oldTotalPaid = order.pricing.totalAmount;
-  const activeItems = order.items.filter((i) => i.itemStatus !== "Cancelled");
-  
-  if (activeItems.length === 0) {
-    order.status = "Cancelled";
-    order.cancellation = {
-      reason: reason || "All items were individually cancelled",
-      timestamp: new Date(),
-      cancelledBy: userId,
-    };
-    order.pricing.subtotal = 0;
-    order.pricing.storeItems = 0;
-    order.pricing.pickupServices = 0;
-    order.pricing.earnings = 0;
-    order.pricing.offerDiscount = 0;
-    order.pricing.couponDiscount = 0;
-    order.pricing.totalAmount = 0;
-   
-    if (
-      order.paymentStatus === "Completed" &&
-      order.paymentMethod !== "COD" &&
-      oldTotalPaid > 0
-    ) {
-      await creditWallet(
-        userId,
-        oldTotalPaid,
-        "ORDER_CANCEL_REFUND",
-        `Refund for complete cancellation of #${orderId}`,
-        order._id,
-      );
-    }
-  }
 
-  else {
-    let storeItems = 0;
-    let pickupServices = 0;
-    let earnings = 0;
-        let newOfferDiscount = 0;
-    activeItems.forEach((i) => {
-      const itemTotal = i.price * i.quantity;
-      newOfferDiscount += (i.offerDiscount || 0) * i.quantity;
-      if (i.productId?.type === "recyclable") {
-        earnings += itemTotal;
-      } else if (i.productId?.type === "store") {
-        storeItems += itemTotal;
-      } else {
-        pickupServices += itemTotal;
-      }
-    });
-    const newSubtotal = storeItems + pickupServices;
-
-    let newCouponDiscount = 0;
-    if (order.couponCode) {
-      const coupon = await Coupon.findOne({ code: order.couponCode });
-      if (coupon && newSubtotal >= (coupon.minPurchaseAmount || 0)) {
-        if (coupon.discountType === "flat") {
-          newCouponDiscount = coupon.discountValue; 
-        } else if (coupon.discountType === "percent") {
-          let calc = newSubtotal * (coupon.discountValue / 100);
-          newCouponDiscount =
-            coupon.maxDiscountAmount > 0
-              ? Math.min(calc, coupon.maxDiscountAmount)
-              : calc; 
-        }
-      }
-      
-    }
-    const platformFee = order.pricing.platformFee || 0;
-
-    const newTotalOwed = newSubtotal- earnings+ platformFee- newOfferDiscount- newCouponDiscount;
-  
-    const refundAmount = oldTotalPaid - newTotalOwed;
-
-    order.pricing.storeItems = storeItems;
-    order.pricing.pickupServices = pickupServices;
-    order.pricing.earnings = earnings;
-    order.pricing.subtotal = newSubtotal;
-    order.pricing.offerDiscount = newOfferDiscount;
-    order.pricing.couponDiscount = newCouponDiscount;
-    order.pricing.totalAmount = newTotalOwed;
-
-    if (
-      order.paymentStatus === "Completed" &&
-      order.paymentMethod !== "COD" &&
-      refundAmount > 0
-    ) {
-      await creditWallet(
-        userId,
-        refundAmount, 
-        "ORDER_CANCEL_REFUND",
-        `Refund for cancelling item (${item.name}) in order #${orderId}`,
-        order._id,
-      );
-    }
-  }
-  
-  if (item.productId && item.productId.type === "store") {
-    await Product.findByIdAndUpdate(item.productId._id, {
-      $inc: { stock: item.quantity },
-    });
-  }
-  
   await order.save();
 
   logger.info(

@@ -22,7 +22,7 @@ const MyWallet = () => {
         api.get('/wallet/balance'),
         api.get('/wallet/history')
       ]);
-      
+      console.log(balanceRes,historyRes)
       return {
         balance: balanceRes.data.balance,
         transactions: historyRes.data.transactions

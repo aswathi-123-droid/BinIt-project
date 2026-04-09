@@ -22,7 +22,6 @@ export const createInventoryController = async (req, res) => {
     const uploadPromises = req.files.map(file => uploadToCloudinary(file.path));
     imageUrls = await Promise.all(uploadPromises)
   }else if (req.body.image) {
-    // Handle case where user sends existing URL strings (rare for create, common for update)
     imageUrls = Array.isArray(req.body.image) ? req.body.image : [req.body.image];
   }
 

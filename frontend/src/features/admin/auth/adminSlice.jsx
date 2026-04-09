@@ -66,7 +66,6 @@ const adminAuthSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Login Admin cases
       .addCase(loginAdmin.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -74,7 +73,7 @@ const adminAuthSlice = createSlice({
       })
       .addCase(loginAdmin.fulfilled, (state, action) => {
         state.loading = false;
-        state.admin = action.payload; // Store admin info separately
+        state.admin = action.payload;
         state.success = true;
         state.error = null;
       })
@@ -83,7 +82,6 @@ const adminAuthSlice = createSlice({
         state.error = action.payload;
         state.success = false;
       })
-      // Logout Admin cases
       .addCase(logoutAdmin.fulfilled, (state) => {
         state.admin = null;
         state.success = false;

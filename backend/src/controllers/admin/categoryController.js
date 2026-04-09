@@ -23,13 +23,6 @@ export const createCategoryController = async (req, res) => {
   } else if (req.body.image) {
     imageUrl = req.body.image;
   } 
-  // else {
-  //   throw new AppError(
-  //     STATUS_CODES.BAD_REQUEST,
-  //     "BAD_REQUEST",
-  //     "Category Image is required (File or URL)"
-  //   );
-  // }
 
   const categoryData = {
     ...req.body,

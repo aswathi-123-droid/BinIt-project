@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Upload, X, Plus } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const ImageDropzone = ({ value, onChange, multiple = false }) => {
   
@@ -41,16 +42,15 @@ const ImageDropzone = ({ value, onChange, multiple = false }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
+    onDropRejected: () => {
+       toast.error("Invalid file! Please upload only JPG, PNG, or WEBP images.");  
+    },
     accept: { 'image/*': ['.jpeg', '.png', '.jpg', '.webp'] },
-    // maxFiles: REMOVED (Defaults to 0/Infinity in the library)
     multiple: multiple,
-    // Only disable click if Single Mode AND file exists (to force using X to remove)
     noClick: !multiple && files.length > 0 
   });
 
-  // --- RENDER LOGIC ---
 
-  // CASE A: Single Image Mode (UI: One big image, replaced by X)
   if (!multiple && files.length > 0) {
     const previewUrl = getPreviewSource(files[0]);
     return (
@@ -67,7 +67,7 @@ const ImageDropzone = ({ value, onChange, multiple = false }) => {
     );
   }
 
-  // CASE B: Standard Dropzone / Multiple Grid Mode
+ 
   return (
     <div className="w-full h-full">
       <div
@@ -79,7 +79,6 @@ const ImageDropzone = ({ value, onChange, multiple = false }) => {
         <input {...getInputProps()} />
 
         {files.length === 0 ? (
-          // Empty State
           <div className="flex flex-col items-center justify-center h-full">
             <div className="p-3 bg-white rounded-full shadow-sm mb-3 text-gray-400">
               <Upload size={24} />
@@ -92,8 +91,7 @@ const ImageDropzone = ({ value, onChange, multiple = false }) => {
             </p>
           </div>
         ) : (
-          // Multiple Images Grid
-          // Note: Since we are infinite, we use flex-wrap or a grid that handles overflow
+          
           <div className="flex flex-wrap gap-3 w-full h-full content-start">
             {files.map((file, index) => (
               <div key={index} className="relative w-20 h-20 bg-gray-100 rounded-xl overflow-hidden border border-gray-200 group shrink-0">
@@ -112,7 +110,7 @@ const ImageDropzone = ({ value, onChange, multiple = false }) => {
               </div>
             ))}
 
-            {/* "Add More" Button - ALWAYS VISIBLE IN MULTIPLE MODE */}
+
             {multiple && (
               <div 
                 className="flex flex-col items-center justify-center w-20 h-20 bg-white border-2 border-dashed border-emerald-200 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors text-emerald-500 shrink-0"

@@ -6,7 +6,6 @@ import { AppError } from "../../utils/appError.js";
 
 export const getProductsController = async(req,res) => {
     const result = await getAllProducts(req.query);
-    // console.log(result,'lll')
     sendResponse(res,result,STATUS_CODES.OK)
 };
 
