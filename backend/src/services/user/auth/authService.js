@@ -49,7 +49,7 @@ const registerUser = async (userData) =>{
 
 const loginUser = async(userData)=>{
   const {email,password} = userData
-  const user = await User.findOne({email}).select("_id name email +password imageId role phone refreshToken")
+  const user = await User.findOne({email}).select("_id name email +password avatar role phone refreshToken referralCode")
   
 
   if(!user){

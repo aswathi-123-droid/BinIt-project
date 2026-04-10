@@ -48,7 +48,7 @@ const CategoryManagement = () => {
         queryKey: ["categories",  search, page, status, type, sortBy ],
         queryFn: async () => {
           const res = await api.get("/admin/categories", {
-            params:{ search, page, status, type, sortBy,limit:2},
+            params:{ search, page, status, type, sortBy,limit:5},
           });
           return res.data;
         },

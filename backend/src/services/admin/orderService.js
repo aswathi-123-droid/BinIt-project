@@ -181,8 +181,8 @@ export const updateOrderStatusService = async (
   await order.save();
 
   if (newStatus === "Delivered" || newStatus === "Completed") {
+    console.log("checkDelivered")
     const user = await User.findById(order.userId);
-    console.log(user,"juuuuuu")
     if (user && user.referredBy && user.hasMadeFirstPurchase === false) {
       user.hasMadeFirstPurchase = true;
       await user.save();

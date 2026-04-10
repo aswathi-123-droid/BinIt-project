@@ -2,8 +2,10 @@ import { Leaf, Wallet, ShoppingBag, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../../../api/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const navLinks = [
     { name: "Home", href: "/home" },
@@ -71,12 +73,19 @@ const Navbar = () => {
             navigate("/profile/my-profile");
           }}
         >
-          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-200 cursor-pointer hover:opacity-90 transition-opacity">
-            <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
-              alt="User Profile"
-              className="w-full h-full object-cover bg-orange-50"
-            />
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-orange-200 cursor-pointer hover:opacity-90 transition-opacity flex items-center justify-center bg-gray-100 font-bold text-gray-500">
+            {user?.avatar && user.avatar.startsWith("http") ? (
+              <img
+                src={user.avatar}
+                alt="User Profile"
+                className="w-full h-full object-cover bg-orange-50"
+              />
+            ) : (
+              user?.name
+                ?.split(" ")
+                .map((n) => n[0])
+                .join("") || "?"
+            )}
           </div>
         </button>
       </div>

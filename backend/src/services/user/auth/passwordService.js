@@ -34,7 +34,7 @@ export const forgotPassword = async (email) => {
     html: `
         <h2>Password Reset Request</h2>
         <p>Your password reset link:</p>
-        <h1> http://localhost:5173/auth/reset-password/${resetToken};</h1>
+        <h1> http://localhost:5173/auth/reset-password/${resetToken}</h1>
         <p>This link expires in <b>10 minutes</b>.</p>
         `,
   });

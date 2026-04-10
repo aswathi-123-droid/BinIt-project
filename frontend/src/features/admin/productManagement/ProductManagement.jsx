@@ -54,7 +54,7 @@ const ProductManagement = () => {
           type,
           stockStatus,
           sortBy,
-          limit: 2,
+          limit: 5,
         },
       });
       return res.data;

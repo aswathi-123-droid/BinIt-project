@@ -4,6 +4,7 @@ import { FileText, Download, Calendar, TrendingUp, DollarSign, Tag, Search } fro
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import toast from 'react-hot-toast';
+import { api } from '../../../api/axiosInstance';
 
 function AdminDashboard() {
   const [filterType, setFilterType] = useState('daily');

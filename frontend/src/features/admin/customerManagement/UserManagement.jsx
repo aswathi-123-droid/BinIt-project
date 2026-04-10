@@ -28,7 +28,7 @@ const UserManagement = () => {
     queryKey: ["users", searchInput, page, status],
     queryFn: async () => {
       const res = await api.get("/admin/users", {
-        params: { search: searchInput, page, status, limit: 2 },
+        params: { search: searchInput, page, status, limit: 5 },
       });
       console.log(res);
       return res.data;

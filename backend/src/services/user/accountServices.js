@@ -9,7 +9,7 @@ export const getAccountDetails = async (userId) => {
   const user = await User.findOne({
     _id: userId,
     isBlocked: false,
-  }).select("_id name email phone role referralCode hasMadeFirstPurchase");
+  }).select("_id name email phone role referralCode hasMadeFirstPurchase avatar");
 
   if (!user)
     throw new AppError(
@@ -24,6 +24,7 @@ export const updatePersonalDetails = async (
   userId,
   name,
   email = undefined,
+  imageUrl = undefined 
 ) => {
   const updatedUser = await User.findById(userId);
 
@@ -35,6 +36,9 @@ export const updatePersonalDetails = async (
     );
 
   updatedUser.name = name;
+  if (imageUrl) {
+      updatedUser.avatar = imageUrl;
+  }
   await updatedUser.save();
 
   if (email) {
@@ -92,12 +96,10 @@ export const requestEmailChange = async (userId, newEmail) => {
 export const confirmEmailChange = async (userId, otpInput) => {
   const data = await redisClient.get(`emailChange:${userId}`);
 
-  //  Check if the data exists (if not, it likely expired)
   if (!data) {
     throw new AppError(STATUS_CODES.BAD_REQUEST, "OTP_EXPIRED", "OTP expired");
   }
 
-  // Parse the JSON string back into a JavaScript object
   const { otp, newEmail } = JSON.parse(data);
 
   console.log(data, "here confrim");

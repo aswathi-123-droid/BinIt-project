@@ -48,7 +48,7 @@ const AdminOrderManagement = ({ mode = "order" }) => {
         ? "/admin/order/pickups"
         : "/admin/order/orders";
       const res = await api.get(endpoint, {
-        params: { search: searchInput, page, statusFilter, sortBy, limit: 4 },
+        params: { search: searchInput, page, statusFilter, sortBy, limit: 5 },
       });
       return res.data;
     },

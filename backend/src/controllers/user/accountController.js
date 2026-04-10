@@ -1,6 +1,7 @@
 import { confirmEmailChange, getAccountDetails, requestEmailChange, updatePassword, updatePersonalDetails } from "../../services/user/accountServices.js";
 import { sendResponse } from "../../utils/appError.js";
 import { STATUS_CODES } from "../../utils/constants.js";
+import { uploadToCloudinary } from "../../utils/cloudinary.js";
 
 export const getUserAccountController = async(req,res) => {
     const userId = req.user._id;
@@ -12,7 +13,11 @@ export const updatePersonalDetailsController = async(req,res) =>{
     console.log("update")
     const userId = req.user._id;
     const {name,email} = req.body
-    const result = await updatePersonalDetails(userId,name,email);
+    let imageUrl = undefined;
+    if (req.file) {
+        imageUrl = await uploadToCloudinary(req.file.path);
+    }
+    const result = await updatePersonalDetails(userId,name,email,imageUrl);
     sendResponse(res,{
         message:"Personal details updated successfully",
         data:result
