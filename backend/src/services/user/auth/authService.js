@@ -64,8 +64,10 @@ const loginUser = async(userData)=>{
 
   const accessToken = generateAccessToken(user._id)
   const refreshToken = generateRefreshToken(user._id)
-  console.log(user)
   user.refreshToken.push(refreshToken)
+  if (user.refreshToken.length > 5) {
+     user.refreshToken = user.refreshToken.slice(-5);
+  }
   await user.save()
 
   const userObj = user.toObject()
@@ -91,7 +93,7 @@ const logoutUser = async (userId, refreshToken) => {
     );
   }
 
-  user.refreshToken.filter(token=>token!==refreshToken)
+  user.refreshToken = user.refreshToken.filter(token => token !== refreshToken);
   await user.save();
 
   return { message: "User successfully logged out." };

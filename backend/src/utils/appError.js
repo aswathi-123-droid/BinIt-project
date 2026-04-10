@@ -151,6 +151,9 @@ export const buildOrderQuery = ({ search, statusFilter }, isPickup) => {
       $unwind: { path: "$userId", preserveNullAndEmptyArrays: true },
     },
     {
+      $unset: ["userId.refreshToken", "userId.password"]
+    },
+    {
       $lookup: {
         from: "products",
         localField: "items.productId",

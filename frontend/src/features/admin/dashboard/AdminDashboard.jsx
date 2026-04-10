@@ -5,11 +5,14 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import toast from 'react-hot-toast';
 import { api } from '../../../api/axiosInstance';
+import Pagination from '../../../components/common/Pagination';
 
 function AdminDashboard() {
   const [filterType, setFilterType] = useState('daily');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 10;
 
   const { data: reportData, isLoading } = useQuery({
     queryKey: ['sales-report', filterType, startDate, endDate],
@@ -80,6 +83,19 @@ function AdminDashboard() {
   };
 
   const summary = reportData?.summary || { totalOrders: 0, totalAmount: 0, totalCouponDiscount: 0, totalOfferDiscount: 0 };
+
+  const totalOrdersCount = reportData?.orders?.length || 0;
+  const totalPages = Math.ceil(totalOrdersCount / rowsPerPage);
+  const startIndex = (page - 1) * rowsPerPage;
+  
+  const paginatedOrders = reportData?.orders?.slice(startIndex, startIndex + rowsPerPage) || [];
+  
+  const fakePaginationData = {
+    pagination: {
+      currentPage: page,
+      totalPages: totalPages === 0 ? 1 : totalPages
+    }
+  };
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -202,7 +218,7 @@ function AdminDashboard() {
                   <td colSpan="5" className="px-6 py-8 text-center text-gray-400">Loading...</td>
                 </tr>
               ) : reportData?.orders?.length > 0 ? (
-                reportData.orders.map((order) => (
+                paginatedOrders.map((order) => (
                   <tr key={order._id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4 font-medium text-slate-700">{order.orderId}</td>
                     <td className="px-6 py-4 text-gray-500">
@@ -232,6 +248,9 @@ function AdminDashboard() {
             </tbody>
           </table>
         </div>
+        {reportData?.orders?.length > rowsPerPage && (
+           <Pagination data={fakePaginationData} setPage={setPage} page={page} />
+        )}
       </div>
     </div>
   );

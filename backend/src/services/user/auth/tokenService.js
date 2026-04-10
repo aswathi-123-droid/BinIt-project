@@ -29,6 +29,9 @@ export const  refreshAccessToken = async(token)=>{
         const refreshToken = generateRefreshToken(user._id)
         console.log(refreshToken)
         user.refreshToken.push(refreshToken);
+        if (user.refreshToken.length > 5) {
+            user.refreshToken = user.refreshToken.slice(-5);
+         }
         await user.save();
         return {accessToken,refreshToken}
     }catch(err){
