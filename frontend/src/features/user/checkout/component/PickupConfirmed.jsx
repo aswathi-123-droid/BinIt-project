@@ -94,10 +94,10 @@ const PickupConfirmed = ({ orderDetails }) => {
         </button>
 
         <button 
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/services')}
           className="text-gray-400 font-medium text-sm hover:text-gray-600 mt-2"
         >
-          Back to Home
+          Continue Shopping
         </button>
       </div>
 

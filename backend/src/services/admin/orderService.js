@@ -182,10 +182,35 @@ export const updateOrderStatusService = async (
 
   if (newStatus === "Delivered" || newStatus === "Completed") {
     console.log("checkDelivered")
-    const user = await User.findById(order.userId);
-    if (user && user.referredBy && user.hasMadeFirstPurchase === false) {
-      user.hasMadeFirstPurchase = true;
-      await user.save();
+    // const user = await User.findById(order.userId);
+    // if (user && user.referredBy && user.hasMadeFirstPurchase === false) {
+    //   user.hasMadeFirstPurchase = true;
+    //   await user.save();
+    //   await creditWallet(
+    //     user.referredBy,
+    //     50,
+    //     "REFERRAL_BONUS",
+    //     `Your friend ${user.name} completed their first order!`,
+    //   );
+    //   await creditWallet(
+    //     user._id,
+    //     50,
+    //     "WELCOME_BONUS",
+    //     `Welcome to BinIt! Here is your reward for completing your first order.`,
+    //   );
+    // }
+    const user = await User.findOneAndUpdate(
+      {
+        _id: order.userId,
+        hasMadeFirstPurchase: false,
+        referredBy: { $exists: true, $ne: null }
+      },
+      {
+        $set: { hasMadeFirstPurchase: true}
+      }
+    )
+
+    if(user){
       await creditWallet(
         user.referredBy,
         50,

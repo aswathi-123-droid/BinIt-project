@@ -95,7 +95,7 @@ const BinItCart = () => {
         ) {
           hasStockIssue = true;
           toast.error(
-            `Low stock for ${item.name}. Only ${item.productId?.stock || 0} left. Please reduce quantity.`,
+            `Low stock for ${item.name}. Only ${item.productId?.stock || 0} left. Please reduce quantity or items from your cart to proceed.`,
           );
         }
       }

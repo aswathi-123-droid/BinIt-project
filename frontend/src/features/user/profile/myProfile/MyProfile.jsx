@@ -57,6 +57,13 @@ const MyProfile = () => {
 
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
+    if (!file) return;
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+    if (!validImageTypes.includes(file.type)) {
+      toast.error('Invalid file type. Please upload a JPEG, PNG, or WEBP image.');
+      e.target.value = null; 
+      return;
+    }
     if (file) {
       setProfilePic(file);
       setPreviewUrl(URL.createObjectURL(file));
@@ -154,7 +161,7 @@ const MyProfile = () => {
               <input
                 type="file"
                 ref={fileInputRef}
-                accept="image/*"
+                accept="image/jpeg, image/png, image/webp"
                 style={{ display: "none" }}
                 onChange={handleImageSelect}
               />

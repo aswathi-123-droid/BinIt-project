@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import MyCoupons from "../features/user/profile/MyCoupon";
+
 
 
 export const AdminLoginPage = lazy(() => 
@@ -72,6 +72,14 @@ export const CouponManagement = lazy(()=>
 
 export const LandingPage = lazy(() => 
   import("../features/user/main/LandingPage")
+)
+
+export const PricingSection = lazy(() => 
+  import("../features/user/main/AboutSection")
+)
+
+export const RecyclingInfoSection = lazy(() => 
+  import("../features/user/main/RecyclingInfoSection")
 )
 
 export const WishlistPage = lazy(() => 

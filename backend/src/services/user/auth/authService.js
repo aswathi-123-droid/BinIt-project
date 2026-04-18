@@ -49,11 +49,19 @@ const registerUser = async (userData) =>{
 
 const loginUser = async(userData)=>{
   const {email,password} = userData
-  const user = await User.findOne({email}).select("_id name email +password avatar role phone refreshToken referralCode")
+  const user = await User.findOne({email}).select("_id name email +password avatar role phone refreshToken referralCode isBlocked")
   
 
   if(!user){
     throw new AppError(STATUS_CODES.UNAUTHORIZED,"INVALID_CREDENTIALS","Invalid email or password")
+  }
+
+  if (user.isBlocked) {
+    throw new AppError(
+      STATUS_CODES.FORBIDDEN, 
+      "ACCOUNT_BLOCKED", 
+      "Your account has been suspended by the admin. Please contact support."
+    );
   }
   
   const isPasswordValid = await bcrypt.compare(password,user.password)

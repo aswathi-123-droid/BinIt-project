@@ -59,6 +59,7 @@ const WishlistPage = () => {
     try {
       await api.post("/cart/add", cartItem); 
       toast.success(`${product.name} added to cart`);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to add to cart");
     }

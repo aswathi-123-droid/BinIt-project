@@ -1,7 +1,15 @@
 import Order from "../../models/orderModel.js";
 
 export const getSalesReportData = async (filterType, startDate, endDate) => {
-    let matchStage = { status: { $nin: ["Cancelled", "Returned"] } };
+    let matchStage = { 
+        $or: [
+            {status: { $nin: ["Cancelled", "Returned"] }},
+            { 
+            pickupStatus: { $nin: ["Cancelled", null] },
+            pickupTimeSlot: { $ne: null } 
+            }
+        ]
+     };
 
     const now = new Date();
     let start, end;
@@ -36,7 +44,30 @@ export const getSalesReportData = async (filterType, startDate, endDate) => {
         {
             $group: {
                 _id: null,
-                totalOrders: { $sum: 1 },
+                totalStoreOrders: { 
+                    $sum: {
+                        $cond: [
+                            { $and: [
+                                   {$gt: ["$pricing.storeItems",0]},
+                                   {$not: { $in: ["$status",["Cancelled", "Returned"]]}}
+                            ]},
+                            1,
+                            0
+                        ]
+                    }
+                },
+                totalPickupsCount: {
+                    $sum: {
+                       $cond: [
+                        { $and: [
+                            {$not: {$in: ["$pickupStatus", [null, "Cancelled"]]}},
+                            {$ne: ["$pickupTimeSlot", null]}
+                        ]},
+                        1,
+                        0
+                       ]
+                    }
+                },
                 totalAmount: { $sum: "$pricing.totalAmount" },
                 totalCouponDiscount: { $sum: "$pricing.couponDiscount" },
                 totalOfferDiscount: { $sum: "$pricing.offerDiscount" },
@@ -54,7 +85,8 @@ export const getSalesReportData = async (filterType, startDate, endDate) => {
     } else {
          return {
             summary: {
-                totalOrders: 0,
+                totalStoreOrders: 0,
+                totalPickupsCount: 0,
                 totalAmount: 0,
                 totalCouponDiscount: 0,
                 totalOfferDiscount: 0,
@@ -62,4 +94,78 @@ export const getSalesReportData = async (filterType, startDate, endDate) => {
             orders: []
         };
     }
+}
+
+export const getBestCust = async(filterType, startDate, endDate) => {
+    let matchStage = { 
+        $or: [
+            {status: { $nin: ["Cancelled", "Returned"] }},
+            { 
+            pickupStatus: { $nin: ["Cancelled", null] },
+            pickupTimeSlot: { $ne: null } 
+            }
+        ]
+     };
+
+    const now = new Date();
+    let start, end;
+
+    if (filterType === "daily") {
+        start = new Date(now.setHours(0, 0, 0, 0));
+        end = new Date(now.setHours(23, 59, 59, 999));
+    } else if (filterType === "weekly") {
+        start = new Date(now.setDate(now.getDate() - now.getDay()));
+        start.setHours(0, 0, 0, 0);
+        end = new Date(start);
+        end.setDate(start.getDate() + 6);
+        end.setHours(23, 59, 59, 999);
+    } else if (filterType === "monthly") {
+        start = new Date(now.getFullYear(), now.getMonth(), 1);
+        end = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+    } else if (filterType === "yearly") {
+        start = new Date(now.getFullYear(), 0, 1);
+        end = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999);
+    } else if (filterType === "custom" && startDate && endDate) {
+        start = new Date(startDate);
+        end = new Date(endDate);
+        end.setHours(23, 59, 59, 999);
+    }
+
+    if (start && end) {
+        matchStage.createdAt = { $gte: start, $lte: end };
+    }
+    console.log(matchStage,"llil")
+     const order = await Order.aggregate([
+        {
+            $match: matchStage
+        },
+        {
+            $group: {
+                _id: "$userId",
+                totalSpend: { $sum: "$pricing.totalAmount" },
+                totalOrders: {$sum: 1}
+            }
+        },
+        {
+            $sort: {
+                totalSpend: -1
+            }
+        },
+        {
+            $limit: 1
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "_id",
+                foreignField: "_id",
+                as: "customerDetails"
+            }
+        },
+        {
+            $unwind: "$customerDetails"
+        }
+     ])
+     console.log(order,"Checkkkkk")
+    return order
 }

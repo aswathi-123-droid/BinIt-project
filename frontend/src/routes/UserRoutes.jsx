@@ -89,6 +89,14 @@ export const router = createBrowserRouter([
             element: withSuspense(Pages.ServiceListing),
           },
           {
+            path: "/about",
+            element: withSuspense(Pages.PricingSection),
+          },
+          {
+            path: "/recycling",
+            element: withSuspense(Pages.RecyclingInfoSection),
+          },
+          {
             path: "/services/product/:id",
             element: withSuspense(Pages.ServiceDetailPage),
           },

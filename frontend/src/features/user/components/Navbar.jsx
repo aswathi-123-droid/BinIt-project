@@ -10,19 +10,20 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", href: "/home" },
     { name: "Services", href: "/services", active: true },
-    { name: "Recycling Info", href: "#" },
-    { name: "Pricing", href: "#" },
+    { name: "Recycling Info", href: "/recycling" },
+    { name: "About", href: "/about" },
   ];
 
-  const { data: walletData } = useQuery({
-    queryKey: ["walletBalance"],
-    queryFn: async () => {
-      const res = await api.get("/wallet/balance");
-      return res.data;
-    },
-  });
-
-  const balance = walletData?.balance || 0;
+  const { data:cart } = useQuery({
+      queryKey: ["cart"],
+      queryFn: async () => {
+        const res = await api.get("/cart");
+        return res.data;
+      },
+    });
+  
+  const cartItemCount = cart?.cart?.items?.reduce((total,item)=> total+(item.quantity || 1),0) || 0
+  console.log(cartItemCount)
 
   return (
     <nav className="w-full bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between sticky top-0 z-50">
@@ -58,14 +59,19 @@ const Navbar = () => {
           className="p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100"
           title="Wishlist"
         >
-          <Heart size={20} />
+          <Heart size={24} />
         </button>
 
         <button
           onClick={() => navigate("/cart")}
-          className="p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100"
+          className="relative p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100"
         >
-          <ShoppingBag size={20} />
+          <ShoppingBag size={24} />
+          {cartItemCount > 0 && (
+          <span className="absolute -top-1.5 -right-2 flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-emerald-500 border-2 border-white rounded-full">
+            {cartItemCount > 99 ? '99+' : cartItemCount}
+          </span>
+          )}
         </button>
 
         <button

@@ -142,6 +142,7 @@ const ServiceDetailPage = () => {
     try {
       await api.post("/cart/add", finalItem);
       toast.success(`${finalItem.name} added to cart`);
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to add to cart");
     }
