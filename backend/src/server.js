@@ -1,0 +1,43 @@
+import express from 'express'
+import mongoose from 'mongoose'
+import cookieParser from 'cookie-parser'
+import cors from "cors"
+import { env } from './config/env.js'
+import userRouter from './routes/user/userRoutes.js';
+import adminRouter from "./routes/admin/adminRoutes.js"
+
+import { connectDB } from './config/db.js';
+import { errorHandler } from './middlewares/common/error.middleware.js'
+import logger from './config/logger.js';
+
+const app = express();
+const PORT = process.env.PORT || 5000
+
+
+app.use(
+    cors({
+        origin: ["http://localhost:5173", "https://c9zml8qd-5173.inc1.devtunnels.ms", env.CLIENT_ORIGIN],
+        methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
+        credentials: true
+    })
+);
+
+app.use(cookieParser());
+app.use(express.json());
+
+
+// Middleware to disable caching
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  next();
+});
+
+
+app.use("/api/v1/admin", adminRouter)
+app.use("/api/v1/", userRouter)
+
+
+app.use(errorHandler)
+await connectDB()
+
+app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`))
