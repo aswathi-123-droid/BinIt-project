@@ -114,7 +114,7 @@ const AddressModal = ({ isOpen, onClose, onSubmit, initialData }) => {
               <input 
                 {...register("phone", { 
                   required: "Phone number is required",
-                  pattern: { value: /^[0-9+\s]+$/, message: "Invalid phone number" }
+                  pattern: { value: /^(?:\+91)?[6-9]\d{9}$/, message: "Invalid phone number (must be a valid 10-digit number)" }
                 })}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors placeholder:text-gray-400"
                 placeholder="e.g. +91 98765 43210"
@@ -126,7 +126,12 @@ const AddressModal = ({ isOpen, onClose, onSubmit, initialData }) => {
             <div>
               <label className="block text-xs font-bold text-gray-500 mb-1.5">Flat / House No.</label>
               <input 
-                {...register("flat", { required: "Flat/House No. is required" })}
+                {...register("flat", { required: "Flat/House No. is required" ,
+                  pattern: { 
+                    value: /^(?=.*\d)[a-zA-Z0-9\s\-\/\.,#]+$/, 
+                    message: "Must contain at least one number (e.g., Flat 402)" 
+                  }
+                })}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors placeholder:text-gray-400"
                 placeholder="e.g. Flat 402"
               />

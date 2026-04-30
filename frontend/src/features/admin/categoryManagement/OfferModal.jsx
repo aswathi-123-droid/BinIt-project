@@ -170,7 +170,7 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="space-y-1.5">
+              {discountType === "percent" && (<div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Max Redeemable Price</label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">₹</span>
@@ -182,9 +182,9 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
                   />
                 </div>
                 <p className="text-[10px] text-gray-400">Cap limit for percentage based offers.</p>
-              </div>
+              </div>)}
 
-              <div className="space-y-1.5">
+              {/* <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-700">Min Transaction Value <span className="text-gray-400 font-normal">(Optional)</span></label>
                 <div className="relative">
                   <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-xs">₹</span>
@@ -195,7 +195,7 @@ const OfferModal = ({ isOpen, onClose, onSubmit, initialData, categoryName }) =>
                     className="w-full pl-8 pr-4 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/5 focus:border-emerald-500/50"
                   />
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className="space-y-1.5">

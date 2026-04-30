@@ -18,7 +18,7 @@ const walletTransactionSchema = new mongoose.Schema({
   },
   transactionReason: {
     type: String,
-    enum: ['ORDER_CANCEL_REFUND', 'ORDER_RETURN_REFUND', 'ORDER_PURCHASE', 'ADMIN_ADJUSTMENT','REFERRAL_BONUS','WELCOME_BONUS'],
+    enum: ['ORDER_CANCEL_REFUND', 'ORDER_RETURN_REFUND', 'ORDER_PURCHASE', 'ADMIN_ADJUSTMENT','REFERRAL_BONUS','WELCOME_BONUS',"ORDER_CANCEL_DEBIT"],
     required: true
   },
   description: {

@@ -145,6 +145,7 @@ export const createProductOffer = async (productId, offerData) => {
             "Discount offers can only be applied to 'store' items."
         );
     }
+
     const start = new Date(startDate);
     const expiry = new Date(expiryDate);
     
@@ -154,6 +155,24 @@ export const createProductOffer = async (productId, offerData) => {
             "INVALID_DATE",
             "Expiry date must be after the start date"
         );
+    }
+
+     if(offerData.discountType === "flat"){
+      if (product.price < offerData.value) {
+        throw new AppError(
+            STATUS_CODES.BAD_REQUEST,
+            "INVALID_VALUE",
+            "Discount value cannot be greater than product price"
+        );
+      }
+    }else if(offerData.discountType === "percent"){
+      if(offerData.value>=100){
+        throw new AppError(
+            STATUS_CODES.BAD_REQUEST,
+            "INVALID_VALUE",
+            "Discount percentage cannot be greater than or equal to 100"
+        );
+      }
     }
     const newOffer = {
         title,
@@ -189,6 +208,25 @@ export const updateProductOffer = async (productId, offerData) => {
             "INVALID_ACTION",
             "Discount offers can only be applied to 'store' items."
         );
+    }
+    
+    console.log(offerData.discountType,"viii")
+    if(offerData.discountType === "flat"){
+      if (product.price < offerData.value) {
+        throw new AppError(
+            STATUS_CODES.BAD_REQUEST,
+            "INVALID_VALUE",
+            "Discount value cannot be greater than product price"
+        );
+      }
+    }else if(offerData.discountType === "percent"){
+      if(offerData.value>=100){
+        throw new AppError(
+            STATUS_CODES.BAD_REQUEST,
+            "INVALID_VALUE",
+            "Discount percentage cannot be greater than or equal to 100"
+        );
+      }
     }
 
     product.offer = {

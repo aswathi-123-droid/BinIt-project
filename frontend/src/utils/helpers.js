@@ -22,7 +22,6 @@ export const calculateOfferPrice = (originalPrice, offer) => {
 export const calculateBestDiscount = (totalPrice, productOffer, categoryOffer,quantity=1) => {
     const getDiscount = (price, offer) => {
       if (!offer || !offer.isActive || new Date(offer.expiryDate) < new Date()) return 0;
-      if (offer.minTransactionalValue && price < offer.minTransactionalValue) return 0;
       if (offer.discountType === 'flat') return offer.value *quantity;
       if (offer.discountType === 'percent') {
         let discount = price * (offer.value / 100);

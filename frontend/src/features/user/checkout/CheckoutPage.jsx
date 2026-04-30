@@ -30,7 +30,10 @@ const { data: cartData, isLoading } = useQuery({
   });
   const cartItems = cartData?.cart?.items || [];
 
-  const needsPickup = cartItems.some(item => item.productId?.type !== "store");
+  const needsPickup = checkoutData.orderDetails 
+    ? checkoutData.orderDetails.fullOrder.items.some(item => item.productId?.type !== "store")
+    : cartItems.some(item => item.productId?.type !== "store");
+
 
   const { mutate: placeOrder, isPending } = useMutation({
   mutationFn: async(payload) => {

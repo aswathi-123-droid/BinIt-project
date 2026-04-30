@@ -135,7 +135,7 @@ const ServiceDetailPage = () => {
       finalItem.name = product.name;
       finalItem.price = product.price;
       if (!product.hasVariations && !product.isEstimationEnabled) {
-          finalItem.quantity = quantity;
+          finalItem.quantity = Number(quantity);
       }
     }
 

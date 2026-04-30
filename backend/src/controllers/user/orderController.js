@@ -65,11 +65,11 @@ export const cancelOrderController = async (req, res) => {
 export const cancelOrderItemController = async (req, res) => {
     const userId = req.user._id;
     const { orderId, itemId } = req.params;
-    const { reason } = req.body;
+    const { reason, isPickupMode } = req.body;
 
     logger.info(`Request received: Cancel item ${itemId} from order ${orderId} for user ${userId}`);
 
-    const order = await cancelOrderItemService(userId, orderId, itemId, reason);
+    const order = await cancelOrderItemService(userId, orderId, itemId, reason, isPickupMode);
 
     sendResponse(res, {
         message: "Item cancelled successfully",

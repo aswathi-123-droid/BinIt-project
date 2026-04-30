@@ -34,6 +34,7 @@ function AdminDashboard() {
       return res.data.data;
     },
   });
+  
 
   const handleDownloadPDF = () => {
     if (!reportData?.orders?.length) {
@@ -61,6 +62,20 @@ function AdminDashboard() {
       body: tableData,
     });
 
+    let finalY = doc.lastAutoTable.finalY || 28;
+    if (finalY + 40 > doc.internal.pageSize.getHeight()) {
+      doc.addPage(); 
+      finalY = 15; 
+    }
+    doc.setFontSize(12);
+    doc.text("Report Summary", 14, finalY + 15); 
+    
+    doc.setFontSize(10);
+   
+    doc.text(`Total Orders: ${summary.totalOrders || reportData.orders.length}`, 14, finalY + 23);
+    doc.text(`Total Amount: Rs ${summary.totalAmount?.toFixed(2) || 0}`, 14, finalY + 29);
+    
+    doc.text(`Total Refund: Rs ${summary.totalRefund?.toFixed(2) || 0}`, 14, finalY + 35);
     doc.save(`sales_report_${filterType}.pdf`);
   };
 

@@ -121,7 +121,7 @@ const LandingPage = () => {
             <h3 className="font-black text-lg mb-1.5 text-slate-900">General Waste</h3>
             <p className="text-sm text-gray-500 mb-6 font-medium">Household trash & mixed waste</p>
             <div className="flex items-center justify-between px-4 py-2.5 bg-emerald-50/50 text-emerald-600 rounded-lg text-xs font-black uppercase tracking-wider group-hover:bg-emerald-100 transition-colors">
-              Starting from ₹199 <ArrowRight size={16} />
+              Starting from ₹199 
             </div>
           </div>
 
@@ -132,7 +132,7 @@ const LandingPage = () => {
             <h3 className="font-black text-lg mb-1.5 text-slate-900">Heavy Furniture</h3>
             <p className="text-sm text-gray-500 mb-6 font-medium">Sofas, Beds & Wardrobes</p>
             <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50 text-slate-700 rounded-lg text-xs font-black uppercase tracking-wider group-hover:bg-slate-100 transition-colors">
-              Fixed Removal Fee <ArrowRight size={16} />
+              Fixed Removal Fee 
             </div>
           </div>
 
@@ -143,7 +143,7 @@ const LandingPage = () => {
             <h3 className="font-black text-lg mb-1.5 text-slate-900">E-Waste</h3>
             <p className="text-sm text-gray-500 mb-6 font-medium">Old Phones, Cables & Appliances</p>
             <div className="flex items-center justify-between px-4 py-2.5 bg-blue-50/50 text-blue-600 rounded-lg text-xs font-black uppercase tracking-wider group-hover:bg-blue-100 transition-colors">
-              Free Disposal Fee <ArrowRight size={16} />
+              Free Disposal Fee
             </div>
           </div>
 
@@ -154,7 +154,7 @@ const LandingPage = () => {
             <h3 className="font-black text-lg mb-1.5 text-slate-900">Garden Waste</h3>
             <p className="text-sm text-gray-500 mb-6 font-medium">Leaves, Branches & Trimmings</p>
             <div className="flex items-center justify-between px-4 py-2.5 bg-emerald-50/50 text-emerald-600 rounded-lg text-xs font-black uppercase tracking-wider group-hover:bg-emerald-100 transition-colors">
-              Starting from ₹149 <ArrowRight size={16} />
+              Starting from ₹149 
             </div>
           </div>
         </div>

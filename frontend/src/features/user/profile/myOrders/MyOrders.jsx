@@ -6,9 +6,9 @@ import { api } from '../../../../api/axiosInstance';
 import Pagination from '../../../../components/common/Pagination';
 import StatusBadge from './components/StatusBadge';
 
-const MyOrders = ({ mode = 'order' }) => {
-  const isPickupMode = mode === 'pickup';
-  const pageTitle = isPickupMode ? 'My Pickups' : 'My Orders';
+const MyOrders = () => {
+  // const isPickupMode = mode === 'pickup';
+  // const pageTitle = isPickupMode ? 'My Pickups' : 'My Orders';
   
   const [activeTab, setActiveTab] = useState('All Orders');
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,34 +40,34 @@ const MyOrders = ({ mode = 'order' }) => {
   }
 
 
-  const filteredByType = orders.filter(order => {
-      const hasStoreItems = order.items?.some(item => item.productId?.type === 'store');
-      const hasPickupItems = order.items?.some(item => item.productId?.type !== 'store');
-      return isPickupMode ? hasPickupItems : hasStoreItems;
-  });
+  // const filteredByType = orders.filter(order => {
+  //     const hasStoreItems = order.items?.some(item => item.productId?.type === 'store');
+  //     const hasPickupItems = order.items?.some(item => item.productId?.type !== 'store');
+  //     return isPickupMode ? hasPickupItems : hasStoreItems;
+  // });
 
-  const getStatusFilter = (status) => {
+  const getStatusFilter = (order) => {
+    const s1 = order.status;        
+    const s2 = order.pickupStatus;  
     switch (activeTab) {
-      case 'Active': return ['Placed', 'Confirmed'].includes(status);
-      case 'Completed': return ['Completed'].includes(status);
-      case 'Delivered': return ['Delivered'].includes(status);
-      case 'Cancelled': return ['Cancelled'].includes(status);
-      case 'Returned': return ['Returned'].includes(status);
+      case 'Active': 
+        return ['Placed', 'Confirmed', 'Shipped'].includes(s1) || 
+               ['Pending', 'Agent Assigned', 'Out for Pickup'].includes(s2);
+      case 'Completed': return s2 === 'Completed';
+      case 'Delivered': return s1 === 'Delivered';
+      case 'Cancelled': return s1 === 'Cancelled' || s2 === 'Cancelled';
+      case 'Returned': return s1 === 'Returned';
       default: return true; 
     }
   };
 
-  const filteredOrders = filteredByType.filter(order => {
-    const matchesTab = getStatusFilter(isPickupMode? order.pickupStatus : order.status);
-    
-    const searchItems = order.items?.filter(item => 
-        isPickupMode ? item.productId?.type !== 'store' : item.productId?.type === 'store'
-    );
+  const filteredOrders = orders.filter(order => {
+    const matchesTab = getStatusFilter(order);
 
     const searchLower = searchQuery.toLowerCase();
     const matchesSearch = 
       order.orderId?.toString().toLowerCase().includes(searchLower) ||
-      searchItems?.some(item => item.name?.toLowerCase().includes(searchLower));
+      order.items?.some(item => item.name?.toLowerCase().includes(searchLower));
 
     return matchesTab && matchesSearch;
   });
@@ -78,7 +78,7 @@ const MyOrders = ({ mode = 'order' }) => {
   const totalPages = Math.ceil(filteredOrders.length / itemsPerPage);
 
   const paginationData = { pagination: { currentPage, totalPages } };
-  const tabs = ['All Orders', 'Active', isPickupMode ? 'Completed' : 'Delivered', 'Cancelled', isPickupMode ? null : 'Returned'].filter(Boolean);
+  const tabs = ['All Orders', 'Active', 'Completed' ,'Delivered', 'Cancelled', 'Returned'].filter(Boolean);
   
   const isPayout = orders?.pricing?.totalAmount < 0;
   const displayAmount = Math.abs(orders?.pricing?.totalAmount || 0);
@@ -89,15 +89,15 @@ const MyOrders = ({ mode = 'order' }) => {
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
           <Link to="/" className="hover:text-emerald-600">Home</Link>
           <ChevronRight size={14} />
-          <span className="text-gray-900 font-medium">{pageTitle}</span>
+          <span className="text-gray-900 font-medium">My Orders</span>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900">{pageTitle}</h1>
+        <h1 className="text-2xl font-bold text-gray-900">My Orders</h1>
       </div>
 
       <div className="relative mb-8">
         <input 
           type="text" 
-          placeholder={`Search ${isPickupMode ? 'Pickups' : 'Orders'}...`}
+          placeholder='Search Orders...'
           value={searchQuery}
           onChange={(e) =>{ setSearchQuery(e.target.value); setCurrentPage(1)}}
           className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-sm"
@@ -123,11 +123,6 @@ const MyOrders = ({ mode = 'order' }) => {
       <div className="space-y-4">
         {currentOrders.length > 0 ? (
           currentOrders.map(order => {
-          
-            const displayItems = order.items.filter(item => 
-                isPickupMode ? item.productId?.type !== 'store' : item.productId?.type === 'store'
-            );
-
             return (
               <div key={order._id} className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm hover:shadow-md transition-shadow">
                 
@@ -142,7 +137,7 @@ const MyOrders = ({ mode = 'order' }) => {
                         </span>
                       </div>
                       
-                      {isPickupMode && (
+                      {/* {(
                           <div className="flex items-center gap-3 text-xs text-gray-500 mt-1">
                               <div className="flex items-center gap-1.5 bg-blue-50 text-blue-700 px-2 py-1 rounded-md">
                                   <Calendar size={12} />
@@ -155,14 +150,14 @@ const MyOrders = ({ mode = 'order' }) => {
                                   <span className="font-medium">{order.pickupTimeSlot}</span>
                               </div>
                           </div>
-                      )}
+                      )} */}
                   </div>
 
-                  <StatusBadge status={isPickupMode? order.pickupStatus : order.status} />
+                  {/* <StatusBadge status={ order.status} /> */}
                 </div>
  
                 <div className="space-y-4">
-                  {displayItems.map((item, idx) => {
+                  {order.items.map((item, idx) => {
                      const imgSrc = item.image || (item.productId?.image && item.productId.image[0]);
 
                      return (
@@ -183,7 +178,7 @@ const MyOrders = ({ mode = 'order' }) => {
                             <span className="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded-full">
                                 {item.quantity}x
                             </span>
-                            {isPickupMode && (
+                            { (
                                 <span className={`text-[10px] uppercase font-bold ${item.productId?.type == "junk" ?"text-gray-800" : " text-emerald-600"} border border-gray-200 px-1.5 rounded`}>
                                     {item.productId?.type}
                                 </span>
@@ -192,7 +187,7 @@ const MyOrders = ({ mode = 'order' }) => {
                         </div>
 
                         <div className="text-sm font-bold text-gray-900">
-                           {isPickupMode ? item.productId?.type == "recyclable" ?`Est. ₹${item.price}` : `Fee. ₹${item.price}`:`₹${item.price}`}
+                           {item.productId?.type == "recyclable" ?`Est. ₹${item.price}` : `₹${item.price}`}
                         </div>
                       </div>
                      );
@@ -205,15 +200,13 @@ const MyOrders = ({ mode = 'order' }) => {
                         {order?.pricing?.totalAmount<=0 ? 'Earnings' : 'Order Total'}
                     </span>
                     <p className={`text-lg font-extrabold mt-0.5 ${order?.pricing?.totalAmount<=0 ? 'text-emerald-600' : 'text-gray-900'}`}>
-                        {/* ₹{orderTotal.toLocaleString()} */}
-                        {/* {order?.pricing?.totalAmount} */}
                         {Math.abs(order?.pricing?.totalAmount || 0)}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-4">
                     <Link 
-                      to={`/profile/${isPickupMode ? 'pickup' : 'order'}/${encodeURIComponent(order.orderId)}`}
+                      to={`/profile/order/${encodeURIComponent(order.orderId)}`}
                       className="bg-gray-900 hover:bg-gray-800 text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors inline-block"
                     >
                       View Details
@@ -225,7 +218,7 @@ const MyOrders = ({ mode = 'order' }) => {
             );
           })
         ) : (
-          <EmptyState title={isPickupMode ? "No pickups found" : "No orders found"} />
+          <EmptyState title="No orders found" />
         )}
       </div>
           

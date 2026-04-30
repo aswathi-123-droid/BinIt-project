@@ -209,7 +209,7 @@ const ServiceListing = () => {
                       new Date(item.offer.expiryDate) > new Date() && (
                         <div className="absolute top-3 right-12 z-10 bg-red-500 text-white text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full shadow-sm animate-pulse">
                           {item.offer.discountType === "percent"
-                            ? `${item.offer.value}% OFF`
+                            ? `${item.offer.value}% OFF upto ${item.offer.maxRedeemableAmount}`
                             : `₹${item.offer.value} OFF`}
                         </div>
                       )}

@@ -22,7 +22,16 @@ const Navbar = () => {
       },
     });
   
+  const { data: wishlistData } = useQuery({
+    queryKey: ["user-wishlist"],
+    queryFn: async () => {
+      const res = await api.get("/wishlist");
+      return res.data.wishlist;
+    },
+  });
+  
   const cartItemCount = cart?.cart?.items?.reduce((total,item)=> total+(item.quantity || 1),0) || 0
+    const wishlistItemCount = wishlistData?.items?.length || 0;
   console.log(cartItemCount)
 
   return (
@@ -56,10 +65,15 @@ const Navbar = () => {
       <div className="flex items-center gap-4">
         <button
           onClick={() => navigate("/wishlist")}
-          className="p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100"
+          className="relative p-2 bg-emerald-50 text-emerald-600 rounded-full hover:bg-emerald-100 transition-colors border border-emerald-100"
           title="Wishlist"
         >
           <Heart size={24} />
+          {wishlistItemCount > 0 && (
+            <span className="absolute -top-1.5 -right-2 flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full">
+              {wishlistItemCount > 99 ? '99+' : wishlistItemCount}
+            </span>
+          )}
         </button>
 
         <button
@@ -68,7 +82,7 @@ const Navbar = () => {
         >
           <ShoppingBag size={24} />
           {cartItemCount > 0 && (
-          <span className="absolute -top-1.5 -right-2 flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-emerald-500 border-2 border-white rounded-full">
+          <span className="absolute -top-1.5 -right-2 flex items-center justify-center w-5 h-5 text-[10px] font-bold text-white bg-red-500 border-2 border-white rounded-full">
             {cartItemCount > 99 ? '99+' : cartItemCount}
           </span>
           )}

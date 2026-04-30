@@ -67,7 +67,7 @@ const AdminOrderManagement = ({ mode = "order" }) => {
       bg: "bg-indigo-50",
     },
     {
-      label: "Placed",
+      label: isPickupMode ? "Pending" : "Placed",
       value: data?.stats?.placedCount || "0",
       icon: Clock,
       color: "text-orange-500",
@@ -75,7 +75,7 @@ const AdminOrderManagement = ({ mode = "order" }) => {
       valueColor: "text-orange-500",
     },
     {
-      label: "In Transit",
+      label: isPickupMode ? "Out for Pickup" : "Shipped",
       value: data?.stats?.inTransitCount || "0",
       icon: Truck,
       color: "text-blue-600",
@@ -83,7 +83,7 @@ const AdminOrderManagement = ({ mode = "order" }) => {
       valueColor: "text-blue-500",
     },
     {
-      label: "Completed",
+      label: isPickupMode ? "Completed" : "Delivered",
       value: data?.stats?.deliveredCount || "0",
       icon: CheckCircle2,
       color: "text-emerald-500",

@@ -60,6 +60,7 @@ const WishlistPage = () => {
       await api.post("/cart/add", cartItem); 
       toast.success(`${product.name} added to cart`);
       queryClient.invalidateQueries({ queryKey: ["cart"] });
+      toggleWishlistMutation.mutate(product._id);
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to add to cart");
     }

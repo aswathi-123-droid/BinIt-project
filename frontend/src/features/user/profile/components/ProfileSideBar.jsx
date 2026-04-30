@@ -24,7 +24,7 @@ const ProfileSidebar = () => {
   const menuItems = [
     { name: 'My Profile', icon: User },
     { name: 'My Address', icon: MapPin },
-    { name: 'My Pickups', icon: Calendar },
+    // { name: 'My Pickups', icon: Calendar },
     { name: 'My Orders', icon: BaggageClaim},
     { name: 'My Wallet', icon: Wallet },
     { name: 'My Coupon', icon: Tag },

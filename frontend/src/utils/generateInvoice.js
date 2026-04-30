@@ -26,16 +26,35 @@ export const generateInvoice = (order) => {
 
   doc.setFontSize(10);
   doc.setTextColor(100, 100, 100);
-  doc.text(`Order ID: #${order.orderId}`, pageWidth - 14, 27, {
+  doc.text(`Order ID: ${order.orderId}`, pageWidth - 14, 27, {
     align: "right",
   });
+  
   doc.text(
     `Date: ${new Date(order.createdAt).toLocaleDateString()}`,
     pageWidth - 14,
     32,
     { align: "right" },
   );
-  doc.text(`Status: ${order.status}`, pageWidth - 14, 37, { align: "right" });
+ 
+  const activeItems = order.items.filter(item => item.itemStatus !== "Cancelled");
+  const hasStoreItems = activeItems.some(item => !item.productId || item.productId.type === "store");
+  const hasPickupItems = activeItems.some(item => item.productId && item.productId.type !== "store");
+
+  let displayStatus = "";
+  
+  if (activeItems.length === 0) {
+    displayStatus = "Cancelled";
+  } else if (hasStoreItems && hasPickupItems) {
+    displayStatus = `Delivery: ${order.status} | Pickup: ${order.pickupStatus}`;
+  } else if (hasPickupItems) {
+    displayStatus = order.pickupStatus;
+  } else {
+    displayStatus = order.status;
+  }
+
+  doc.text(`Status: ${displayStatus}`, pageWidth - 14, 37, { align: "right" });
+
 
   doc.setFontSize(12);
   doc.setTextColor(0, 0, 0);
@@ -58,6 +77,7 @@ export const generateInvoice = (order) => {
   const tableRows = [];
 
  order.items.forEach((item) => {
+    if (item.itemStatus === "Cancelled" || item.itemStatus === "Returned") return;
     const itemData = [
       item.name,
       item.productId?.type === "junk"? "Junk / Scrap": item.productId?.type === "recyclable" ? "Recyclable": "Store Item",

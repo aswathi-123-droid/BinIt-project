@@ -33,7 +33,7 @@ const withSuspense = (Component) => (
 );
 
 const MyPickupsPage = () => <Pages.MyOrders mode="pickup" />;
-const MyOrdersPage = () => <Pages.MyOrders mode="order" />;
+// const MyOrdersPage = () => <Pages.MyOrders mode="order" />;
 const AdminOrderManagement = () => <Pages.OrderManagement mode="order" />
 const AdminPickupManagement = () => <Pages.OrderManagement mode="pickup" />
 const AdminOrderDetail = () => <Pages.AdminOrderDetail mode="order" />
@@ -134,7 +134,7 @@ export const router = createBrowserRouter([
               },
               {
                 path: "my-orders",
-                element: withSuspense(MyOrdersPage)
+                element: withSuspense(Pages.MyOrders)
               },
               {
                 path: "order/:orderId",

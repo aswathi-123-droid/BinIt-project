@@ -52,12 +52,21 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
   if (useWallet && !isPayout) {
     if (walletBalance >= amountStillOwed) {
       walletMoneyUsed = amountStillOwed;
-      amountStillOwed = 0; 
+      amountStillOwed = 0;
     } else {
       walletMoneyUsed = walletBalance;
-      amountStillOwed -= walletBalance; 
+      amountStillOwed -= walletBalance;
     }
   }
+
+  const hasPickupItems =
+    data?.cart?.items?.some(
+      (item) =>
+        item.productId?.type === "recyclable" ||
+        item.productId?.type === "junk",
+    ) || false;
+
+  const isCodDisabled = hasPickupItems || useWallet;
 
   useEffect(() => {
     if (isPayout) {
@@ -67,7 +76,6 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
       setPaymentMethod("Razorpay");
     }
   }, [isPayout]);
-
 
   const handleRazorpayPayment = async (orderPayload) => {
     try {
@@ -153,7 +161,7 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
         toast.success("Paid fully using Wallet!");
         if (onConfirm) onConfirm(orderPayload);
       } else {
-        handleRazorpayPayment(orderPayload); 
+        handleRazorpayPayment(orderPayload);
       }
     } else {
       if (onConfirm) {
@@ -220,7 +228,14 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
           ) : (
             <>
               <div
-                onClick={() => setUseWallet(!useWallet)}
+                // onClick={() => setUseWallet(!useWallet)}
+                onClick={() => {
+                  const nextUseWallet = !useWallet;
+                  setUseWallet(nextUseWallet);
+                  if (nextUseWallet && paymentMethod === "COD") {
+                    setPaymentMethod("Razorpay");
+                  }
+                }}
                 className={`flex items-center justify-between p-5 rounded-2xl border-2 transition-all cursor-pointer select-none ${
                   useWallet
                     ? "border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500/20"
@@ -289,25 +304,51 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
                   </label>
 
                   <label
-                    className={`flex items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all hover:shadow-md ${paymentMethod === "COD" ? "border-emerald-500 bg-white ring-1 ring-emerald-500" : "border-gray-100 bg-white hover:border-emerald-200"}`}
+                    className={`flex items-center justify-between p-5 rounded-2xl border-2 transition-all ${
+                      isCodDisabled
+                        ? "border-gray-100 bg-gray-50 opacity-70 cursor-not-allowed"
+                        : paymentMethod === "COD"
+                          ? "border-emerald-500 bg-white ring-1 ring-emerald-500 cursor-pointer hover:shadow-md"
+                          : "border-gray-100 bg-white hover:border-emerald-200 cursor-pointer hover:shadow-md"
+                    }`}
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center text-orange-600">
+                      <div
+                        className={`w-12 h-12 rounded-full flex items-center justify-center ${hasPickupItems ? "bg-gray-200 text-gray-400" : "bg-orange-50 text-orange-600"}`}
+                      >
                         <Banknote size={24} />
                       </div>
                       <div>
-                        <p className="font-bold text-gray-900 text-lg">
+                        <p
+                          className={`font-bold text-lg ${hasPickupItems ? "text-gray-500" : "text-gray-900"}`}
+                        >
                           Cash on Delivery
                         </p>
-                        <p className="text-sm text-gray-500">
-                          Pay cash at the time of pickup
-                        </p>
+                        {hasPickupItems ? (
+                          <p className="text-sm text-red-500 font-medium mt-0.5">
+                            COD is not possible because pickup item there
+                          </p>
+                        ) : useWallet ? (
+                          <p className="text-sm text-red-500 font-medium mt-0.5">
+                            Not available when using Wallet balance
+                          </p>
+                        ) : (
+                          <p className="text-sm text-gray-500">
+                            Pay cash at the time of delivery
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div
-                      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${paymentMethod === "COD" ? "border-emerald-500" : "border-gray-300"}`}
+                      className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                        isCodDisabled
+                          ? "border-gray-300 bg-gray-100"
+                          : paymentMethod === "COD"
+                            ? "border-emerald-500"
+                            : "border-gray-300"
+                      }`}
                     >
-                      {paymentMethod === "COD" && (
+                      {paymentMethod === "COD" && !isCodDisabled && (
                         <div className="w-3 h-3 rounded-full bg-emerald-500 animate-in zoom-in" />
                       )}
                     </div>
@@ -316,8 +357,11 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
                       name="payment"
                       value="COD"
                       className="hidden"
-                      checked={paymentMethod === "COD"}
-                      onChange={() => setPaymentMethod("COD")}
+                      checked={paymentMethod === "COD" && !isCodDisabled}
+                      disabled={isCodDisabled}
+                      onChange={() => {
+                        if (!isCodDisabled) setPaymentMethod("COD");
+                      }}
                     />
                   </label>
                 </div>
@@ -420,7 +464,7 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
           onClick={onBack}
           className="flex items-center gap-2 text-gray-500 hover:text-gray-900 font-bold px-6 py-3.5 rounded-xl hover:bg-gray-100 transition-all w-full sm:w-auto justify-center"
         >
-          <ArrowLeft size={20} /> Back 
+          <ArrowLeft size={20} /> Back
         </button>
 
         <button

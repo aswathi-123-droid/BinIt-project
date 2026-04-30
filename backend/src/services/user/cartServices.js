@@ -39,9 +39,8 @@ export const getCartWithSummary = async (userId) => {
             earnings += item.price;
         } else if (itemType === "store"){
             storeItems += item.price;
-            const bestDiscount = calculateBestDiscount(item.price, product?.offer, category?.offer);
-            const bestDiscountWithQty = bestDiscount*item.quantity
-            totalOfferDiscount += bestDiscountWithQty;
+            const bestDiscount = calculateBestDiscount(item.price, product?.offer, category?.offer, item.quantity);
+            totalOfferDiscount += bestDiscount;
         } else {
             pickupServices += (item.price * item.quantity);
         }
@@ -122,10 +121,12 @@ export const addItemToCart = async(userId,cartData) => {
       item.productId.toString() === productId && 
       item.selectionName === selectionName
     );
+    
+    const parsedQuantity = Number(quantity);
 
     if (existingItemIndex > -1) {
-    const newQuantity = cart.items[existingItemIndex].quantity + quantity;
-    const newPrice = cart.items[existingItemIndex].price+price;
+    const newQuantity = cart.items[existingItemIndex].quantity + parsedQuantity;
+    const newPrice = cart.items[existingItemIndex].price+ (price * parsedQuantity);
     
 
     if (product.type === 'store' && newQuantity > product.stock) {
@@ -138,8 +139,8 @@ export const addItemToCart = async(userId,cartData) => {
       cart.items.push({
         productId,
         name,
-        price,
-        quantity,
+        price: price * parsedQuantity,
+        quantity: parsedQuantity,
         selectionType,
         selectionName,
         image: product.image[0],

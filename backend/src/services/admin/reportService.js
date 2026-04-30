@@ -1,4 +1,5 @@
 import Order from "../../models/orderModel.js";
+import WalletTransaction from "../../models/walletTransactionModel.js";
 
 export const getSalesReportData = async (filterType, startDate, endDate) => {
     let matchStage = { 
@@ -39,6 +40,26 @@ export const getSalesReportData = async (filterType, startDate, endDate) => {
         matchStage.createdAt = { $gte: start, $lte: end };
     }
 
+    let refundMatchStage = {
+        transactionReason: { $in: ["ORDER_CANCEL_REFUND", "ORDER_RETURN_REFUND", "ORDER_PURCHASE"] }
+    };
+
+    if (start && end) {
+        refundMatchStage.createdAt = { $gte: start, $lte: end };
+    }
+
+    const refundReport = await WalletTransaction.aggregate([
+        { $match: refundMatchStage },
+        {
+            $group: {
+                _id: null,
+                totalRefund: { $sum: "$amount" }
+            }
+        }
+    ])
+
+    const totalRefund = refundReport.length > 0 ? refundReport[0].totalRefund : 0;
+
     const report = await Order.aggregate([
         { $match: matchStage },
         {
@@ -78,8 +99,11 @@ export const getSalesReportData = async (filterType, startDate, endDate) => {
     const orders = await Order.find(matchStage).populate('userId', 'name email').sort({ createdAt: -1 });
 
     if (report.length > 0) {
+        const summary = report[0];
+        summary.totalRefund = totalRefund;
+
         return {
-            summary: report[0],
+            summary,
             orders
         }
     } else {
@@ -90,6 +114,7 @@ export const getSalesReportData = async (filterType, startDate, endDate) => {
                 totalAmount: 0,
                 totalCouponDiscount: 0,
                 totalOfferDiscount: 0,
+                totalRefund: totalRefund 
             },
             orders: []
         };
