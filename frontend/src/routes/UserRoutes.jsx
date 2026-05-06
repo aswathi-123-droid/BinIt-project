@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import RegisterForm from "../features/user/account/components/RegisterForm";
 import VerifyEmail from "../features/user/account/components/VerifyEmail";
 import EmailVerifiedSuccess from "../features/user/account/components/EmailVerifiedSucces";
@@ -22,7 +22,7 @@ import AdminOrderDetails from "../features/admin/orderManagement/OrderDetails";
 
 const PageLoader = () => (
   <div className="flex justify-center items-center h-screen">
-    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-700"></div>
   </div>
 );
 
@@ -74,46 +74,50 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    element: <ProtectedRoutes />,
+    path: "/",
+    element: withSuspense(Pages.UserDashboardPage), 
     children: [
       {
-        path: "/",
-        element: withSuspense(Pages.UserDashboardPage),
+        index: true,
+        element: <Navigate to="/home" replace />
+      },
+      {
+        path: "home",
+        element: withSuspense(Pages.LandingPage)
+      },
+      {
+        path: "services",
+        element: withSuspense(Pages.ServiceListing),
+      },
+      {
+        path: "about",
+        element: withSuspense(Pages.PricingSection),
+      },
+      {
+        path: "recycling",
+        element: withSuspense(Pages.RecyclingInfoSection),
+      },
+      {
+        path: "services/product/:id",
+        element: withSuspense(Pages.ServiceDetailPage),
+      },
+      {
+        element: <ProtectedRoutes />,
         children: [
           {
-            path: "/home",
-            element: withSuspense(Pages.LandingPage)
-          },
-          {
-            path: "/services",
-            element: withSuspense(Pages.ServiceListing),
-          },
-          {
-            path: "/about",
-            element: withSuspense(Pages.PricingSection),
-          },
-          {
-            path: "/recycling",
-            element: withSuspense(Pages.RecyclingInfoSection),
-          },
-          {
-            path: "/services/product/:id",
-            element: withSuspense(Pages.ServiceDetailPage),
-          },
-          {
-            path: "/wishlist",
+            path: "wishlist",
             element: withSuspense(Pages.WishlistPage)
           },
           {
-            path: "/cart",
+            path: "cart",
             element: withSuspense(Pages.CartPage)
           },
           {
-            path: "/checkout",
+            path: "checkout",
             element: <CheckoutPage/>
           },
           {
-            path: "/profile",
+            path: "profile",
             element: withSuspense(Pages.UserProfile),
             children: [
               {
@@ -154,10 +158,95 @@ export const router = createBrowserRouter([
               },
             ],
           },
-        ],
-      },
+        ]
+      }
     ],
   },
+  // {
+  //   element: <ProtectedRoutes />,
+  //   children: [
+  //     {
+  //       path: "/",
+  //       element: withSuspense(Pages.UserDashboardPage),
+  //       children: [
+  //         {
+  //           path: "/home",
+  //           element: withSuspense(Pages.LandingPage)
+  //         },
+  //         {
+  //           path: "/services",
+  //           element: withSuspense(Pages.ServiceListing),
+  //         },
+  //         {
+  //           path: "/about",
+  //           element: withSuspense(Pages.PricingSection),
+  //         },
+  //         {
+  //           path: "/recycling",
+  //           element: withSuspense(Pages.RecyclingInfoSection),
+  //         },
+  //         {
+  //           path: "/services/product/:id",
+  //           element: withSuspense(Pages.ServiceDetailPage),
+  //         },
+  //         {
+  //           path: "/wishlist",
+  //           element: withSuspense(Pages.WishlistPage)
+  //         },
+  //         {
+  //           path: "/cart",
+  //           element: withSuspense(Pages.CartPage)
+  //         },
+  //         {
+  //           path: "/checkout",
+  //           element: <CheckoutPage/>
+  //         },
+  //         {
+  //           path: "/profile",
+  //           element: withSuspense(Pages.UserProfile),
+  //           children: [
+  //             {
+  //               path: "my-profile",
+  //               element: withSuspense(Pages.MyProfile),
+  //             },
+  //             {
+  //               path: "change-password",
+  //               element: <ChangePassword />,
+  //             },
+  //             {
+  //               path: "my-coupon",
+  //               element: withSuspense(Pages.MyCoupon),
+  //             },
+  //             {
+  //               path: "my-address",
+  //               element: withSuspense(Pages.MyAddresses),
+  //             },
+  //             {
+  //               path: "my-orders",
+  //               element: withSuspense(Pages.MyOrders)
+  //             },
+  //             {
+  //               path: "order/:orderId",
+  //               element: withSuspense(Pages.OrderDetails)
+  //             },
+  //             {
+  //               path: "my-pickups",
+  //               element: withSuspense(MyPickupsPage)
+  //             },
+  //             {
+  //                path: "pickup/:orderId",
+  //                element: withSuspense(Pages.OrderDetails)
+  //             },
+  //             {
+  //                path: "my-wallet",
+  //                element: withSuspense(Pages.MyWallet)
+  //             },
+  //           ],
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     element: <AdminProtectedRoute />,
     children: [

@@ -65,7 +65,10 @@ const AdminOrderDetails = ({ mode = "order" }) => {
 
   const updateItemReturnMutation = useMutation({
     mutationFn: async ({ itemId, status }) => {
-      const res = await api.put(`/admin/order/orders/${id}/item/${itemId}/return-status`, { status });
+      const res = await api.put(
+        `/admin/order/orders/${id}/item/${itemId}/return-status`,
+        { status },
+      );
       return res.data;
     },
     onSuccess: (data) => {
@@ -73,58 +76,66 @@ const AdminOrderDetails = ({ mode = "order" }) => {
       queryClient.invalidateQueries({ queryKey: ["adminorders", id] });
     },
     onError: (err) => {
-      toast.error(err.response?.data?.message || "Failed to update item return");
+      toast.error(
+        err.response?.data?.message || "Failed to update item return",
+      );
     },
   });
-
-  const updateOrderCancelMutation = useMutation({
-    mutationFn: async ({ isApproved }) => {
-      const res = await api.put(`/admin/order/orders/${id}/cancel-status`, { 
-        isApproved, 
-        isPickupMode 
-      });
-      return res.data;
-    },
-    onSuccess: (data) => {
-      toast.success(data.message || "Order cancellation processed!");
-      queryClient.invalidateQueries({ queryKey: ["adminorders", id] });
-    },
-    onError: (err) => {
-      toast.error(err.response?.data?.message || "Failed to process cancellation");
-    },
-  });
-  const handleOrderCancelAction = (isApproved) => {
-    updateOrderCancelMutation.mutate({ isApproved });
-  };
-
-  const updateItemCancelMutation = useMutation({
-    mutationFn: async ({ itemId, isApproved }) => {
-      const res = await api.put(`/admin/order/orders/${id}/item/${itemId}/cancel-status`, { isApproved });
-      return res.data;
-    },
-    onSuccess: (data) => {
-      toast.success(data.message || "Cancellation request processed!");
-      queryClient.invalidateQueries({ queryKey: ["adminorders", id] });
-    },
-    onError: (err) => {
-      toast.error(err.response?.data?.message || "Failed to process cancellation");
-    },
-  });
-
-  const handleItemCancelAction = (itemId, isApproved) => {
-    updateItemCancelMutation.mutate({ itemId, isApproved });
-  };
-
 
   const handleItemReturn = (itemId, status) => {
     updateItemReturnMutation.mutate({ itemId, status });
   };
- 
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50 text-emerald-500 font-semibold">
-        Loading Details...
+      <div className="p-4 bg-gray-50 h-[calc(100vh-60px)] font-sans">
+        <div className="mb-6 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
+            <div>
+              <div className="w-32 h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
+              <div className="w-24 h-4 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+          </div>
+          <div className="w-24 h-8 bg-gray-200 rounded-full animate-pulse"></div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="bg-white rounded-3xl border border-gray-100 p-6 flex flex-col gap-4 shadow-sm">
+              <div className="w-40 h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
+
+              <div className="w-full h-24 bg-gray-100 rounded-2xl animate-pulse"></div>
+              <div className="w-full h-24 bg-gray-100 rounded-2xl animate-pulse"></div>
+            </div>
+
+            <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm">
+              <div className="w-48 h-6 bg-gray-200 rounded animate-pulse mb-6"></div>
+              <div className="space-y-4">
+                <div className="w-full h-4 bg-gray-100 rounded animate-pulse"></div>
+                <div className="w-full h-4 bg-gray-100 rounded animate-pulse"></div>
+                <div className="w-3/4 h-4 bg-gray-100 rounded animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm border-t-4 border-t-gray-200">
+              <div className="w-32 h-6 bg-gray-200 rounded animate-pulse mb-4"></div>
+              <div className="w-full h-12 bg-gray-100 rounded-xl animate-pulse"></div>
+              <div className="w-full h-12 bg-gray-100 rounded-xl animate-pulse mt-3"></div>
+            </div>
+
+            <div className="bg-white rounded-3xl border border-gray-100 p-6 shadow-sm">
+              <div className="w-36 h-6 bg-gray-200 rounded animate-pulse mb-6"></div>
+              <div className="space-y-4">
+                <div className="w-3/4 h-4 bg-gray-100 rounded animate-pulse"></div>
+                <div className="w-full h-4 bg-gray-100 rounded animate-pulse"></div>
+                <div className="w-1/2 h-4 bg-gray-100 rounded animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -140,8 +151,9 @@ const AdminOrderDetails = ({ mode = "order" }) => {
     displayItems.length > 0 &&
     displayItems.every((item) => item.itemStatus === "Cancelled");
 
-  const currentCancellation = isPickupMode ? order.pickupCancellation : order.orderCancellation;
-  const isFullCancelPending = currentCancellation?.status === 'Pending' && currentCancellation?.timestamp;
+  const currentCancellation = isPickupMode
+    ? order.pickupCancellation
+    : order.orderCancellation;
 
   return (
     <div className="p-4  bg-gray-50 h-[calc(100vh-60px)] overflow-y-auto pb-24 font-sans">
@@ -149,8 +161,8 @@ const AdminOrderDetails = ({ mode = "order" }) => {
         <div className="bg-yellow-50 text-yellow-700 p-3 rounded-xl mb-6 text-sm font-bold flex items-center gap-2 border border-yellow-200">
           <AlertCircle size={18} />
           All {isPickupMode ? "pickup" : "store"} items in this request are
-          cancelled, but the overall order #{order.orderId} is still "
-          Active" because it contains other active items.
+          cancelled, but the overall order #{order.orderId} is still " Active"
+          because it contains other active items.
         </div>
       )}
       <div className="mb-6 flex items-center justify-between">
@@ -166,7 +178,8 @@ const AdminOrderDetails = ({ mode = "order" }) => {
               {itemLabel} Details
             </h1>
             <p className="text-sm text-gray-500 font-medium mt-1">
-              ID: <span className="text-slate-700 font-bold">{order.orderId}</span>
+              ID:{" "}
+              <span className="text-slate-700 font-bold">{order.orderId}</span>
             </p>
           </div>
         </div>
@@ -213,8 +226,8 @@ const AdminOrderDetails = ({ mode = "order" }) => {
                       <div
                         key={item.productId?._id || index}
                         className={`flex flex-col p-4 border rounded-2xl transition-colors ${
-                          item.itemStatus === "Cancelled" 
-                            ? "opacity-50 border-red-200 bg-red-50/20" 
+                          item.itemStatus === "Cancelled"
+                            ? "opacity-50 border-red-200 bg-red-50/20"
                             : item.itemStatus === "Pending"
                               ? "border-orange-200 hover:border-orange-300 bg-white"
                               : "border-gray-100 hover:border-emerald-100 bg-gray-50/30"
@@ -253,7 +266,7 @@ const AdminOrderDetails = ({ mode = "order" }) => {
                                     </span>
                                   )}
                                 </div>
-                                
+
                                 {item.selectionName && (
                                   <p className="text-xs text-gray-500 mt-0.5 capitalize">
                                     {item.selectionType}: {item.selectionName}
@@ -268,53 +281,21 @@ const AdminOrderDetails = ({ mode = "order" }) => {
                                 <p
                                   className={`font-extrabold text-slate-800 ${item.itemStatus === "Cancelled" ? "line-through text-gray-400" : ""}`}
                                 >
-                                  ₹{item.price .toLocaleString("en-IN")}
+                                  ₹{item.price.toLocaleString("en-IN")}
                                 </p>
                               </div>
                             </div>
                           </div>
                         </div>
-                        
-                          {item.itemStatus === "Cancel Pending" && !isFullCancelPending &&(
-                          <div className="mt-4 p-4 bg-red-50/80 border border-red-200 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-sm w-full">
-                            <div>
-                              <div className="flex items-center gap-2 mb-1.5">
-                                <AlertCircle size={18} className="text-red-600 shrink-0" />
-                                <span className="text-sm font-extrabold text-red-800">
-                                  Action Required: Cancellation Requested
-                                </span>
-                              </div>
-                              <p className="text-xs text-red-700 font-medium">
-                                <span className="uppercase text-[10px] tracking-wider font-bold mr-2 text-red-500">
-                                  Reason
-                                </span>
-                                "{item.cancellationReason || "No reason provided by the user"}"
-                              </p>
-                            </div>
-                            
-                            <div className="flex gap-3 w-full md:w-auto shrink-0 mt-2 md:mt-0">
-                              <button 
-                                onClick={() => handleItemCancelAction(item._id, false)} 
-                                className="flex-1 md:flex-none px-5 py-2.5 bg-white text-slate-700 hover:bg-red-50 hover:text-red-700 border border-slate-200 text-xs font-bold rounded-lg transition-all shadow-sm focus:ring-2 focus:ring-red-100 whitespace-nowrap"
-                              >
-                                Reject Cancel
-                              </button>
-                              
-                              <button 
-                                onClick={() => handleItemCancelAction(item._id, true)}
-                                className="flex-1 md:flex-none px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white text-xs font-bold rounded-lg transition-all shadow-md shadow-red-200 focus:ring-2 focus:ring-red-300 whitespace-nowrap"
-                              >
-                                Approve Cancel
-                              </button>
-                            </div>
-                          </div>
-                        )}
- 
+
                         {item.itemStatus === "Return Pending" && (
                           <div className="mt-4 p-4 bg-orange-50/80 border border-orange-200 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-sm w-full">
                             <div>
                               <div className="flex items-center gap-2 mb-1.5">
-                                <AlertCircle size={18} className="text-orange-600 shrink-0" />
+                                <AlertCircle
+                                  size={18}
+                                  className="text-orange-600 shrink-0"
+                                />
                                 <span className="text-sm font-extrabold text-orange-800">
                                   Action Required: Return Requested
                                 </span>
@@ -323,19 +304,26 @@ const AdminOrderDetails = ({ mode = "order" }) => {
                                 <span className="uppercase text-[10px] tracking-wider font-bold mr-2 text-orange-500">
                                   Reason
                                 </span>
-                                "{item.returnReason || "No reason provided by the user"}"
+                                "
+                                {item.returnReason ||
+                                  "No reason provided by the user"}
+                                "
                               </p>
                             </div>
-                            
+
                             <div className="flex gap-3 w-full md:w-auto shrink-0 mt-2 md:mt-0">
-                              <button 
-                                onClick={() => handleItemReturn(item._id, "Active")}
+                              <button
+                                onClick={() =>
+                                  handleItemReturn(item._id, "Active")
+                                }
                                 className="flex-1 md:flex-none px-5 py-2.5 bg-white text-slate-700 hover:bg-red-50 hover:text-red-700 border border-slate-200 text-xs font-bold rounded-lg transition-all shadow-sm focus:ring-2 focus:ring-orange-100 whitespace-nowrap"
                               >
                                 Reject Return
                               </button>
-                              <button 
-                                onClick={() => handleItemReturn(item._id, "Returned")}
+                              <button
+                                onClick={() =>
+                                  handleItemReturn(item._id, "Returned")
+                                }
                                 className="flex-1 md:flex-none px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-lg transition-all shadow-md shadow-orange-200 focus:ring-2 focus:ring-orange-300 whitespace-nowrap"
                               >
                                 Approve Return
@@ -343,7 +331,6 @@ const AdminOrderDetails = ({ mode = "order" }) => {
                             </div>
                           </div>
                         )}
-
 
                         {isPickupMode &&
                           item.userUploadedImages &&
@@ -394,7 +381,10 @@ const AdminOrderDetails = ({ mode = "order" }) => {
                 <div className="flex justify-between items-center">
                   <span>Pickup Services</span>
                   <span className="text-slate-700 font-bold">
-                    ₹{(order.pricing?.pickupServices || 0).toLocaleString("en-IN")}
+                    ₹
+                    {(order.pricing?.pickupServices || 0).toLocaleString(
+                      "en-IN",
+                    )}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
@@ -524,38 +514,6 @@ const AdminOrderDetails = ({ mode = "order" }) => {
               </div>
             </div>
           )}
-           {isFullCancelPending && (
-            <div className="bg-white rounded-3xl shadow-sm border-t-4 border-t-red-500 overflow-hidden mb-6">
-              <div className="p-6 bg-red-50/30">
-                <div className="flex items-center gap-2 mb-3">
-                  <AlertCircle className="text-red-600" size={24} />
-                  <h2 className="text-xl font-extrabold text-red-800">
-                    Action Required: Full {itemLabel} Cancellation
-                  </h2>
-                </div>
-                <p className="text-sm text-red-700 font-medium bg-red-50 p-3 rounded-xl border border-red-100 mb-4">
-                  <span className="uppercase text-[10px] tracking-wider font-bold mr-2 text-red-500 block mb-1">
-                    Customer Reason
-                  </span>
-                  "{currentCancellation.reason || "No reason provided"}"
-                </p>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => handleOrderCancelAction(false)}
-                    className="flex-1 py-3 bg-white hover:bg-red-50 text-slate-700 hover:text-red-700 font-bold rounded-xl transition-all shadow-sm border border-slate-200 text-sm"
-                  >
-                    Reject Full Cancel
-                  </button>
-                  <button
-                    onClick={() => handleOrderCancelAction(true)}
-                    className="flex-1 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-all shadow-md shadow-red-200 text-sm"
-                  >
-                    Approve Full Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
           <div className="bg-white rounded-3xl shadow-[0_2px_10px_-3px_rgba(6,81,237,0.08)] border border-gray-100 overflow-hidden border-t-4 border-t-emerald-500">
             <div className="px-6 py-5 border-b border-gray-50 backdrop-blur-sm">
               <h2 className="text-lg font-bold text-gray-800">Update Status</h2>
@@ -633,13 +591,22 @@ const AdminOrderDetails = ({ mode = "order" }) => {
                 )}
 
               {(() => {
-                const currentStatus = isPickupMode ? order.pickupStatus : order.status;
-                const isFinished = ["Delivered", "Completed", "Cancelled", "Returned"].includes(currentStatus);
+                const currentStatus = isPickupMode
+                  ? order.pickupStatus
+                  : order.status;
+                const isFinished = [
+                  "Delivered",
+                  "Completed",
+                  "Cancelled",
+                  "Returned",
+                ].includes(currentStatus);
                 if (isFinished || isAllContextItemsCancelled) {
                   return (
                     <div
                       className={`w-full py-3 rounded-xl border text-center font-bold text-sm ${
-                        (currentStatus === "Delivered" || currentStatus === "Completed") && !isAllContextItemsCancelled
+                        (currentStatus === "Delivered" ||
+                          currentStatus === "Completed") &&
+                        !isAllContextItemsCancelled
                           ? "bg-emerald-50 text-emerald-600 border-emerald-100"
                           : "bg-red-50 text-red-600 border-red-100"
                       }`}
@@ -652,13 +619,27 @@ const AdminOrderDetails = ({ mode = "order" }) => {
                 return null;
               })()}
 
-              {(isAllContextItemsCancelled || (isPickupMode? order.pickupStatus === "Cancelled" : order.status === "Cancelled")) && (
+              {(isAllContextItemsCancelled ||
+                (isPickupMode
+                  ? order.pickupStatus === "Cancelled"
+                  : order.status === "Cancelled")) && (
                 <div className="flex justify-center mt-2">
-                  {order[isPickupMode ? 'pickupCancellation' : 'orderCancellation']?.cancelledBy ||
+                  {order[
+                    isPickupMode ? "pickupCancellation" : "orderCancellation"
+                  ]?.cancelledBy ||
                   (isAllContextItemsCancelled &&
-                    (isPickupMode ? order.pickupStatus !== "Cancelled" : order.status !== "Cancelled")) ? (
+                    (isPickupMode
+                      ? order.pickupStatus !== "Cancelled"
+                      : order.status !== "Cancelled")) ? (
                     <span className="text-[11px] font-bold text-red-600 bg-red-100 px-3 py-1 rounded-full border border-red-200">
-                      Customer Cancelled {order[isPickupMode ? 'pickupCancellation' : 'orderCancellation']?.reason ? `- ${order[isPickupMode ? 'pickupCancellation' : 'orderCancellation'].reason}` : ''}
+                      Customer Cancelled{" "}
+                      {order[
+                        isPickupMode
+                          ? "pickupCancellation"
+                          : "orderCancellation"
+                      ]?.reason
+                        ? `- ${order[isPickupMode ? "pickupCancellation" : "orderCancellation"].reason}`
+                        : ""}
                     </span>
                   ) : (
                     <span className="text-[11px] font-bold text-orange-600 bg-orange-100 px-3 py-1 rounded-full border border-orange-200">
@@ -766,7 +747,3 @@ const AdminOrderDetails = ({ mode = "order" }) => {
 };
 
 export default AdminOrderDetails;
-
-
-
-

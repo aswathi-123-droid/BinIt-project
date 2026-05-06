@@ -111,7 +111,11 @@ const AdminOrderManagement = ({ mode = "order" }) => {
               <h3
                 className={`text-2xl font-extrabold ${stat.valueColor || "text-slate-800"}`}
               >
-                {isLoading ? "-" : stat.value}
+                {isLoading ? (
+                  <div className="h-8 bg-gray-200 rounded w-12 animate-pulse mt-1"></div>
+                ) : (
+                  stat.value
+                )}
               </h3>
             </div>
             <div className={`p-3 rounded-2xl ${stat.bg} ${stat.color}`}>
@@ -170,7 +174,6 @@ const AdminOrderManagement = ({ mode = "order" }) => {
                   <option value={isPickupMode ? "Completed" : "Delivered"}>
                     {isPickupMode ? "Completed" : "Delivered"}
                   </option>
-                  {/* <option value="Completed">Completed</option> */}
                   <option value="Cancelled">Cancelled</option>
                 </select>
               </div>
@@ -203,9 +206,48 @@ const AdminOrderManagement = ({ mode = "order" }) => {
 
         <div className="overflow-x-auto  h-90">
           {isLoading ? (
-            <div className="flex justify-center items-center h-48 text-emerald-500 font-semibold">
-              Loading {itemLabel.toLowerCase()}...
-            </div>
+            <table className="w-full text-left whitespace-nowrap">
+              <thead>
+                <tr className="border-b border-gray-100 text-[11px] font-extrabold text-gray-500 uppercase tracking-widest bg-gray-50/50">
+                  <th className="px-6 py-4">S.NO</th>
+                  <th className="px-6 py-4">ID</th>
+                  <th className="px-6 py-4">Date</th>
+                  <th className="px-6 py-4">Customer</th>
+                  <th className="px-6 py-4 text-center">Amount</th>
+                  <th className="px-6 py-4 text-center">Status</th>
+                  <th className="px-6 py-4 text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-50 bg-white">
+                {[...Array(5)].map((_, index) => (
+                  <tr key={index} className="animate-pulse">
+                    <td className="px-6 py-5">
+                      <div className="h-4 bg-gray-200 rounded w-6"></div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="h-4 bg-gray-200 rounded w-24"></div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="h-4 bg-gray-200 rounded w-24 mb-1"></div>
+                      <div className="h-3 bg-gray-100 rounded w-16"></div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="h-4 bg-gray-200 rounded w-32 mb-1"></div>
+                      <div className="h-3 bg-gray-100 rounded w-40"></div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="h-4 bg-gray-200 rounded w-16 mx-auto"></div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="h-6 bg-gray-200 rounded-full w-20 mx-auto"></div>
+                    </td>
+                    <td className="px-6 py-5">
+                      <div className="h-8 bg-gray-200 rounded-lg w-24 mx-auto"></div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
             <table className="w-full text-left whitespace-nowrap">
               <thead>

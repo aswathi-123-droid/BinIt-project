@@ -123,7 +123,11 @@ const UserManagement = () => {
                 {stat.label}
               </p>
               <h3 className="text-2xl font-bold text-slate-800">
-                {stat.value}
+                {isLoading ? (
+                  <div className="h-8 bg-gray-200 rounded w-16 animate-pulse mt-1"></div>
+                ) : (
+                  stat.value
+                )}
               </h3>
             </div>
             <div className={`p-3 rounded-lg bg-gray-50 ${stat.color}`}>
@@ -207,8 +211,35 @@ const UserManagement = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50 text-xs font-medium text-slate-700">
-              {!isLoading &&
-                data.users.map((user) => (
+              {isLoading ? (
+                <>
+                  {/* Generates 5 fake skeleton rows */}
+                  {[...Array(5)].map((_, index) => (
+                    <tr key={index} className="animate-pulse">
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-32"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-48"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-24"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-20"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-6 bg-gray-200 rounded-full w-20"></div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        {/* Fake lock icon button */}
+                        <div className="h-8 w-8 bg-gray-200 rounded-lg mx-auto"></div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              ) : (
+                data?.users?.map((user) => (
                   <tr
                     key={user._id}
                     className="hover:bg-gray-50/50 transition-colors"
@@ -234,7 +265,6 @@ const UserManagement = () => {
                             !user.isBlocked ? "bg-emerald-500" : "bg-red-500"
                           }`}
                         ></span>
-
                         {!user.isBlocked ? "Active" : "Blocked"}
                       </span>
                     </td>
@@ -252,7 +282,8 @@ const UserManagement = () => {
                       </button>
                     </td>
                   </tr>
-                ))}
+                ))
+              )}
             </tbody>
           </table>
         </div>

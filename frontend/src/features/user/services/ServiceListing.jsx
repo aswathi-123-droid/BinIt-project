@@ -9,8 +9,10 @@ import Pagination from "../../../components/common/Pagination";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { calculateOfferPrice } from "../../../utils/helpers";
+import { useSelector } from "react-redux";
 
 const ServiceListing = () => {
+  const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("");
@@ -40,6 +42,7 @@ const ServiceListing = () => {
       const res = await api.get("/wishlist");
       return res.data.wishlist;
     },
+    enabled: !!user, 
   });
 
   const wishlistedItemIds =

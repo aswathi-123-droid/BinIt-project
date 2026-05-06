@@ -4,7 +4,7 @@ import {  getActiveCategoriesController } from "../../controllers/user/categoryC
 
 const router = express.Router();
 
-router.use(authenticateUser);
+// router.use(authenticateUser);
 
 router.get("/",getActiveCategoriesController)
 

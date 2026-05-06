@@ -34,7 +34,6 @@ function AdminDashboard() {
       return res.data.data;
     },
   });
-  
 
   const handleDownloadPDF = () => {
     if (!reportData?.orders?.length) {
@@ -50,7 +49,7 @@ function AdminDashboard() {
       order.orderId,
       new Date(order.createdAt).toLocaleDateString(),
       order.userId?.name || "Unknown",
-      order.pricing.storeItems>0 ? order.status : "N/A",
+      order.pricing.storeItems > 0 ? order.status : "N/A",
       order.pickupTimeSlot ? order.pickupStatus : "N/A",
       `Rs ${order.pricing?.totalAmount || 0}`,
       `Rs ${order.pricing?.couponDiscount || 0}`,
@@ -58,24 +57,46 @@ function AdminDashboard() {
 
     doc.autoTable({
       startY: 28,
-      head: [["Order ID", "Date", "Customer", "Product Status","Pickup Status", "Amount", "Discount"]],
+      head: [
+        [
+          "Order ID",
+          "Date",
+          "Customer",
+          "Product Status",
+          "Pickup Status",
+          "Amount",
+          "Discount",
+        ],
+      ],
       body: tableData,
     });
 
     let finalY = doc.lastAutoTable.finalY || 28;
     if (finalY + 40 > doc.internal.pageSize.getHeight()) {
-      doc.addPage(); 
-      finalY = 15; 
+      doc.addPage();
+      finalY = 15;
     }
     doc.setFontSize(12);
-    doc.text("Report Summary", 14, finalY + 15); 
-    
+    doc.text("Report Summary", 14, finalY + 15);
+
     doc.setFontSize(10);
-   
-    doc.text(`Total Orders: ${summary.totalOrders || reportData.orders.length}`, 14, finalY + 23);
-    doc.text(`Total Amount: Rs ${summary.totalAmount?.toFixed(2) || 0}`, 14, finalY + 29);
-    
-    doc.text(`Total Refund: Rs ${summary.totalRefund?.toFixed(2) || 0}`, 14, finalY + 35);
+
+    doc.text(
+      `Total Orders: ${summary.totalOrders || reportData.orders.length}`,
+      14,
+      finalY + 23,
+    );
+    doc.text(
+      `Total Amount: Rs ${summary.totalAmount?.toFixed(2) || 0}`,
+      14,
+      finalY + 29,
+    );
+
+    doc.text(
+      `Total Refund: Rs ${summary.totalRefund?.toFixed(2) || 0}`,
+      14,
+      finalY + 35,
+    );
     doc.save(`sales_report_${filterType}.pdf`);
   };
 
@@ -108,7 +129,7 @@ function AdminDashboard() {
         escapeCSV(order.orderId),
         escapeCSV(new Date(order.createdAt).toLocaleDateString()),
         escapeCSV(order.userId?.name || "Unknown"),
-        escapeCSV(order.pricing.storeItems>0 ? order.status : "N/A"),
+        escapeCSV(order.pricing.storeItems > 0 ? order.status : "N/A"),
         escapeCSV(order.pickupTimeSlot ? order.pickupStatus : "N/A"),
         escapeCSV(order.pricing?.totalAmount || 0),
         escapeCSV(order.pricing?.couponDiscount || 0),
@@ -242,7 +263,11 @@ function AdminDashboard() {
               Product Orders
             </p>
             <h3 className="text-xl lg:text-2xl font-bold text-slate-800 truncate">
-              {summary.totalStoreOrders || 0}
+              {isLoading ? (
+                <div className="h-7 bg-gray-200 rounded w-20 animate-pulse mt-1"></div>
+              ) : (
+                summary.totalStoreOrders || 0
+              )}
             </h3>
           </div>
         </div>
@@ -255,7 +280,11 @@ function AdminDashboard() {
               Scrap Pickups
             </p>
             <h3 className="text-xl lg:text-2xl font-bold text-slate-800 truncate">
-              {summary.totalPickupsCount || 0}
+              {isLoading ? (
+                <div className="h-7 bg-gray-200 rounded w-20 animate-pulse mt-1"></div>
+              ) : (
+                summary.totalPickupsCount || 0
+              )}
             </h3>
           </div>
         </div>
@@ -268,7 +297,11 @@ function AdminDashboard() {
               Total Revenue
             </p>
             <h3 className="text-xl lg:text-2xl font-bold text-slate-800 truncate">
-              ₹{summary.totalAmount?.toFixed(2) || 0}
+              {isLoading ? (
+                <div className="h-7 bg-gray-200 rounded w-24 animate-pulse mt-1"></div>
+              ) : (
+                `₹${summary.totalAmount?.toFixed(2) || 0}`
+              )}
             </h3>
           </div>
         </div>
@@ -281,7 +314,11 @@ function AdminDashboard() {
               Discounts
             </p>
             <h3 className="text-xl lg:text-2xl font-bold text-slate-800 truncate">
-              ₹{summary.totalCouponDiscount?.toFixed(2) || 0}
+              {isLoading ? (
+                <div className="h-7 bg-gray-200 rounded w-24 animate-pulse mt-1"></div>
+              ) : (
+                `₹${summary.totalCouponDiscount?.toFixed(2) || 0}`
+              )}
             </h3>
           </div>
         </div>
@@ -311,14 +348,34 @@ function AdminDashboard() {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {isLoading ? (
-                <tr>
-                  <td
-                    colSpan="5"
-                    className="px-6 py-8 text-center text-gray-400"
-                  >
-                    Loading...
-                  </td>
-                </tr>
+                <>
+                  {/* Generates 5 fake skeleton rows */}
+                  {[...Array(5)].map((_, index) => (
+                    <tr key={index} className="animate-pulse">
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-24"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-1.5">
+                          <div className="h-4 w-4 bg-gray-200 rounded"></div>
+                          <div className="h-4 bg-gray-200 rounded w-24"></div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-24"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-16"></div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <div className="h-6 bg-gray-200 rounded-full w-20 mx-auto"></div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <div className="h-6 bg-gray-200 rounded-full w-24 mx-auto"></div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
               ) : reportData?.orders?.length > 0 ? (
                 paginatedOrders.map((order) => (
                   <tr
@@ -383,7 +440,7 @@ function AdminDashboard() {
               ) : (
                 <tr>
                   <td
-                    colSpan="5"
+                    colSpan="6"
                     className="px-6 py-8 text-center text-gray-400"
                   >
                     No sales data found for this period.

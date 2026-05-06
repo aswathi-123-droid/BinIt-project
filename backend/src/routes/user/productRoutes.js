@@ -4,7 +4,7 @@ import { getProductById, getProductsController } from '../../controllers/user/pr
 
 const router = express.Router();
 
-router.use(authenticateUser);
+// router.use(authenticateUser);
 
 router.get("/",getProductsController);
 router.get("/:id", getProductById);

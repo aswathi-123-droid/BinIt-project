@@ -58,10 +58,17 @@ const MyProfile = () => {
   const handleImageSelect = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const validImageTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/jpg'];
+    const validImageTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/jpg",
+    ];
     if (!validImageTypes.includes(file.type)) {
-      toast.error('Invalid file type. Please upload a JPEG, PNG, or WEBP image.');
-      e.target.value = null; 
+      toast.error(
+        "Invalid file type. Please upload a JPEG, PNG, or WEBP image.",
+      );
+      e.target.value = null;
       return;
     }
     if (file) {
@@ -118,6 +125,49 @@ const MyProfile = () => {
 
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if (!user) {
+    return (
+      <div className="flex-1 bg-white min-h-screen p-4 sm:p-8 font-sans flex justify-center">
+        <div className="w-full max-w-3xl animate-pulse">
+          <div className="mb-8">
+            <div className="h-8 bg-gray-200 rounded w-40"></div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="h-32 bg-gray-100 w-full"></div>
+
+            <div className="relative px-8 pb-6 flex flex-col items-center -mt-16">
+              <div className="w-32 h-32 rounded-full border-4 border-white bg-gray-200"></div>
+              <div className="h-6 bg-gray-200 rounded w-32 mt-5"></div>
+            </div>
+
+            <div className="px-8 py-6 border-t border-gray-50 space-y-6">
+              <div>
+                <div className="h-3 bg-gray-200 rounded w-20 mb-2"></div>
+                <div className="h-12 bg-gray-50 rounded-xl w-full border border-gray-200"></div>
+              </div>
+
+              <div>
+                <div className="h-3 bg-gray-200 rounded w-24 mb-2"></div>
+                <div className="flex gap-3">
+                  <div className="h-12 bg-gray-50 rounded-xl grow border border-gray-200"></div>
+                  <div className="h-12 bg-gray-200 rounded-xl w-32 shrink-0"></div>
+                </div>
+              </div>
+
+              <div className="h-16 bg-gray-50 rounded-xl w-full border border-gray-200"></div>
+
+              <div className="flex justify-end items-center gap-6 mt-10">
+                <div className="h-4 bg-gray-200 rounded w-12"></div>
+                <div className="h-12 bg-gray-200 rounded-xl w-36 shadow-sm"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 bg-white min-h-screen p-4 sm:p-8 font-sans flex justify-center">

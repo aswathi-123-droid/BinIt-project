@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   User, 
   MapPin, 
@@ -9,28 +9,39 @@ import {
   Lock, 
   LogOut 
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../../../../api/axiosInstance';
 import { logout } from '../../account/authSlice';
 
 
 const ProfileSidebar = () => {
-  const [activeItem, setActiveItem] = useState('My Profile');
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const { user} = useSelector((state) => state.auth);
+  const [activeItem, setActiveItem] = useState('My Profile');
 
   const menuItems = [
     { name: 'My Profile', icon: User },
     { name: 'My Address', icon: MapPin },
-    // { name: 'My Pickups', icon: Calendar },
     { name: 'My Orders', icon: BaggageClaim},
     { name: 'My Wallet', icon: Wallet },
     { name: 'My Coupon', icon: Tag },
     { name: 'Change Password', icon: Lock },
   ];
   
+  useEffect(() => {
+    const currentPath = location.pathname.toLowerCase();
+    
+    if (currentPath.includes('address')) setActiveItem('My Address');
+    else if (currentPath.includes('orders')) setActiveItem('My Orders');
+    else if (currentPath.includes('wallet')) setActiveItem('My Wallet');
+    else if (currentPath.includes('coupon')) setActiveItem('My Coupon');
+    else if (currentPath.includes('password')) setActiveItem('Change Password');
+    else setActiveItem('My Profile');
+    
+  }, [location.pathname])
 
   const handleLogout = async()=>{
     try{

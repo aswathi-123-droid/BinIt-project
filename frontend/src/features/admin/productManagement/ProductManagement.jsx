@@ -200,7 +200,11 @@ const ProductManagement = () => {
                 {stat.label}
               </p>
               <h3 className="text-2xl font-bold text-slate-800">
-                {stat.value}
+                {isLoading ? (
+                  <div className="h-8 bg-gray-200 rounded w-16 animate-pulse mt-1"></div>
+                ) : (
+                  stat.value
+                )}
               </h3>
             </div>
             <div className={`p-3 rounded-lg ${stat.bg} ${stat.color}`}>
@@ -331,7 +335,47 @@ const ProductManagement = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50 text-xs font-medium text-slate-700">
-              {!isLoading &&
+              {isLoading ? (
+                <>
+                  {/* Generates 5 fake skeleton rows */}
+                  {[...Array(5)].map((_, index) => (
+                    <tr key={index} className="animate-pulse">
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-6"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-32"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-24"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-6 bg-gray-200 rounded-full w-16"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-20"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-20"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-4 bg-gray-200 rounded w-16"></div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="h-6 bg-gray-200 rounded-full w-20"></div>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <div className="flex items-center justify-center gap-2">
+                          {/* 3 fake action buttons */}
+                          <div className="h-8 w-8 bg-gray-200 rounded-lg"></div>
+                          <div className="h-8 w-8 bg-gray-200 rounded-lg"></div>
+                          <div className="h-8 w-8 bg-gray-200 rounded-lg"></div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </>
+              ) : (
                 data?.items?.map((item, index) => (
                   <tr
                     key={item._id}
@@ -368,6 +412,7 @@ const ProductManagement = () => {
                             : "Pay"}
                       </span>
                     </td>
+
                     <td className="px-6 py-4">
                       {item.offer &&
                       item.offer.isActive &&
@@ -486,7 +531,8 @@ const ProductManagement = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                ))
+              )}
             </tbody>
           </table>
         </div>

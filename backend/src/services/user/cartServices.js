@@ -42,7 +42,7 @@ export const getCartWithSummary = async (userId) => {
             const bestDiscount = calculateBestDiscount(item.price, product?.offer, category?.offer, item.quantity);
             totalOfferDiscount += bestDiscount;
         } else {
-            pickupServices += (item.price * item.quantity);
+            pickupServices += (item.productId.price * item.quantity);
         }
     });
     

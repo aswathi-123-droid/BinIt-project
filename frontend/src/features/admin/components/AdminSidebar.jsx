@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   LayoutDashboard, 
   Truck,
@@ -10,7 +10,7 @@ import {
   LogOut,
   Leaf
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { api } from '../../../api/axiosInstance';
 import { useDispatch } from 'react-redux';
 import { clearAdminState } from '../auth/adminSlice';
@@ -18,6 +18,7 @@ import toast from 'react-hot-toast';
 
 const AdminSidebar = () => {
   const [activeItem, setActiveItem] = useState('Users');
+  const location = useLocation();
   const dispatch = useDispatch()
   const navigate=useNavigate();
   
@@ -40,6 +41,18 @@ const AdminSidebar = () => {
     { name: 'Users', icon: Users ,},
     { name: 'Coupons', icon: Ticket },
   ];
+
+  useEffect(() => {
+    const currentPath = location.pathname.toLowerCase();
+
+    if(currentPath.includes('dashboard')) setActiveItem('Dashboard');
+    else if (currentPath.includes('pickups')) setActiveItem('Pickups');
+    else if (currentPath.includes('orders')) setActiveItem('Orders');
+    else if (currentPath.includes('services')) setActiveItem('Services');
+    else if (currentPath.includes('categories')) setActiveItem('Categories');
+     else if (currentPath.includes('users')) setActiveItem('Users');
+    else setActiveItem('Coupons')
+  })
 
   return (
     <aside className="w-64 min-h-screen bg-[#1e293b] text-slate-300 flex flex-col font-sans border-r border-slate-800">

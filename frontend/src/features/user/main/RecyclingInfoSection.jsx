@@ -28,8 +28,7 @@ const RecyclingInfoSection = () => {
   return (
     <section className="py-16 bg-white font-sans">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Header Section */}
+    
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h3 className="text-emerald-500 font-bold tracking-wider uppercase text-sm mb-2">
             What We Collect

@@ -1,5 +1,5 @@
-import { Leaf, Wallet, ShoppingBag, Heart } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Leaf, Wallet, ShoppingBag, Heart} from "lucide-react";
+import { useLocation, useNavigate ,Link} from "react-router-dom";
 import { api } from "../../../api/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
@@ -7,9 +7,10 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
+  const location = useLocation();
   const navLinks = [
     { name: "Home", href: "/home" },
-    { name: "Services", href: "/services", active: true },
+    { name: "Services", href: "/services" },
     { name: "Recycling Info", href: "/recycling" },
     { name: "About", href: "/about" },
   ];
@@ -46,20 +47,23 @@ const Navbar = () => {
       </div>
 
       <ul className="hidden md:flex items-center gap-8">
-        {navLinks.map((link) => (
+        {navLinks.map((link) => {
+          const isActive = location.pathname === link.href;
+          return(
           <li key={link.name}>
-            <a
-              href={link.href}
+            <Link
+              to={link.href}
               className={`text-sm font-medium transition-colors ${
-                link.active
+                isActive
                   ? "text-emerald-500"
                   : "text-gray-500 hover:text-emerald-500"
               }`}
             >
               {link.name}
-            </a>
+            </Link>
           </li>
-        ))}
+        )
+        })}
       </ul>
 
       <div className="flex items-center gap-4">
@@ -88,7 +92,8 @@ const Navbar = () => {
           )}
         </button>
 
-        <button
+        {user?(
+          <button
           onClick={() => {
             navigate("/profile/my-profile");
           }}
@@ -108,6 +113,15 @@ const Navbar = () => {
             )}
           </div>
         </button>
+        ):(
+           <button
+            onClick={() => navigate("/auth/login")}
+            className="px-5 py-2 text-sm font-bold text-white bg-emerald-500 rounded-full hover:bg-emerald-600 transition-colors shadow-sm"
+          >
+            Login
+          </button>
+        )
+        }
       </div>
     </nav>
   );

@@ -1,6 +1,5 @@
 import IORedis from "ioredis";
 import logger from "./logger.js";
-
 import { env } from "./env.js";
 
 const redisClient = new IORedis({
@@ -17,5 +16,3 @@ redisClient.on("error", (err) => {
 });
 
 export default redisClient;
-
-

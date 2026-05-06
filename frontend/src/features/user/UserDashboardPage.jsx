@@ -5,9 +5,9 @@ import Footer from './components/Footer';
 
 function UserDashboardPage() {
   return (
-    <div>   
+    <div className="min-h-screen flex flex-col">   
         <Navbar></Navbar>
-        <div>
+        <div className="grow">
           <Outlet></Outlet>
         </div>
         <Footer></Footer>

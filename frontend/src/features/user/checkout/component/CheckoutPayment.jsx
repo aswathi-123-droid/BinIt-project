@@ -59,14 +59,14 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
     }
   }
 
-  const hasPickupItems =
-    data?.cart?.items?.some(
-      (item) =>
-        item.productId?.type === "recyclable" ||
-        item.productId?.type === "junk",
-    ) || false;
+  // const hasPickupItems =
+  //   data?.cart?.items?.some(
+  //     (item) =>
+  //       item.productId?.type === "recyclable" ||
+  //       item.productId?.type === "junk",
+  //   ) || false;
 
-  const isCodDisabled = hasPickupItems || useWallet;
+  const isCodDisabled = useWallet;
 
   useEffect(() => {
     if (isPayout) {
@@ -314,21 +314,17 @@ const CheckoutPayment = ({ onBack, onConfirm }) => {
                   >
                     <div className="flex items-center gap-4">
                       <div
-                        className={`w-12 h-12 rounded-full flex items-center justify-center ${hasPickupItems ? "bg-gray-200 text-gray-400" : "bg-orange-50 text-orange-600"}`}
+                        className="w-12 h-12 rounded-full flex items-center justify-center bg-orange-50 text-orange-600"
                       >
-                        <Banknote size={24} />
+                        <Banknote size={24}/>
                       </div>
                       <div>
                         <p
-                          className={`font-bold text-lg ${hasPickupItems ? "text-gray-500" : "text-gray-900"}`}
+                          className="font-bold text-lg text-gray-900"
                         >
                           Cash on Delivery
                         </p>
-                        {hasPickupItems ? (
-                          <p className="text-sm text-red-500 font-medium mt-0.5">
-                            COD is not possible because pickup item there
-                          </p>
-                        ) : useWallet ? (
+                        {useWallet ? (
                           <p className="text-sm text-red-500 font-medium mt-0.5">
                             Not available when using Wallet balance
                           </p>
