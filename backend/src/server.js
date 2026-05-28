@@ -25,8 +25,6 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-
-// Middleware to disable caching
 app.use((req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
   next();

@@ -35,7 +35,7 @@ const UploadTrash = ({ onNext }) => {
       queryClient.invalidateQueries(["cart"]);
     },
     onError: (error) => {
-      toast.error(error.response?.data?.message || "Failed to delete image");
+      toast.error(error.response?.data?.message || "Failed to upload image");
     },
   });
 
